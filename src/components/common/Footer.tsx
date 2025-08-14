@@ -7,7 +7,7 @@ const Footer = () => {
         { href: "/mock-tests", label: "Mock Tests" },
         { href: "/videos", label: "Video Tutorials" },
         { href: "/career-hub", label: "Career Guidance" },
-        { href: "/#community", label: "Community" }, // Assuming community is a section on the homepage
+        { href: "/community", label: "Community" }, // Assuming community is a section on the homepage
     ];
 
     const resources = [

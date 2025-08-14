@@ -29,7 +29,7 @@ export const Navbar = () => {
         { href: "/videos", label: "Videos", icon: <IconVideo /> },
         { href: "/career-hub", label: "Career Hub", icon: <IconBriefcase /> },
         { href: "/podcast", label: "Podcast", icon: <IconMic /> },
-        { href: "/#community", label: "Community", icon: <IconUsers /> },
+        { href: "/community", label: "Community", icon: <IconUsers /> },
         { href: "/about", label: "About", icon: null },
     ];
 
