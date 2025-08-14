@@ -1,6 +1,7 @@
 // src/components/common/ComingSoonPage.tsx
 import Link from 'next/link';
-import Navbar from '@/components/landing/Navbar'; // Correct for default export
+import { Navbar } from '@/components/landing/Navbar'; // Corrected: Using named import
+// NOTE: We don't need to import the Footer here because it's already in the main layout.tsx
 
 // Icon for the page
 const IconWrench = ({ className = "w-6 h-6" }) => (
@@ -15,9 +16,11 @@ interface ComingSoonPageProps {
 
 export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ featureName }) => {
   return (
-    <div className="bg-slate-50 flex flex-col min-h-screen">
+    // The main layout now handles the background color and footer
+    <>
       <Navbar />
-      <main className="flex-grow flex items-center justify-center text-center">
+      {/* Updated section with white background to match the homepage theme */}
+      <main className="flex-grow flex items-center justify-center text-center py-20 bg-white">
         <div className="container mx-auto px-4">
           <IconWrench className="w-20 h-20 mx-auto text-slate-400 mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
@@ -33,6 +36,6 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ featureName }) =
           </Link>
         </div>
       </main>
-    </div>
+    </>
   );
 };

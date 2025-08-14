@@ -1,11 +1,11 @@
 // src/app/about/page.tsx
-import Navbar from "@/components/landing/Navbar"; // Reusing the Navbar
+import { Navbar } from "@/components/landing/Navbar";
 import { FounderProfile } from "@/components/about/FounderProfile";
 import { Achievements } from "@/components/about/Achievements";
 import { JourneyTimeline } from "@/components/about/JourneyTimeline";
 import { ValuesMissionVision } from "@/components/about/ValuesMissionVision";
 import { JoinMission } from "@/components/about/JoinMission";
-import { IconUserCircle } from "@/components/ui/Icons"; // Assuming you created this file
+import { IconUserCircle } from "@/components/ui/Icons";
 
 export default function AboutPage() {
   return (
@@ -28,6 +28,7 @@ export default function AboutPage() {
         <ValuesMissionVision />
         <JoinMission />
       </main>
+      {/* Footer is now handled by the main layout.tsx and has been removed from here */}
     </div>
   );
 }

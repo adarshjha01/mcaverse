@@ -12,7 +12,7 @@ const Footer = () => {
 
     const resources = [
         { href: "/ai-assistant", label: "AI Assistant" },
-        { href: "/#podcast", label: "Podcast" }, // Assuming podcast is a section on the homepage
+        { href: "/podcast", label: "Podcast" }, // Assuming podcast is a section on the homepage
         { href: "/about", label: "About Us" },
         { href: "/#contact", label: "Contact" }, // Assuming contact is a section on the homepage
     ];
