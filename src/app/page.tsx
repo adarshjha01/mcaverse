@@ -1,103 +1,38 @@
-import Image from "next/image";
+// src/app/page.tsx
+import Navbar from "@/components/landing/Navbar";
+import Hero from "@/components/landing/Hero";
+import FeatureSection from "@/components/landing/FeatureSection";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+export default function LandingPage() {
+    return (
+        <div className="bg-slate-900">
+            <Navbar />
+            <main>
+                <Hero />
+                <FeatureSection id="about" title="About MCAverse">
+                    <p>This is where you'll describe your mission, vision, and the team behind MCAverse. Explain why you started this platform and what makes it unique for MCA students.</p>
+                </FeatureSection>
+                <FeatureSection id="lectures" title="Lectures & Mock Tests">
+                     <p>Here you can showcase your core offerings. Maybe include a few sample video thumbnails or a list of subjects covered in your mock tests. This section is crucial for converting visitors into users.</p>
+                </FeatureSection>
+                <FeatureSection id="community" title="Join Our Thriving Community">
+                     <p>Describe the benefits of joining the MCAverse community. Mention things like peer-to-peer support, doubt-clearing sessions, and networking opportunities with fellow aspirants and graduates.</p>
+                </FeatureSection>
+                <FeatureSection id="career-hub" title="Your Career Hub">
+                     <p>Detail the resources available in the Career Hub. This could include resume building workshops, interview preparation guides, job boards, and mentorship programs with industry professionals.</p>
+                </FeatureSection>
+                <FeatureSection id="podcast" title="The MCAverse Podcast">
+                     <p>Introduce your podcast. You can embed a player for the latest episode here. Talk about the topics you cover, such as interviews with successful alumni, career tips, and discussions on new technologies.</p>
+                </FeatureSection>
+                <FeatureSection id="contact" title="Get In Touch">
+                     <p>Provide contact information here. A simple contact form, email address, and links to your social media profiles would be perfect for this section.</p>
+                </FeatureSection>
+            </main>
+            <footer className="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-400">
+                <div className="container mx-auto px-4">
+                    <p>&copy; {new Date().getFullYear()} MCAverse. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
