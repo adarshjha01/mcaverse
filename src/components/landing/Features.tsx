@@ -11,7 +11,7 @@ const features = [
 
 export const Features = () => {
     return (
-        <section id="features" className="bg-slate-50 py-20">
+        <section className="bg-slate-50 py-20">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <h2 className="text-4xl font-bold text-slate-800">Everything You Need for MCA Success</h2>
@@ -19,8 +19,10 @@ export const Features = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature, index) => (
-                        <div key={index} className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                            <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-6">{feature.icon}</div>
+                        <div key={index} className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-slate-200">
+                            <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                                {feature.icon}
+                            </div>
                             <h3 className="text-xl font-bold text-slate-800 mb-2">{feature.title}</h3>
                             <p className="text-slate-500">{feature.description}</p>
                         </div>
