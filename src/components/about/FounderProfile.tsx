@@ -2,12 +2,15 @@
 import Image from 'next/image';
 
 // --- ICONS for Social Links ---
-const IconYouTube = ({ className = "w-5 h-5" }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M2.5 17a24.12 24.12 0 0 1 0-10C2.5 6 7.5 4 12 4s9.5 2 9.5 3-2.5 4.5-5 6-5 2-5 2z"></path>
-        <path d="M12 18.5c-4.11 0-6.41-1.03-7.5-3C3.5 14.5 2 12.5 2 11c0-1.5 1.5-3 2.5-3.5C5.5 7 8.5 6 12 6s6.5 1 7.5 1.5c1 .5 2.5 2 2.5 3.5 0 1.5-1.5 3.5-2.5 4.5-1.09 1.97-3.39 3-7.5 3z"></path>
-        <path d="M9.5 15.5l5-3-5-3z"></path>
-    </svg>
+export const IconYouTube = ({ className = "w-6 h-6" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M23.498 6.186a2.97 2.97 0 0 0-2.09-2.103C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.408.583A2.97 2.97 0 0 0 .502 6.186 31.398 31.398 0 0 0 0 12a31.4 31.4 0 0 0 .502 5.814 2.97 2.97 0 0 0 2.09 2.103C4.495 20.5 12 20.5 12 20.5s7.505 0 9.408-.583a2.97 2.97 0 0 0 2.09-2.103A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" />
+  </svg>
 );
 const IconLinkedIn = ({ className = "w-5 h-5" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -15,10 +18,15 @@ const IconLinkedIn = ({ className = "w-5 h-5" }) => (
         <rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle>
     </svg>
 );
-const IconTwitter = ({ className = "w-5 h-5" }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M22 4s-.7 2.1-2 3.4c1.6 1.4 3.3 4.9 3.3 4.9-3.3 1.4-6.6 2.8-10 2.8-3.3 0-6.6-1.4-10-2.8 0 0 1.7-3.5 3.3-4.9-1.3-1.3-2-3.4-2-3.4s2.8 1.4 5.5 2.8c2.8 1.4 5.5 2.8 8.2 0z"></path>
-    </svg>
+export const IconTwitter = ({ className = "w-5 h-5" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M23.954 4.569c-.885.392-1.83.656-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.564-2.005.974-3.127 1.195-.897-.959-2.178-1.558-3.594-1.558-2.722 0-4.928 2.206-4.928 4.928 0 .386.045.762.127 1.124-4.094-.205-7.725-2.165-10.152-5.144-.424.729-.666 1.577-.666 2.475 0 1.708.87 3.215 2.188 4.099-.807-.026-1.566-.248-2.229-.616v.062c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.317 0-.626-.031-.928-.088.627 1.956 2.444 3.377 4.6 3.418-1.685 1.321-3.808 2.108-6.115 2.108-.397 0-.788-.023-1.175-.069 2.179 1.397 4.768 2.212 7.557 2.212 9.054 0 14.001-7.496 14.001-13.986 0-.213-.005-.425-.014-.636.961-.694 1.8-1.562 2.46-2.549z" />
+  </svg>
 );
 const IconMail = ({ className = "w-5 h-5" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -37,7 +45,7 @@ export const FounderProfile = () => {
 
   const stats = [
       {value: "10,000+", label: "Students Helped"},
-      {value: "50K+", label: "YouTube Subscribers"},
+      {value: "3K+", label: "YouTube Subscribers"},
       {value: "5+", label: "Communities Led"},
       {value: "25+", label: "Events Organized"},
   ];
@@ -56,12 +64,11 @@ export const FounderProfile = () => {
             <p className="text-slate-600 mb-4">Founder & CEO, MCAverse</p>
             <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
                 <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Microsoft Learn Student Ambassador</span>
-                <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">GDSC Lead</span>
-                <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Coding Ninjas Captain</span>
-                <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">ISB Ambassador</span>
+                <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Coding Ninjas Campus Captain</span>
+                <span className="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LinkedIn Certified Marketing Insider </span>
             </div>
             <p className="text-slate-700 mb-6">
-              A passionate educator and technology enthusiast, Adarsh started his journey with a simple mission: to make MCA education more accessible and practical for students across India. With experience leading multiple tech communities and creating educational content for thousands of students, he founded MCAverse to bridge the gap between academic learning and industry requirements.
+            A passionate educator and technology enthusiast, Adarsh started his journey with a simple mission: to make MCA education more accessible and practical for students across India. With experience leading multiple tech communities and creating educational content for thousands of students, he founded MCAverse, where he currently serves as Founder & Lead Instructor. Alongside this, he works as an Assistant Professor at Dayananda Sagar University, shaping the next generation of computer application professionals through hands-on teaching and mentorship. His work focuses on bridging the gap between academic learning and industry requirements.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
               {socialLinks.map(link => (

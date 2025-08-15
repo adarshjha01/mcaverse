@@ -89,11 +89,9 @@ export const IconSend = ({ className = "w-6 h-6" }) => (
 // Add these to src/components/ui/Icons.tsx
 
 export const IconYouTube = ({ className = "w-6 h-6" }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M2.5 17a24.12 24.12 0 0 1 0-10C2.5 6 7.5 4 12 4s9.5 2 9.5 3-2.5 4.5-5 6-5 2-5 2z"></path>
-        <path d="M12 18.5c-4.11 0-6.41-1.03-7.5-3C3.5 14.5 2 12.5 2 11c0-1.5 1.5-3 2.5-3.5C5.5 7 8.5 6 12 6s6.5 1 7.5 1.5c1 .5 2.5 2 2.5 3.5 0 1.5-1.5 3.5-2.5 4.5-1.09 1.97-3.39 3-7.5 3z"></path>
-        <path d="M9.5 15.5l5-3-5-3z"></path>
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.498 6.186a2.97 2.97 0 0 0-2.09-2.103C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.408.583A2.97 2.97 0 0 0 .502 6.186 31.398 31.398 0 0 0 0 12a31.4 31.4 0 0 0 .502 5.814 2.97 2.97 0 0 0 2.09 2.103C4.495 20.5 12 20.5 12 20.5s7.505 0 9.408-.583a2.97 2.97 0 0 0 2.09-2.103A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" />
+  </svg>
 );
 
 export const IconLinkedIn = ({ className = "w-6 h-6" }) => (
@@ -161,7 +159,7 @@ export const IconRefreshCw = ({ className = "w-5 h-5" }) => (
     </svg>
 );
 
-// Add these to src/components/ui/Icons.tsx
+// Add these to src/components/ui/Icons.tsx for videos section
 
 export const IconChevronDown = ({ className = "w-5 h-5" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>

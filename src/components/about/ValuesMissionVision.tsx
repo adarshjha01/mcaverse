@@ -23,7 +23,7 @@ export const ValuesMissionVision = () => {
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
                         <h3 className="text-2xl font-bold mb-3">Our Mission</h3>
-                        <p className="text-slate-700">To empower MCA students with comprehensive resources, practical knowledge, and a supportive community that bridges the gap between academic learning and industry requirements. We strive to make quality education accessible to every student, regardless of their background or location.</p>
+                        <p className="text-slate-700">To provide free, high-quality education for aspirants preparing for various MCA entrance exams, offering comprehensive resources, practical knowledge, and a supportive community that bridges the gap between academic learning and industry requirements — accessible to every student, regardless of background or location.</p>
                     </div>
                     <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
                         <h3 className="text-2xl font-bold mb-3">Our Vision</h3>

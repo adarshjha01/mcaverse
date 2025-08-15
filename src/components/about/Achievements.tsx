@@ -1,11 +1,9 @@
 // src/components/about/Achievements.tsx
 export const Achievements = () => {
     const roles = [
-        { title: "Microsoft Learn Student Ambassador", org: "Microsoft", desc: "Leading technical communities and organizing events to help students learn Microsoft technologies." },
-        { title: "Coding Ninjas Campus Captain", org: "Coding Ninjas", desc: "Promoting coding culture and helping students with programming skills development." },
-        { title: "ISB Campus Ambassador", org: "Indian School of Business", desc: "Representing ISB programs and connecting students with business opportunities." },
-        { title: "Unstop Campus Ambassador", org: "Unstop", desc: "Facilitating student participation in competitions and career opportunities." },
-        { title: "YouTube Content Creator", org: "MCAverse Channel", desc: "Creating educational content for MCA students with 50K+ subscribers." },
+        { title: "Microsoft Learn Student Ambassador", org: "Microsoft", desc: "Lead technical communities and organized events to help students learn Microsoft technologies." },
+        { title: "Coding Ninjas Campus Captain", org: "Coding Ninjas", desc: "Promoted coding culture and helping students with programming skills development." },
+        { title: "YouTube Content Creator", org: "Adarsh Jha [NIT Kurukshetra]", desc: "Creating educational content for MCA students with 3K+ subscribers." },
     ];
 
     return (

@@ -1,12 +1,11 @@
 // src/components/about/JourneyTimeline.tsx
 export const JourneyTimeline = () => {
     const timelineEvents = [
-        { year: "2019", title: "Started MCA Journey", desc: "Began MCA program with a passion for technology and education" },
-        { year: "2020", title: "First YouTube Video", desc: "Published first educational video, starting the MCAverse channel" },
-        { year: "2021", title: "Microsoft Learn Student Ambassador", desc: "Selected as Microsoft Learn Student Ambassador" },
-        { year: "2022", title: "GDSC Lead Selection", desc: "Appointed as Google Developer Student Club Lead" },
-        { year: "2023", title: "Multiple Ambassador Roles", desc: "Became Campus Ambassador for Coding Ninjas, ISB, and Unstop" },
-        { year: "2024", title: "MCAverse Platform Launch", desc: "Launched comprehensive MCAverse educational platform" },
+        { year: "2021", title: "Started NIMCET Preparation", desc: "Discovered the monopoly of coaching institutes during NIMCET prep." },
+        { year: "2022", title: "First YouTube Video", desc: "Published first YouTube video after earning a seat at NIT Kurukshetra through self-study." },
+        { year: "2023", title: "Microsoft Learn Student Ambassador", desc: "Selected as a representative for Microsoft at NIT Kurukshetra." },
+        { year: "2024", title: "Multiple Ambassador Roles", desc: "Became Campus Ambassador for Coding Ninjas, ISB, and Unstop" },
+        { year: "2025", title: "MCAverse Platform Launch", desc: "Launched comprehensive MCAverse educational platform" },
     ];
 
     return (
