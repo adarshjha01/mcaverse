@@ -143,3 +143,55 @@ export async function addReply(prevState: any, formData: FormData) {
     revalidatePath(`/community/${discussionId}`);
     return { success: true };
 }
+
+// --- Schema for AI Chat ---
+const ChatSchema = z.object({
+  prompt: z.string().min(1, "Prompt cannot be empty."),
+  history: z.string(), // History will be a stringified JSON array
+});
+
+// --- Server Action to get a response from Gemini ---
+export async function getAIResponse(prevState: any, formData: FormData) {
+  const validatedFields = ChatSchema.safeParse({
+    prompt: formData.get('prompt'),
+    history: formData.get('history'),
+  });
+
+  if (!validatedFields.success) {
+    return { error: "Invalid prompt." };
+  }
+
+  const { prompt, history } = validatedFields.data;
+  const chatHistory = JSON.parse(history);
+
+  try {
+    const payload = {
+      contents: [...chatHistory, { role: "user", parts: [{ text: prompt }] }],
+    };
+    const apiKey = ""; // Leave as-is
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      return { error: "Failed to get response from AI." };
+    }
+
+    const result = await response.json();
+    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      return { error: "Received an empty response from AI." };
+    }
+
+    return { response: text };
+
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    return { error: "An error occurred while contacting the AI." };
+  }
+}

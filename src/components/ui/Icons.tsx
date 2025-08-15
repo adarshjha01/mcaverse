@@ -85,3 +85,58 @@ export const IconSend = ({ className = "w-6 h-6" }) => (
         <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
     </svg>
 );
+
+// Add these to src/components/ui/Icons.tsx
+
+export const IconYouTube = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M2.5 17a24.12 24.12 0 0 1 0-10C2.5 6 7.5 4 12 4s9.5 2 9.5 3-2.5 4.5-5 6-5 2-5 2z"></path>
+        <path d="M12 18.5c-4.11 0-6.41-1.03-7.5-3C3.5 14.5 2 12.5 2 11c0-1.5 1.5-3 2.5-3.5C5.5 7 8.5 6 12 6s6.5 1 7.5 1.5c1 .5 2.5 2 2.5 3.5 0 1.5-1.5 3.5-2.5 4.5-1.09 1.97-3.39 3-7.5 3z"></path>
+        <path d="M9.5 15.5l5-3-5-3z"></path>
+    </svg>
+);
+
+export const IconLinkedIn = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+        <rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle>
+    </svg>
+);
+
+// Add these to src/components/ui/Icons.tsx
+
+export const IconBrainCircuit = ({ className = "w-8 h-8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M12 5a3 3 0 1 0-5.993.142"></path><path d="M18 13a3 3 0 1 0-4.413 2.22"></path><path d="M20 8a3 3 0 1 0-5.993.142"></path><path d="M12 19a3 3 0 1 0-5.993-.142"></path><path d="M17 3a3 3 0 1 0-4.413 2.22"></path><path d="M6 15a3 3 0 1 0-4.413 2.22"></path><path d="M2.007 11.142A3 3 0 1 0 5 13"></path><path d="M12 5h2"></path><path d="M12 19h2"></path><path d="M18 13h2.5"></path><path d="M6 15h2.5"></path><path d="M17 5.22a.5.5 0 0 0 .5.5h2.5"></path><path d="M2.007 12.858a.5.5 0 0 0 .5.5h2.5"></path><path d="M20 9.72a.5.5 0 0 0-.5-.5H17"></path>
+    </svg>
+);
+
+export const IconCode = ({ className = "w-8 h-8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>
+    </svg>
+);
+
+export const IconTargetRed = ({ className = "w-8 h-8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>
+    </svg>
+);
+
+export const IconTrendingUpGreen = ({ className = "w-8 h-8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline>
+    </svg>
+);
+
+export const IconClipboardList = ({ className = "w-8 h-8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path>
+    </svg>
+);
+
+export const IconSendPurple = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+);

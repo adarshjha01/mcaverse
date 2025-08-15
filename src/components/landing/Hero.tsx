@@ -23,8 +23,10 @@ export const Hero = () => {
                 <p className="text-xl md:text-2xl text-slate-300 mb-6 max-w-3xl mx-auto">Guiding MCA Aspirants & Graduates to Success</p>
                 <p className="text-lg text-slate-400 mb-12 max-w-3xl mx-auto">Your comprehensive platform for MCA exam preparation, career guidance, and professional growth in the tech industry.</p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-                    <Link href="/#features" className="w-full sm:w-auto bg-white text-slate-900 font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-slate-200 transition-all duration-300 transform hover:scale-105">Explore Content</Link>
-                    <Link href="/#community" className="w-full sm:w-auto bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">Join Community</Link>
+                    {/* --- UPDATED LINK --- */}
+                    <Link href="/videos" className="w-full sm:w-auto bg-white text-slate-900 font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-slate-200 transition-all duration-300 transform hover:scale-105">Explore Content</Link>
+                    {/* --- UPDATED LINK --- */}
+                    <Link href="/community" className="w-full sm:w-auto bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">Join Community</Link>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                     {stats.map((stat) => (

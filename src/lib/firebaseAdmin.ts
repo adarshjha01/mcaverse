@@ -1,9 +1,17 @@
 // src/lib/firebaseAdmin.ts
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+// src/lib/firebaseAdmin.ts
+console.log("TRUSTED HOSTS:", process.env.SERVER_ACTIONS_TRUSTED_HOSTS); // <-- ADD THIS LINE
+
+import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
-// This configuration ensures that the Firebase app is initialized only once.
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON!);
+// This is a more robust way to handle the service account credentials
+const serviceAccount: ServiceAccount = {
+  projectId: process.env.FIREBASE_PROJECT_ID!,
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
+  // The .env file can struggle with newlines, so we replace the literal '\n' with actual newlines
+  privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
+};
 
 if (!getApps().length) {
   initializeApp({

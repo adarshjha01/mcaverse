@@ -1,6 +1,45 @@
 // src/app/ai-assistant/page.tsx
-import { ComingSoonPage } from "@/components/common/ComingSoonPage";
+import { Navbar } from "@/components/landing/Navbar";
+import { FeaturesGrid } from "@/components/ai/FeaturesGrid";
+import { AnalysisInAction } from "@/components/ai/AnalysisInAction";
+import { PerformanceDashboard } from "@/components/ai/PerformanceDashboard";
+import { ChatInterface } from "@/components/ai/ChatInterface";
+import { CtaSection } from "@/components/ai/CtaSection";
+import { IconBrainCircuit } from "@/components/ui/Icons";
 
-export default function AiAssistantPage() {
-  return <ComingSoonPage featureName="AI Assistant" />;
+export default function AIAssistantPage() {
+  return (
+    <div className="bg-slate-50 text-slate-800">
+      <Navbar />
+      <main className="pt-16">
+        {/* Header */}
+        <section className="py-20 text-center bg-white border-b border-slate-200">
+            <div className="w-16 h-16 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4">
+                <IconBrainCircuit className="w-8 h-8" />
+            </div>
+            <h1 className="text-4xl font-bold mb-2">AI-Powered Learning Assistant Coming Soon...</h1>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                Get personalized insights, mistake analysis, and study recommendations powered by advanced AI technology.
+            </p>
+        </section>
+
+        <FeaturesGrid />
+
+        {/* Main Content Area */}
+        <section className="container mx-auto px-4 py-16">
+            <div className="grid lg:grid-cols-5 gap-12">
+                <div className="lg:col-span-3">
+                    <AnalysisInAction />
+                    <PerformanceDashboard />
+                </div>
+                <div className="lg:col-span-2">
+                    <ChatInterface />
+                </div>
+            </div>
+        </section>
+
+        <CtaSection />
+      </main>
+    </div>
+  );
 }
