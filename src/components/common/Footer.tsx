@@ -6,7 +6,7 @@ const Footer = () => {
     const quickLinks = [
         { href: "/mock-tests", label: "Mock Tests" },
         { href: "/videos", label: "Video Tutorials" },
-        { href: "/career-hub", label: "Career Guidance" },
+        { href: "/success-stories", label: "Success Stories" },
         { href: "/community", label: "Community" }, // Assuming community is a section on the homepage
     ];
 
@@ -14,7 +14,7 @@ const Footer = () => {
         { href: "/ai-assistant", label: "AI Assistant" },
         { href: "/podcast", label: "Podcast" }, // Assuming podcast is a section on the homepage
         { href: "/about", label: "About Us" },
-        { href: "/#contact", label: "Contact" }, // Assuming contact is a section on the homepage
+        { href: "/contact", label: "Contact" }, // Assuming contact is a section on the homepage
     ];
 
     const socialLinks = [

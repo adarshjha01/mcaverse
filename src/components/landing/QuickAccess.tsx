@@ -1,12 +1,12 @@
 // src/components/landing/QuickAccess.tsx
 import Link from "next/link";
 import React from "react";
-import { IconTarget, IconVideo, IconBriefcase, IconZap } from "@/components/ui/Icons";
+import { IconTarget, IconVideo, IconBriefcase, IconZap, IconTrophy } from "@/components/ui/Icons";
 
 const accessLinks = [
     { icon: <IconTarget className="w-8 h-8 text-blue-600" />, title: "Mock Tests", description: "Practice with NIMCET, CUET PG MCA, and MAH MCA CET mock tests", linkText: "Start Practice", href: "/mock-tests" },
     { icon: <IconZap className="w-8 h-8 text-green-600" />, title: "Video Tutorials", description: "Learn with our comprehensive video courses and tutorials", linkText: "Watch Now", href: "/videos" },
-    { icon: <IconBriefcase className="w-8 h-8 text-purple-600" />, title: "Career Hub", description: "Get career guidance, internships, and industry insights", linkText: "Explore", href: "/career-hub" },
+    { icon: <IconTrophy className="w-8 h-8 text-purple-600" />, title: "Success Stories", description: "Read Success Stories of MCA students", linkText: "Explore", href: "/success-stories" },
 ];
 
 export const QuickAccess = () => {

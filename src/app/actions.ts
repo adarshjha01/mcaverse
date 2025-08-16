@@ -195,3 +195,46 @@ export async function getAIResponse(prevState: any, formData: FormData) {
     return { error: "An error occurred while contacting the AI." };
   }
 }
+
+// Add this to src/app/actions.ts
+
+// --- Schema for a new success story ---
+const StorySchema = z.object({
+  name: z.string().min(2, "Please enter your name."),
+  batch: z.string().min(4, "Please enter your batch year."),
+  company: z.string().min(2, "Please enter your company name."),
+  storyTitle: z.string().min(10, "Title must be at least 10 characters."),
+  storyContent: z.string().min(50, "Your story must be at least 50 characters."),
+});
+
+// --- Server Action to submit a success story ---
+export async function submitSuccessStory(prevState: any, formData: FormData) {
+  const validatedFields = StorySchema.safeParse({
+    name: formData.get('name'),
+    batch: formData.get('batch'),
+    company: formData.get('company'),
+    storyTitle: formData.get('storyTitle'),
+    storyContent: formData.get('storyContent'),
+  });
+
+  if (!validatedFields.success) {
+    return { errors: validatedFields.error.flatten().fieldErrors };
+  }
+
+  try {
+    const { name, batch, company, storyTitle, storyContent } = validatedFields.data;
+    await db.collection('success-stories').add({
+      name,
+      batch,
+      company,
+      title: storyTitle,
+      content: storyContent,
+      submittedAt: FieldValue.serverTimestamp(),
+      approved: false, // Add an approval flag
+    });
+    return { success: true, message: "Thank you! Your story has been submitted for review." };
+  } catch (error) {
+    console.error("Error submitting story:", error);
+    return { message: "Failed to submit story. Please try again." };
+  }
+}
