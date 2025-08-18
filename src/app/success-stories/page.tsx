@@ -6,7 +6,7 @@ import { IconTrophy } from "@/components/ui/Icons";
 import { db } from "@/lib/firebaseAdmin";
 import { Timestamp } from "firebase-admin/firestore";
 
-// --- Type Definition for a Story ---
+// --- Updated Type Definition ---
 type Story = {
   id: string;
   name: string;
@@ -14,13 +14,14 @@ type Story = {
   title: string;
   content: string;
   imageUrl: string | null;
+  likeCount: number;
+  likes: string[]; // Array of user IDs who liked the story
 };
 
-// --- Function to fetch approved stories ---
+// --- Updated Function to fetch stories ---
 async function getSuccessStories(): Promise<Story[]> {
     try {
         const storiesRef = db.collection('success-stories');
-        // Filter for approved stories and order by most recent
         const q = storiesRef.where('approved', '==', true).orderBy('submittedAt', 'desc');
         const snapshot = await q.get();
         return snapshot.docs.map(doc => {
@@ -32,6 +33,8 @@ async function getSuccessStories(): Promise<Story[]> {
                 title: data.title,
                 content: data.content.substring(0, 200) + '...',
                 imageUrl: data.imageUrl || null,
+                likeCount: data.likeCount || 0,
+                likes: data.likes || [],
             };
         });
     } catch (error) {
