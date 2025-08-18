@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { auth } from '@/lib/firebaseClient';
+import { signOut } from 'firebase/auth';
 
 // --- SVG ICONS ---
 const IconFileText = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>;
@@ -18,11 +21,46 @@ const IconX = ({ className = "w-6 h-6" }) => <svg xmlns="http://www.w3.org/2000/
 const IconShare = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>;
 
 export const Navbar = () => {
+    const { user } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [copied, setCopied] = useState(false);
     const pathname = usePathname();
 
+    const handleLogout = async () => {
+        await signOut(auth);
+    };
+
+    const handleShare = async () => {
+        const shareData = {
+            title: 'MCAverse',
+            text: 'Check out MCAverse - Guiding MCA Aspirants & Graduates to Success!',
+            url: window.location.origin,
+        };
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(window.location.origin);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }
+        } catch (err) {
+            console.error('Error sharing:', err);
+            try {
+              const textArea = document.createElement('textarea');
+              textArea.value = window.location.origin;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            } catch (copyErr) {
+              alert('Could not copy link.');
+            }
+        }
+    };
+    
     const navLinks = [
         { href: "/", label: "Home", icon: null },
         { href: "/mock-tests", label: "Mock Tests", icon: <IconFileText /> },
@@ -34,53 +72,16 @@ export const Navbar = () => {
         { href: "/about", label: "About", icon: null },
     ];
 
-    const handleShare = async () => {
-        const shareData = {
-            title: 'MCAverse',
-            text: 'Check out MCAverse - Guiding MCA Aspirants & Graduates to Success!',
-            url: window.location.origin,
-        };
-        try {
-            // Use the Web Share API if available
-            if (navigator.share) {
-                await navigator.share(shareData);
-            } else {
-                // Fallback to copying the link to the clipboard
-                await navigator.clipboard.writeText(window.location.origin);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
-            }
-        } catch (err) {
-            console.error('Error sharing:', err);
-            // Fallback for older browsers or if clipboard fails
-            try {
-              const textArea = document.createElement('textarea');
-              textArea.value = window.location.origin;
-              document.body.appendChild(textArea);
-              textArea.select();
-              document.execCommand('copy');
-              document.body.removeChild(textArea);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            } catch (copyErr) {
-              alert('Could not copy link. Please copy the URL from your browser.');
-            }
-        }
-    };
-
     return (
         <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-slate-200 dark:border-slate-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    {/* Left Section: Logo */}
                     <div className="flex items-center">
                         <Link href="/" className="flex items-center space-x-3">
                             <Image src="/mcaverse-logo.png" alt="MCAverse Logo" width={32} height={32} className="rounded-full" />
                             <span className="font-bold text-xl text-slate-800 dark:text-white">MCAverse</span>
                         </Link>
                     </div>
-
-                    {/* Center Section: Navigation Links (Desktop) */}
                     <div className="hidden md:flex flex-1 items-center justify-center">
                         <nav className="flex items-center space-x-1 lg:space-x-2">
                             {navLinks.map((link) => {
@@ -98,11 +99,9 @@ export const Navbar = () => {
                             })}
                         </nav>
                     </div>
-                    
-                    {/* Right Section: Actions (Desktop) */}
                     <div className="hidden md:flex items-center justify-end space-x-4">
-                        {isLoggedIn ? (
-                             <button onClick={() => setIsLoggedIn(false)} className="bg-slate-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-600">Logout</button>
+                        {user ? (
+                             <button onClick={handleLogout} className="bg-slate-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-600">Logout</button>
                         ) : (
                             <Link href="/login" className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700">Login</Link>
                         )}
@@ -111,8 +110,6 @@ export const Navbar = () => {
                             {copied && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded">Copied!</span>}
                         </button>
                     </div>
-
-                    {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center">
                         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
                             {isMenuOpen ? <IconX /> : <IconMenu />}
@@ -120,7 +117,34 @@ export const Navbar = () => {
                     </div>
                 </div>
             </div>
-            {/* ... (Mobile menu content) */}
+            {isMenuOpen && (
+                <div className="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm">
+                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        {navLinks.map((link) => {
+                             const isActive = pathname === link.href;
+                             return (
+                                <Link key={link.label} href={link.href} className={`flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+                                    isActive ? 'bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
+                                }`}>
+                                    {link.icon}
+                                    <span>{link.label}</span>
+                                </Link>
+                            );
+                        })}
+                        <div className="border-t border-slate-200 dark:border-slate-700 mt-4 pt-4 flex flex-col space-y-2">
+                            {user ? (
+                                <button onClick={handleLogout} className="w-full text-left bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">Logout</button>
+                            ) : (
+                                <Link href="/login" className="block bg-indigo-600 text-white px-3 py-2 rounded-md text-base font-semibold text-center">Login</Link>
+                            )}
+                            <button onClick={handleShare} className="flex items-center justify-center gap-2 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white px-3 py-2 rounded-md text-base font-semibold">
+                                <IconShare />
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </header>
     );
 };
