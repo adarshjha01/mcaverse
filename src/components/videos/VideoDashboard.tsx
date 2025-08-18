@@ -1,47 +1,21 @@
 // src/components/videos/VideoDashboard.tsx
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { IconChevronDown, IconPlayCircle } from '@/components/ui/Icons';
+import { useAuth } from '@/components/auth/AuthProvider';
+
+// --- Type Definitions ---
+type Lecture = { id: string; title: string; youtubeLink: string; };
+type Topic = { name: string; lectures: Lecture[]; };
+type Subject = { subject: string; topics: Topic[]; };
 
 // --- NEW STAR ICON ---
 const IconStar = ({ className = "w-5 h-5", filled = false }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
     </svg>
 );
-
-
-// --- Mock Data Structure ---
-const courseData = [
-    {
-        subject: "Mathematics",
-        topics: [
-            { name: "Probability", lectures: [{ id: 1, title: "Lec 1: Intro to Probability", youtubeLink: "#" }, { id: 2, title: "Lec 2: Conditional Probability", youtubeLink: "#" }] },
-            { name: "Statistics", lectures: [{ id: 3, title: "Lec 1: Mean, Median, Mode", youtubeLink: "#" }, { id: 4, title: "Lec 2: Standard Deviation", youtubeLink: "#" }] },
-        ]
-    },
-    {
-        subject: "Logical Reasoning",
-        topics: [
-            { name: "Syllogism", lectures: [{ id: 5, title: "Lec 1: Basic Concepts", youtubeLink: "#" }, { id: 6, title: "Lec 2: Venn Diagrams", youtubeLink: "#" }] },
-            { name: "Blood Relations", lectures: [{ id: 7, title: "Lec 1: Types of Relations", youtubeLink: "#" }] },
-        ]
-    },
-    {
-        subject: "Computer Science",
-        topics: [
-            { name: "Data Structures", lectures: [{ id: 8, title: "Lec 1: Arrays & Strings", youtubeLink: "#" }, { id: 9, title: "Lec 2: Linked Lists", youtubeLink: "#" }] },
-            { name: "Algorithms", lectures: [{ id: 10, title: "Lec 1: Sorting Algorithms", youtubeLink: "#" }] },
-        ]
-    },
-    {
-        subject: "English",
-        topics: [
-            { name: "Reading Comprehension", lectures: [{ id: 11, title: "Lec 1: Skimming & Scanning", youtubeLink: "#" }] },
-        ]
-    },
-];
 
 // --- Circular Progress Bar Component ---
 const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, size?: number }) => {
@@ -73,15 +47,30 @@ const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, si
 };
 
 // --- Main Dashboard Component ---
-export const VideoDashboard = () => {
-    const [completedLectures, setCompletedLectures] = useState<Set<number>>(new Set([1, 2, 3, 5]));
-    const [revisionLectures, setRevisionLectures] = useState<Set<number>>(new Set([3]));
-    const [openSubjects, setOpenSubjects] = useState<Set<string>>(new Set([courseData[0].subject]));
-    const [openTopics, setOpenTopics] = useState<Set<string>>(new Set([courseData[0].topics[0].name]));
+export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subject[] }) => {
+    const { user } = useAuth();
+    const [completedLectures, setCompletedLectures] = useState<Set<string>>(new Set());
+    const [revisionLectures, setRevisionLectures] = useState<Set<string>>(new Set());
+    const [openSubjects, setOpenSubjects] = useState<Set<string>>(new Set(initialCourseData[0]?.subject ? [initialCourseData[0].subject] : []));
+    const [openTopics, setOpenTopics] = useState<Set<string>>(new Set(initialCourseData[0]?.topics[0]?.name ? [initialCourseData[0].topics[0].name] : []));
+
+    useEffect(() => {
+        if (user) {
+            fetch(`/api/video-progress?userId=${user.uid}`)
+                .then(res => res.json())
+                .then(progress => {
+                    setCompletedLectures(new Set(progress.completed));
+                    setRevisionLectures(new Set(progress.revision));
+                });
+        } else {
+            setCompletedLectures(new Set());
+            setRevisionLectures(new Set());
+        }
+    }, [user]);
 
     const { totalLectures, subjectStats } = useMemo(() => {
         let total = 0;
-        const stats = courseData.map(subject => {
+        const stats = initialCourseData.map(subject => {
             const subjectTotal = subject.topics.reduce((acc, topic) => acc + topic.lectures.length, 0);
             total += subjectTotal;
             const completed = subject.topics.reduce((acc, topic) =>
@@ -89,41 +78,54 @@ export const VideoDashboard = () => {
             return { name: subject.subject, completed, total: subjectTotal };
         });
         return { totalLectures: total, subjectStats: stats };
-    }, [completedLectures]);
+    }, [completedLectures, initialCourseData]);
 
     const overallProgress = totalLectures > 0 ? (completedLectures.size / totalLectures) * 100 : 0;
 
-    const handleToggleLecture = (id: number) => {
-        setCompletedLectures(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(id)) newSet.delete(id);
-            else newSet.add(id);
-            return newSet;
-        });
-    };
-    
-    const handleToggleRevision = (id: number) => {
-        setRevisionLectures(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(id)) newSet.delete(id);
-            else newSet.add(id);
-            return newSet;
+    const updateVideoProgress = async (lectureId: string, type: 'completed' | 'revision', isAdding: boolean) => {
+        if (!user) return;
+        await fetch('/api/video-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.uid, lectureId, type, isAdding }),
         });
     };
 
+    const handleToggleLecture = (id: string) => {
+        if (!user) { alert("Please log in to track your progress."); return; }
+        const newSet = new Set(completedLectures);
+        const isAdding = !newSet.has(id);
+        if (isAdding) newSet.add(id); else newSet.delete(id);
+        setCompletedLectures(newSet);
+        updateVideoProgress(id, 'completed', isAdding);
+    };
+    
+    const handleToggleRevision = (id: string) => {
+        if (!user) { alert("Please log in to save your revisions."); return; }
+        const newSet = new Set(revisionLectures);
+        const isAdding = !newSet.has(id);
+        if (isAdding) newSet.add(id); else newSet.delete(id);
+        setRevisionLectures(newSet);
+        updateVideoProgress(id, 'revision', isAdding);
+    };
     const toggleSubject = (subject: string) => setOpenSubjects(prev => {
         const newSet = new Set(prev);
-        if (newSet.has(subject)) newSet.delete(subject);
-        else newSet.add(subject);
+        if (newSet.has(subject)) newSet.delete(subject); else newSet.add(subject);
         return newSet;
     });
 
     const toggleTopic = (topic: string) => setOpenTopics(prev => {
         const newSet = new Set(prev);
-        if (newSet.has(topic)) newSet.delete(topic);
-        else newSet.add(topic);
+        if (newSet.has(topic)) newSet.delete(topic); else newSet.add(topic);
         return newSet;
     });
+    
+    const subjectColors: { [key: string]: string } = {
+        "Mathematics": "bg-green-500",
+        "Logical Reasoning": "bg-yellow-500",
+        "Computer Science": "bg-red-500",
+        "English": "bg-blue-500",
+    };
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -135,19 +137,18 @@ export const VideoDashboard = () => {
                     </div>
                     <div className="text-left">
                         <p className="text-slate-500 text-sm">Total Progress</p>
-                        <p className="text-xl font-bold">{completedLectures.size} / {totalLectures}</p>
+                        <p className="text-3xl font-bold">{completedLectures.size} / {totalLectures}</p>
                     </div>
                 </div>
                 <div className="w-full flex-grow grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4">
-                    {subjectStats.map((stat, index) => {
+                    {subjectStats.map(stat => {
                         const subjectProgress = stat.total > 0 ? (stat.completed / stat.total) * 100 : 0;
-                        const colors = ["bg-green-500", "bg-yellow-500", "bg-red-500", "bg-blue-500"];
                         return (
                             <div key={stat.name}>
                                 <p className="text-sm font-semibold text-slate-700">{stat.name}</p>
                                 <p className="text-lg font-bold text-slate-800">{stat.completed} / {stat.total} <span className="text-xs text-slate-500 font-normal">completed</span></p>
                                 <div className="w-full bg-slate-200 rounded-full h-1.5 mt-1">
-                                    <div className={`h-1.5 rounded-full ${colors[index]}`} style={{ width: `${subjectProgress}%` }}></div>
+                                    <div className={`h-1.5 rounded-full ${subjectColors[stat.name] || 'bg-gray-400'}`} style={{ width: `${subjectProgress}%` }}></div>
                                 </div>
                             </div>
                         );
@@ -157,7 +158,7 @@ export const VideoDashboard = () => {
 
             {/* Accordion Section */}
             <div className="space-y-4">
-                {courseData.map(subject => {
+                {initialCourseData.map(subject => {
                     const isSubjectOpen = openSubjects.has(subject.subject);
                     return (
                         <div key={subject.subject} className="bg-white rounded-lg border border-slate-200 shadow-sm">

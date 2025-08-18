@@ -2,8 +2,12 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { VideoDashboard } from "@/components/videos/VideoDashboard";
 import { IconVideo } from "@/components/ui/Icons";
+import { getCourseData } from "@/app/actions"; // Import the new action
 
-export default function VideosPage() {
+export default async function VideosPage() {
+  // Fetch course data on the server when the page loads
+  const courseData = await getCourseData();
+
   return (
     <div className="bg-white text-slate-800 min-h-screen">
       <Navbar />
@@ -17,7 +21,8 @@ export default function VideosPage() {
         </section>
 
         <div className="container mx-auto px-4 py-16">
-            <VideoDashboard />
+            {/* Pass the fetched data to the client component */}
+            <VideoDashboard initialCourseData={courseData} />
         </div>
       </main>
     </div>
