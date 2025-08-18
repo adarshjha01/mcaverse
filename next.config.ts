@@ -1,15 +1,16 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Add this serverActions block
-  serverActions: {
-    allowedOrigins: ["*.app.github.dev"],
-  },
+  // ... (your serverActions block if you have one)
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'placehold.co' },
       { protocol: 'https', hostname: 'img.youtube.com' },
       { protocol: 'https', hostname: 'i.ytimg.com' },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com', // <-- ADD THIS
+      },
     ],
   },
 }

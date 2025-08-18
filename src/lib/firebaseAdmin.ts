@@ -1,7 +1,4 @@
 // src/lib/firebaseAdmin.ts
-// src/lib/firebaseAdmin.ts
-console.log("TRUSTED HOSTS:", process.env.SERVER_ACTIONS_TRUSTED_HOSTS); // <-- ADD THIS LINE
-
 import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 

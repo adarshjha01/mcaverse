@@ -1,64 +1,114 @@
 // src/components/success-stories/ShareJourneyForm.tsx
 "use client";
 
-import { useActionState, useEffect, useRef } from 'react';
-import { useFormStatus } from 'react-dom';
-import { submitSuccessStory } from '@/app/actions';
+import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '@/components/auth/AuthProvider';
+import Link from 'next/link';
+import { storage } from '@/lib/firebaseClient';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-// A helper component for the submit button to show a "pending" state
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button 
-      type="submit" 
-      disabled={pending} 
-      className="mt-6 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-slate-400"
-    >
-      {pending ? "Submitting..." : "Share My Story"}
-    </button>
-  );
-}
+// Define a type for our form state
+type FormState = {
+  message?: string | null;
+  errors?: { [key: string]: string[] | undefined; };
+  success?: boolean;
+};
 
 export const ShareJourneyForm = () => {
-  const [state, formAction] = useActionState(submitSuccessStory, null);
+  const { user } = useAuth();
+  const [state, setState] = useState<FormState | undefined>();
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state?.success) {
       formRef.current?.reset();
+      setFile(null);
     }
   }, [state]);
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    setState(undefined);
+
+    const formData = new FormData(event.currentTarget);
+    
+    try {
+        if (file && user) {
+            const storageRef = ref(storage, `success-stories/${user.uid}_${Date.now()}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            // Wait for the upload to complete and get the URL
+            const snapshot = await uploadTask;
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            formData.append('imageUrl', downloadURL);
+        }
+
+        const response = await fetch('/api/success-stories', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        setState(result);
+
+    } catch (error) {
+        console.error("Form submission error:", error);
+        setState({ message: "An unexpected error occurred." });
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  if (!user) {
+    return (
+        <div className="bg-slate-50 p-8 rounded-lg shadow-lg border border-slate-200 sticky top-24 text-center">
+            <h2 className="text-2xl font-bold mb-4">Share Your Journey</h2>
+            <p className="text-slate-600 mb-6">Inspire others by sharing your success story with the community.</p>
+            <Link href="/login" className="w-full block bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700">
+                Login to Share Your Story
+            </Link>
+        </div>
+    );
+  }
+
   return (
-    // Updated container to match GuestApplicationForm
-    <div className="bg-white p-8 rounded-lg shadow-lg border border-slate-200 sticky top-24">
+    <div className="bg-slate-50 p-8 rounded-lg shadow-lg border border-slate-200 sticky top-24">
       <h2 className="text-2xl font-bold mb-4">Share Your Journey</h2>
-      <p className="text-slate-600 mb-6">
-        Inspire the next generation of MCA students by sharing your success story with the community.
-      </p>
-      <form ref={formRef} action={formAction} className="space-y-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-slate-700">Your Name</label>
-          {/* Updated input styles */}
-          <input type="text" id="name" name="name" required className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
+          <input type="text" id="name" name="name" defaultValue={user.displayName || ''} required className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
           {state?.errors?.name && <p className="text-sm text-red-500 mt-1">{state.errors.name[0]}</p>}
         </div>
         <div>
-          <label htmlFor="batch" className="block text-sm font-medium text-slate-700">Batch Year (e.g., 2022)</label>
-          <input type="text" id="batch" name="batch" required className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
+          <label htmlFor="batch" className="block text-sm font-medium text-slate-700">Batch Year</label>
+          <input type="text" id="batch" name="batch" placeholder="e.g., 2022" required className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
           {state?.errors?.batch && <p className="text-sm text-red-500 mt-1">{state.errors.batch[0]}</p>}
         </div>
         <div>
+          <label htmlFor="company" className="block text-sm font-medium text-slate-700">Current Company</label>
+          <input type="text" id="company" name="company" required className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
+          {state?.errors?.company && <p className="text-sm text-red-500 mt-1">{state.errors.company[0]}</p>}
+        </div>
+        <div>
+            <label htmlFor="image" className="block text-sm font-medium text-slate-700">Your Photo (Optional)</label>
+            <input type="file" id="image" name="image" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"/>
+        </div>
+        <div>
           <label htmlFor="storyTitle" className="block text-sm font-medium text-slate-700">Story Title</label>
-          <input type="text" id="storyTitle" name="storyTitle" required className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
+          <input type="text" id="storyTitle" name="storyTitle" required className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
           {state?.errors?.storyTitle && <p className="text-sm text-red-500 mt-1">{state.errors.storyTitle[0]}</p>}
         </div>
         <div>
           <label htmlFor="storyContent" className="block text-sm font-medium text-slate-700">Your Story</label>
-          <textarea id="storyContent" name="storyContent" rows={5} required className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+          <textarea id="storyContent" name="storyContent" rows={5} required className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
           {state?.errors?.storyContent && <p className="text-sm text-red-500 mt-1">{state.errors.storyContent[0]}</p>}
         </div>
-        <SubmitButton />
+        <button type="submit" disabled={loading} className="mt-6 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 disabled:bg-slate-400">
+            {loading ? "Submitting..." : "Share My Story"}
+        </button>
         {state?.message && <p className={`text-sm mt-4 text-center ${state.success ? 'text-green-600' : 'text-red-500'}`}>{state.message}</p>}
       </form>
     </div>

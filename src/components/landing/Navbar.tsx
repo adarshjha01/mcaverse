@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation'; // <-- IMPORT useRouter
 import { useAuth } from '@/components/auth/AuthProvider';
 import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
@@ -25,9 +25,11 @@ export const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const pathname = usePathname();
+    const router = useRouter(); // <-- GET THE ROUTER INSTANCE
 
     const handleLogout = async () => {
         await signOut(auth);
+        router.push('/'); // <-- REDIRECT TO HOME ON LOGOUT
     };
 
     const handleShare = async () => {

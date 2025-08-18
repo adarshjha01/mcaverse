@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { getAuth } from 'firebase-admin/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { Resend } from 'resend';
 // ... (Your other actions and imports remain)
 
 // --- Schemas for Auth ---
@@ -124,45 +125,43 @@ export async function getCourseData(): Promise<Subject[]> {
     return courseData;
 }
 
-// // --- Server Action to get user's video progress ---
-// export async function getUserVideoProgress(userId: string) {
-//     if (!userId) return { completed: [], revision: [] };
-//     try {
-//         const docRef = db.collection('videoProgress').doc(userId);
-//         const docSnap = await docRef.get();
-//         if (docSnap.exists) {
-//             const data = docSnap.data();
-//             return {
-//                 completed: data?.completedLectures || [],
-//                 revision: data?.revisionLectures || [],
-//             };
-//         }
-//         return { completed: [], revision: [] };
-//     } catch (error) {
-//         console.error("Error fetching user progress:", error);
-//         return { completed: [], revision: [] };
-//     }
-// }
+// Add this to src/app/actions.ts
 
-// // --- Server Action to update user's video progress ---
-// export async function updateVideoProgress(
-//     userId: string,
-//     lectureId: string,
-//     type: 'completed' | 'revision',
-//     isAdding: boolean
-// ) {
-//     if (!userId) return;
-//     const docRef = db.collection('videoProgress').doc(userId);
-//     const field = type === 'completed' ? 'completedLectures' : 'revisionLectures';
-    
-//     try {
-//         if (isAdding) {
-//             await docRef.set({ [field]: FieldValue.arrayUnion(lectureId) }, { merge: true });
-//         } else {
-//             await docRef.update({ [field]: FieldValue.arrayRemove(lectureId) });
-//         }
-//         revalidatePath('/videos'); // Refresh the data on the videos page
-//     } catch (error) {
-//         console.error("Error updating user progress:", error);
-//     }
-// }
+
+// --- (Your other schemas and server actions remain here) ---
+
+// --- Schema for a new success story ---
+const StorySchema = z.object({
+  name: z.string().min(2, "Please enter your name."),
+  batch: z.string().min(4, "Please enter your batch year."),
+  company: z.string().min(2, "Please enter your company name."),
+  storyTitle: z.string().min(10, "Title must be at least 10 characters."),
+  storyContent: z.string().min(50, "Your story must be at least 50 characters."),
+  imageUrl: z.string().url("Invalid image URL.").optional(),
+});
+
+export async function submitSuccessStory(prevState: any, formData: FormData) {
+  const validatedFields = StorySchema.safeParse(Object.fromEntries(formData));
+
+  if (!validatedFields.success) {
+    return { errors: validatedFields.error.flatten().fieldErrors, message: null };
+  }
+
+  try {
+    const { name, batch, company, storyTitle, storyContent, imageUrl } = validatedFields.data;
+    await db.collection('success-stories').add({
+      name,
+      batch,
+      company,
+      title: storyTitle,
+      content: storyContent,
+      imageUrl: imageUrl || null,
+      submittedAt: FieldValue.serverTimestamp(),
+      approved: true, // <-- THIS IS THE CHANGE
+    });
+    return { success: true, message: "Thank you! Your story has been successfully published.", errors: null };
+  } catch (error) {
+    console.error("Error submitting story:", error);
+    return { message: "Failed to submit story. Please try again.", errors: null };
+  }
+}
