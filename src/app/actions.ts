@@ -6,6 +6,8 @@ import { getAuth } from 'firebase-admin/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { Resend } from 'resend';
+import { db } from '@/lib/firebaseAdmin';
+import { FieldValue } from 'firebase-admin/firestore';
 // ... (Your other actions and imports remain)
 
 // --- Schemas for Auth ---
@@ -63,8 +65,6 @@ export async function signInWithEmail(prevState: any, formData: FormData) {
 
 // Add these to src/app/actions.ts
 
-import { FieldValue } from 'firebase-admin/firestore';
-import { db } from '@/lib/firebaseAdmin';
 
 // --- Type Definitions for Video Data ---
 type Lecture = {
@@ -165,3 +165,15 @@ export async function submitSuccessStory(prevState: any, formData: FormData) {
     return { message: "Failed to submit story. Please try again.", errors: null };
   }
 }
+
+// --- Initialize Resend ---
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// --- Schemas ---
+const GuestApplicationSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  email: z.string().email("Please enter a valid email."),
+  expertise: z.string().min(5, "Please describe your expertise."),
+  message: z.string().min(10, "Message must be at least 10 characters."),
+});
+
