@@ -1,56 +1,113 @@
 // src/components/community/DiscussionList.tsx
-import Link from "next/link";
-import { IconMessageCircle } from "@/components/ui/Icons";
-import { db } from '@/lib/firebaseAdmin'; // <-- IMPORT FROM CENTRAL FILE
-import { Timestamp } from 'firebase-admin/firestore';
+"use client";
 
-type Discussion = {
+import Link from "next/link";
+import { IconMessageCircle, IconArrowUp, IconArrowDown, IconTrash } from "@/components/ui/Icons";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { useState, useTransition } from "react";
+
+// --- Type Definitions ---
+type Discussion = { 
   id: string;
   title: string;
-  author: string;
-  replyCount: number;
+  authorId: string;
+  authorName: string;
   createdAt: Date;
+  replyCount: number;
+  voteCount: number;
+  upvotes: string[];
+  downvotes: string[];
 };
 
-async function getDiscussions(): Promise<Discussion[]> {
-  try {
-    const discussionsRef = db.collection('discussions');
-    const q = discussionsRef.orderBy('createdAt', 'desc');
-    const querySnapshot = await q.get();
-    
-    return querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title,
-        author: data.author,
-        replyCount: data.replyCount || 0,
-        createdAt: (data.createdAt as Timestamp).toDate(),
-      };
-    });
-  } catch (error) {
-    console.error("Error fetching discussions:", error);
-    return [];
-  }
-}
+// --- VoteButtons Component ---
+const VoteButtons = ({ discussion, onVote }: { discussion: Discussion; onVote: (voteType: 'up' | 'down') => void }) => {
+    const { user } = useAuth();
+    const [isPending, startTransition] = useTransition();
 
-function formatTimeAgo(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    let interval = seconds / 31536000;
-    if (interval > 1) return Math.floor(interval) + " years ago";
-    interval = seconds / 2592000;
-    if (interval > 1) return Math.floor(interval) + " months ago";
-    interval = seconds / 86400;
-    if (interval > 1) return Math.floor(interval) + " days ago";
-    interval = seconds / 3600;
-    if (interval > 1) return Math.floor(interval) + " hours ago";
-    interval = seconds / 60;
-    if (interval > 1) return Math.floor(interval) + " minutes ago";
-    return Math.floor(seconds) + " seconds ago";
-}
+    const hasUpvoted = user ? discussion.upvotes.includes(user.uid) : false;
+    const hasDownvoted = user ? discussion.downvotes.includes(user.uid) : false;
 
-export const DiscussionList = async () => {
-    const discussions = await getDiscussions();
+    const handleVote = (voteType: 'up' | 'down') => {
+        if (!user) {
+            alert("Please log in to vote.");
+            return;
+        }
+        startTransition(() => onVote(voteType));
+    };
+
+    return (
+        <div className="flex items-center p-2 bg-slate-100 rounded-md">
+            <button onClick={() => handleVote('up')} disabled={!user || isPending} className={`p-1 rounded ${hasUpvoted ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>
+                <IconArrowUp />
+            </button>
+            <span className="font-bold text-sm mx-2 w-4 text-center">{discussion.voteCount}</span>
+            <button onClick={() => handleVote('down')} disabled={!user || isPending} className={`p-1 rounded ${hasDownvoted ? 'text-red-600' : 'text-slate-500 hover:text-red-600'}`}>
+                <IconArrowDown />
+            </button>
+        </div>
+    );
+};
+
+export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Discussion[] }) => {
+    const { user } = useAuth();
+    const [discussions, setDiscussions] = useState(initialDiscussions);
+
+    const handleVoteOptimistic = (discussionId: string, voteType: 'up' | 'down') => {
+        if (!user) return;
+        
+        setDiscussions(currentDiscussions => 
+            currentDiscussions.map(d => {
+                if (d.id === discussionId) {
+                    const hasUpvoted = d.upvotes.includes(user.uid);
+                    const hasDownvoted = d.downvotes.includes(user.uid);
+                    let newVoteCount = d.voteCount;
+                    let newUpvotes = [...d.upvotes];
+                    let newDownvotes = [...d.downvotes];
+
+                    if (voteType === 'up') {
+                        if (hasUpvoted) {
+                            newVoteCount--;
+                            newUpvotes = newUpvotes.filter(id => id !== user.uid);
+                        } else {
+                            newVoteCount += hasDownvoted ? 2 : 1;
+                            newUpvotes.push(user.uid);
+                            newDownvotes = newDownvotes.filter(id => id !== user.uid);
+                        }
+                    } else { // downvote
+                        if (hasDownvoted) {
+                            newVoteCount++;
+                            newDownvotes = newDownvotes.filter(id => id !== user.uid);
+                        } else {
+                            newVoteCount -= hasUpvoted ? 2 : 1;
+                            newDownvotes.push(user.uid);
+                            newUpvotes = newUpvotes.filter(id => id !== user.uid);
+                        }
+                    }
+                    return { ...d, voteCount: newVoteCount, upvotes: newUpvotes, downvotes: newDownvotes };
+                }
+                return d;
+            }).sort((a, b) => b.voteCount - a.voteCount)
+        );
+
+        // Send request to the server
+        fetch('/api/discussions/vote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ discussionId, userId: user.uid, voteType }),
+        });
+    };
+
+    const handleDeletePost = async (discussionId: string) => {
+        if (!user || !window.confirm("Are you sure you want to delete this post?")) return;
+
+        setDiscussions(current => current.filter(d => d.id !== discussionId));
+
+        await fetch('/api/discussions/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ discussionId, userId: user.uid }),
+        });
+    };
 
     return (
         <div>
@@ -62,28 +119,30 @@ export const DiscussionList = async () => {
             </div>
             <div className="bg-white rounded-lg shadow-md border border-slate-200">
                 <ul className="divide-y divide-slate-200">
-                    {discussions.length > 0 ? (
-                        discussions.map(post => (
-                            <li key={post.id} className="p-4 hover:bg-slate-50 transition-colors">
+                    {discussions.map(post => (
+                        <li key={post.id} className="p-4 flex gap-4 items-center">
+                            <VoteButtons discussion={post} onVote={(voteType) => handleVoteOptimistic(post.id, voteType)} />
+                            <div className="flex-grow">
                                 <Link href={`/community/${post.id}`} className="block">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-slate-800">{post.title}</h3>
-                                            <p className="text-sm text-slate-500 mt-1">
-                                                Posted by {post.author} • {formatTimeAgo(post.createdAt)}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-slate-500 text-sm flex-shrink-0 ml-4">
-                                            <IconMessageCircle className="w-5 h-5" />
-                                            <span>{post.replyCount}</span>
-                                        </div>
-                                    </div>
+                                    <h3 className="text-lg font-semibold text-slate-800 hover:text-indigo-600">{post.title}</h3>
                                 </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="p-6 text-center text-slate-500">No discussions yet. Be the first to start one!</li>
-                    )}
+                                <div className="flex justify-between items-center mt-1">
+                                    <p className="text-sm text-slate-500">
+                                        Posted by {post.authorName} • {post.createdAt.toLocaleDateString()}
+                                    </p>
+                                    <div className="flex items-center gap-2 text-slate-500 text-sm">
+                                        <IconMessageCircle className="w-5 h-5" />
+                                        <span>{post.replyCount}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {user && user.uid === post.authorId && (
+                                <button onClick={() => handleDeletePost(post.id)} className="text-slate-400 hover:text-red-600 p-1 rounded-full flex-shrink-0">
+                                    <IconTrash />
+                                </button>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>

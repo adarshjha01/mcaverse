@@ -1,7 +1,5 @@
-// src/app/actions.ts
-"use server";
-
-import { db } from '@/lib/firebaseAdmin';
+// src/app/api/course-data/route.ts
+import { NextResponse } from 'next/server';
 
 // --- Type Definitions for Video Data ---
 type Lecture = {
@@ -9,13 +7,9 @@ type Lecture = {
   title: string;
   youtubeLink: string;
 };
-type Topic = {
-  name: string;
-  lectures: Lecture[];
-};
 type Subject = {
   subject: string;
-  topics: Topic[];
+  topics: { name: string; lectures: Lecture[] }[];
 };
 
 // --- Function to fetch a single YouTube playlist ---
@@ -37,15 +31,17 @@ async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
     }
 }
 
-// --- Server Action to get all course data ---
-export async function getCourseData(): Promise<Subject[]> {
+// --- Main GET handler ---
+export async function GET() {
     const playlistIds = {
         "Mathematics": process.env.YOUTUBE_MATH_PLAYLIST_ID,
         "Logical Reasoning": process.env.YOUTUBE_LR_PLAYLIST_ID,
         "Computer Science": process.env.YOUTUBE_CS_PLAYLIST_ID,
         "English": process.env.YOUTUBE_ENGLISH_PLAYLIST_ID,
     };
+
     const courseData: Subject[] = [];
+
     for (const [subject, id] of Object.entries(playlistIds)) {
         if (id) {
             const lectures = await fetchPlaylist(id);
@@ -55,5 +51,5 @@ export async function getCourseData(): Promise<Subject[]> {
             });
         }
     }
-    return courseData;
+    return NextResponse.json(courseData);
 }
