@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { HorizontalNavbar } from "@/components/landing/HorizontalNavbar";
 import { VerticalNavbar } from "./VerticalNavbar";
+import Footer from "./Footer"; // Import the Footer component
 
 export const ConditionalLayout = ({ children }: { children: React.ReactNode }) => {
     const { user, loading } = useAuth();
@@ -17,13 +18,14 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
     if (user) {
         // Logged-in users get the collapsible vertical sidebar layout
         return (
-            <div className="flex">
+            <div className="flex bg-slate-50 dark:bg-slate-900">
                 <VerticalNavbar 
                     isCollapsed={isSidebarCollapsed} 
                     onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
                 />
                 <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
                     {children}
+                    <Footer />
                 </div>
             </div>
         );
@@ -33,6 +35,7 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
             <div>
                 <HorizontalNavbar />
                 {children}
+                <Footer />
             </div>
         );
     }

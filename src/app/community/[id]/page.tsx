@@ -45,7 +45,6 @@ export default async function DiscussionDetailPage({ params }: { params: { id: s
 
     return (
         <div className="bg-slate-50 min-h-screen">
-            <HorizontalNavbar />
             <main className="container mx-auto px-4 py-24">
                 <div className="max-w-3xl mx-auto">
                     <Link href="/community" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 mb-6 inline-block">&larr; Back to all discussions</Link>
