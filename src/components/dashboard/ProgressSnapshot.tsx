@@ -86,7 +86,7 @@ export const ProgressSnapshot = () => {
     return (
         <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-md mt-8">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Your Progress</h2>
+                <h2 className="text-2xl font-bold text-black">Your Progress</h2>
                 <Link href="/videos" className="text-sm font-semibold text-indigo-600 hover:text-indigo-800">
                     View All Videos &rarr;
                 </Link>
@@ -98,8 +98,8 @@ export const ProgressSnapshot = () => {
                             <CircularProgressBar percentage={overallProgress} />
                         </div>
                         <div className="text-left">
-                            <p className="text-slate-500 text-sm">Total Progress</p>
-                            <p className="text-3xl font-bold">{completedLectures.size} / {totalLectures}</p>
+                            <p className="text-gray-700 text-sm">Total Progress</p>
+                            <p className="text-gray-900 text-3xl font-bold">{completedLectures.size} / {totalLectures}</p>
                         </div>
                     </div>
                     <div className="w-full flex-grow grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4">

@@ -55,7 +55,15 @@ export const ReplySection = ({
   };
   
   const handleDeleteReply = async (replyId: string) => {
-      // ... (delete logic remains the same)
+      if (!user || !window.confirm("Are you sure you want to delete this reply?")) return;
+
+      setReplies(current => current.filter(r => r.id !== replyId));
+
+      await fetch('/api/discussions/reply/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ discussionId, replyId, userId: user.uid }),
+      });
   };
 
   return (

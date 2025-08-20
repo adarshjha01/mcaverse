@@ -38,8 +38,10 @@ export default function DashboardPage() {
                     setProfile(data);
                     setLoading(false);
                 });
+        } else if (!authLoading) {
+            setLoading(false);
         }
-    }, [user]);
+    }, [user, authLoading]);
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -77,14 +79,14 @@ export default function DashboardPage() {
     };
 
     if (authLoading || (loading && !isEditing)) {
-        return <div className="flex h-screen items-center justify-center">Loading...</div>;
+        return <div className="flex h-screen items-center justify-center text-slate-700">Loading...</div>;
     }
 
     if (!user) {
         return (
             <div className="flex h-screen items-center justify-center text-center">
                 <div>
-                    <p className="mb-4">Please log in to view your dashboard.</p>
+                    <p className="mb-4 text-slate-700">Please log in to view your dashboard.</p>
                     <Link href="/login" className="bg-indigo-600 text-white px-6 py-2 rounded-lg">Login</Link>
                 </div>
             </div>
@@ -100,7 +102,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-4">
                             <Image src={profile.photoURL || user.photoURL || `https://placehold.co/80x80/E2E8F0/475569?text=${(user.displayName || 'U').charAt(0)}`} alt="Profile" width={80} height={80} className="rounded-full" />
                             <div>
-                                <h1 className="text-3xl font-bold">{profile.name || user.displayName}</h1>
+                                <h1 className="text-3xl font-bold text-slate-800">{profile.name || user.displayName}</h1>
                                 <p className="text-slate-500">{user.email}</p>
                             </div>
                         </div>
@@ -113,7 +115,7 @@ export default function DashboardPage() {
                 <div className="container mx-auto px-4 py-12">
                     {isEditing ? (
                         <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border border-slate-200 space-y-6">
-                            <h2 className="text-2xl font-bold">Edit Profile</h2>
+                            <h2 className="text-2xl font-bold text-slate-800">Edit Profile</h2>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
                                 <input type="text" id="name" name="name" defaultValue={profile.name || user.displayName || ''} required className="mt-1 block w-full rounded-md border-slate-300"/>
@@ -144,10 +146,10 @@ export default function DashboardPage() {
                         </form>
                     ) : (
                         <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border border-slate-200 space-y-4">
-                            <h2 className="text-2xl font-bold">Your Profile</h2>
-                            <div className="flex items-center gap-3"><IconBuilding className="text-slate-500"/> <span className="font-semibold">College:</span> {profile.college || 'Not specified'}</div>
-                            <div className="flex items-center gap-3"><IconBook className="text-slate-500"/> <span className="font-semibold">Course:</span> {profile.course || 'Not specified'}</div>
-                            <div className="flex items-center gap-3"><IconMapPin className="text-slate-500"/> <span className="font-semibold">Location:</span> {profile.location || 'Not specified'}</div>
+                            <h2 className="text-2xl font-bold text-slate-800">Your Profile</h2>
+                            <div className="flex items-center gap-3"><IconBuilding className="text-slate-500"/> <span className="font-semibold text-slate-700">College:</span> <span className="text-slate-600">{profile.college || 'Not specified'}</span></div>
+                            <div className="flex items-center gap-3"><IconBook className="text-slate-500"/> <span className="font-semibold text-slate-700">Course:</span> <span className="text-slate-600">{profile.course || 'Not specified'}</span></div>
+                            <div className="flex items-center gap-3"><IconMapPin className="text-slate-500"/> <span className="font-semibold text-slate-700">Location:</span> <span className="text-slate-600">{profile.location || 'Not specified'}</span></div>
                         </div>
                     )}
                     <div className="max-w-2xl mx-auto">

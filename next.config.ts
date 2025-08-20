@@ -7,9 +7,10 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'placehold.co' },
       { protocol: 'https', hostname: 'img.youtube.com' },
       { protocol: 'https', hostname: 'i.ytimg.com' },
+      { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
       {
         protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com', // <-- ADD THIS
+        hostname: 'lh3.googleusercontent.com', // <-- ADD THIS
       },
     ],
   },

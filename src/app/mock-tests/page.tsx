@@ -4,6 +4,7 @@ import { AvailableExams } from "@/components/mock-tests/AvailableExams";
 import { RecentTestResults } from "@/components/mock-tests/RecentTestResults";
 import { SubjectPerformance } from "@/components/mock-tests/SubjectPerformance";
 import { IconClipboardCheck } from "@/components/ui/Icons";
+import { PracticeSections } from "@/components/mock-tests/PracticeSections";
 
 export default function MockTestsPage() {
   return (
@@ -14,11 +15,12 @@ export default function MockTestsPage() {
             <IconClipboardCheck className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
             <h1 className="text-4xl font-bold mb-2">Mock Tests & Practice Papers</h1>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Comprehensive practice tests for NIMCET, CUET PG MCA, and MAH MCA CET with detailed analysis and performance tracking.
+                Comprehensive practice tests for NIMCET, CUET PG MCA, and MAH MCA CET.
             </p>
         </section>
 
         <AvailableExams />
+        <PracticeSections />
 
         <section className="bg-slate-50">
             <div className="container mx-auto px-4 py-16">
