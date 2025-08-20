@@ -1,18 +1,15 @@
 // src/app/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { Features } from "@/components/landing/Features";
 import { QuickAccess } from "@/components/landing/QuickAccess";
 
+// Note: We no longer import a HorizontalNavbar here. The main layout.tsx handles it.
 export default function LandingPage() {
     return (
-        <div className="bg-white">
-            <Navbar />
-            <main>
-                <Hero />
-                <Features />
-                <QuickAccess />
-            </main>
-        </div>
+        <main>
+            <Hero />
+            <Features />
+            <QuickAccess />
+        </main>
     );
 }

@@ -1,5 +1,5 @@
 // src/app/success-stories/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
+
 import { StoryList } from "@/components/success-stories/StoryList";
 import { ShareJourneyForm } from "@/components/success-stories/ShareJourneyForm";
 import { IconTrophy } from "@/components/ui/Icons";
@@ -47,8 +47,6 @@ export default async function SuccessStoriesPage() {
   const stories = await getSuccessStories();
 
   return (
-    <div className="bg-white text-slate-800 min-h-screen">
-      <Navbar />
       <main className="pt-16">
         <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
             <IconTrophy className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
@@ -69,6 +67,5 @@ export default async function SuccessStoriesPage() {
             </div>
         </div>
       </main>
-    </div>
   );
 }

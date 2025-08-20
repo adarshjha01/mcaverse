@@ -1,6 +1,6 @@
 // src/components/common/ComingSoonPage.tsx
 import Link from 'next/link';
-import { Navbar } from '@/components/landing/Navbar'; // Corrected: Using named import
+import { HorizontalNavbar } from '@/components/landing/HorizontalNavbar'; // Corrected: Using named import
 // NOTE: We don't need to import the Footer here because it's already in the main layout.tsx
 
 // Icon for the page
@@ -18,7 +18,7 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ featureName }) =
   return (
     // The main layout now handles the background color and footer
     <>
-      <Navbar />
+      <HorizontalNavbar />
       {/* Updated section with white background to match the homepage theme */}
       <main className="flex-grow flex items-center justify-center text-center py-20 bg-white">
         <div className="container mx-auto px-4">

@@ -1,5 +1,4 @@
 // src/app/about/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { FounderProfile } from "@/components/about/FounderProfile";
 import { Achievements } from "@/components/about/Achievements";
 import { JourneyTimeline } from "@/components/about/JourneyTimeline";
@@ -9,8 +8,6 @@ import { IconUserCircle } from "@/components/ui/Icons";
 
 export default function AboutPage() {
   return (
-    <div className="bg-white text-slate-800">
-      <Navbar />
       <main className="pt-16">
         {/* Page Header */}
         <section className="py-16 text-center">
@@ -28,7 +25,5 @@ export default function AboutPage() {
         <ValuesMissionVision />
         <JoinMission />
       </main>
-      {/* Footer is now handled by the main layout.tsx and has been removed from here */}
-    </div>
   );
 }

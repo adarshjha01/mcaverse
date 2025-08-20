@@ -1,5 +1,5 @@
 // src/app/mock-tests/[exam]/[testType]/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
+
 import { TestList } from "@/components/mock-tests/TestList";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -26,8 +26,6 @@ export default function TestListPage({ params }: { params: { exam: string, testT
     }
 
     return (
-        <div className="bg-white text-slate-800 min-h-screen">
-            <Navbar />
             <main className="pt-16">
                 <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
                     <h1 className="text-4xl font-bold mb-2">{examDetails.name} - {pageTitle}</h1>
@@ -39,6 +37,5 @@ export default function TestListPage({ params }: { params: { exam: string, testT
                     <TestList testType={params.testType} />
                 </div>
             </main>
-        </div>
     );
 }

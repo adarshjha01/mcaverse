@@ -1,10 +1,10 @@
-// src/components/landing/Navbar.tsx
+// src/components/landing/HorizontalNavbar.tsx
 "use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
@@ -18,83 +18,64 @@ const IconMic = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/200
 const IconUsers = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>;
 const IconMenu = ({ className = "w-6 h-6" }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}><path fillRule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 01-.75-.75z" clipRule="evenodd" /></svg>;
 const IconX = ({ className = "w-6 h-6" }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}><path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" /></svg>;
-const IconUserCircle = ({ className = "w-6 h-6" }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}><path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" /></svg>;
 
-export const Navbar = () => {
-    const { user } = useAuth();
+export const HorizontalNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
-    const router = useRouter();
 
-    const handleLogout = async () => {
-        await signOut(auth);
-        router.push('/');
-    };
-    
     const navLinks = [
         { href: "/", label: "Home", icon: null },
-        { href: "/mock-tests", label: "Mock Tests", icon: <IconFileText /> },
+        { href: "/videos", label: "Video Lectures", icon: <IconVideo /> },
+        { href: "/mock-tests", label: "Practice", icon: <IconFileText /> },
         { href: "/ai-assistant", label: "AI Assistant", icon: <IconBot /> },
-        { href: "/videos", label: "Videos", icon: <IconVideo /> },
         { href: "/success-stories", label: "Success Stories", icon: <IconTrophy /> },
         { href: "/podcast", label: "Podcast", icon: <IconMic /> },
         { href: "/community", label: "Community", icon: <IconUsers /> },
-        { href: "/about", label: "About", icon: null },
+        { href: "/about", label: "About Us", icon: null },
     ];
 
     return (
         <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-slate-200 dark:border-slate-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
+                    <div className="flex-shrink-0">
                         <Link href="/" className="flex items-center space-x-3">
                             <Image src="/mcaverse-logo.png" alt="MCAverse Logo" width={32} height={32} className="rounded-full" />
                             <span className="font-bold text-xl text-slate-800 dark:text-white">MCAverse</span>
                         </Link>
                     </div>
-                    <div className="hidden md:flex flex-1 items-center justify-center">
-                        <nav className="flex items-center space-x-1 lg:space-x-2">
-                            {navLinks.map((link) => {
-                                const isActive = pathname === link.href;
-                                return (
-                                    <Link key={link.label} href={link.href} className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                                        isActive 
-                                        ? 'bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white' 
-                                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                                    }`}>
-                                        {link.icon}
-                                        <span>{link.label}</span>
-                                    </Link>
-                                );
-                            })}
-                        </nav>
-                    </div>
-                    <div className="hidden md:flex items-center justify-end space-x-4">
-                        {user ? (
-                             <div className="flex items-center gap-4">
-                                <Link href="/dashboard" className="flex items-center gap-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">
-                                    {user.photoURL ? (
-                                        <Image src={user.photoURL} alt="Profile" width={28} height={28} className="rounded-full"/>
-                                    ) : (
-                                        <IconUserCircle className="w-7 h-7"/>
-                                    )}
+                    <div className="hidden md:flex items-center space-x-2">
+                        {navLinks.map((link) => {
+                            const isActive = pathname === link.href;
+                            return (
+                                <Link key={link.label} href={link.href} className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    isActive 
+                                    ? 'text-indigo-600 bg-indigo-50 dark:bg-slate-700 dark:text-white' 
+                                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`}>
+                                    {link.icon}
+                                    <span>{link.label}</span>
                                 </Link>
-                                <button onClick={handleLogout} className="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-600">Logout</button>
-                             </div>
-                        ) : (
-                            <Link href="/login" className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700">Login</Link>
-                        )}
+                            );
+                        })}
+                        <Link href="/login" className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 ml-4">Login</Link>
                     </div>
-                    <div className="md:hidden flex items-center">
-                        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
+                    <div className="md:hidden">
+                        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
                             {isMenuOpen ? <IconX /> : <IconMenu />}
                         </button>
                     </div>
                 </div>
             </div>
             {isMenuOpen && (
-                <div className="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm">
-                    {/* Mobile menu content needs similar updates */}
+                <div className="md:hidden p-4 space-y-2">
+                    {navLinks.map((link) => (
+                        <Link key={link.label} href={link.href} className="flex items-center gap-3 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800">
+                            {link.icon}
+                            <span>{link.label}</span>
+                        </Link>
+                    ))}
+                    <Link href="/login" className="block w-full text-center bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700">Login</Link>
                 </div>
             )}
         </header>

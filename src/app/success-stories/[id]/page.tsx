@@ -1,5 +1,5 @@
 // src/app/success-stories/[id]/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
+
 import { db } from "@/lib/firebaseAdmin";
 import { Timestamp } from "firebase-admin/firestore";
 import { notFound } from "next/navigation";
@@ -42,8 +42,6 @@ export default async function StoryDetailPage({ params }: { params: { id: string
   const story = await getStoryDetails(params.id);
 
   return (
-    <div className="bg-white text-slate-800 min-h-screen">
-      <Navbar />
       <main className="pt-16">
         <div className="container mx-auto px-4 py-16">
             <div className="max-w-3xl mx-auto">
@@ -78,6 +76,5 @@ export default async function StoryDetailPage({ params }: { params: { id: string
             </div>
         </div>
       </main>
-    </div>
   );
 }

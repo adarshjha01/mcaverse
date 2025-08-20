@@ -1,5 +1,4 @@
 // src/app/ai-assistant/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { FeaturesGrid } from "@/components/ai/FeaturesGrid";
 import { AnalysisInAction } from "@/components/ai/AnalysisInAction";
 import { PerformanceDashboard } from "@/components/ai/PerformanceDashboard";
@@ -9,8 +8,6 @@ const IconBot = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/200
 
 export default function AIAssistantPage() {
   return (
-    <div className="bg-slate-50 text-slate-800">
-      <Navbar />
       <main className="pt-16">
         {/* Header */}
         <section className="py-20 text-center bg-white border-b border-slate-200">
@@ -40,6 +37,5 @@ export default function AIAssistantPage() {
 
         <CtaSection />
       </main>
-    </div>
   );
 }

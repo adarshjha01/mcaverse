@@ -1,13 +1,11 @@
 // src/app/podcast/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
+
 import { RecentEpisodes } from "@/components/podcast/RecentEpisodes";
 import { GuestApplicationForm } from "@/components/podcast/GuestApplicationForm";
 import { IconMic } from "@/components/ui/Icons";
 
 export default function PodcastPage() {
   return (
-    <div className="bg-slate-50 text-slate-800">
-      <Navbar />
       <main className="pt-16">
         <section className="py-16 text-center bg-white border-b border-slate-200">
           <IconMic className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
@@ -27,6 +25,5 @@ export default function PodcastPage() {
             </div>
         </div>
       </main>
-    </div>
   );
 }

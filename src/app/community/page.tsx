@@ -1,5 +1,4 @@
 // src/app/community/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { DiscussionList } from "@/components/community/DiscussionList";
 import { ConnectWithUs } from "@/components/community/ConnectWithUs";
 import { IconUsers } from "@/components/ui/Icons";
@@ -49,8 +48,6 @@ export default async function CommunityPage() {
   const discussions = await getDiscussions();
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-screen">
-      <Navbar />
       <main className="pt-16">
         <section className="py-16 text-center bg-white border-b border-slate-200">
           <IconUsers className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
@@ -71,6 +68,5 @@ export default async function CommunityPage() {
             </div>
         </div>
       </main>
-    </div>
   );
 }

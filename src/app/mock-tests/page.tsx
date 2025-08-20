@@ -1,5 +1,5 @@
+
 // src/app/mock-tests/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { AvailableExams } from "@/components/mock-tests/AvailableExams";
 import { RecentTestResults } from "@/components/mock-tests/RecentTestResults";
 import { SubjectPerformance } from "@/components/mock-tests/SubjectPerformance";
@@ -8,9 +8,8 @@ import { PracticeSections } from "@/components/mock-tests/PracticeSections";
 
 export default function MockTestsPage() {
   return (
-    <div className="bg-white text-slate-800 min-h-screen">
-      <Navbar />
-      <main className="pt-16">
+    // The main layout now handles the navbar, so we remove it from here
+    <main className="pt-16">
         <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
             <IconClipboardCheck className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
             <h1 className="text-4xl font-bold mb-2">Mock Tests & Practice Papers</h1>
@@ -18,10 +17,8 @@ export default function MockTestsPage() {
                 Comprehensive practice tests for NIMCET, CUET PG MCA, and MAH MCA CET.
             </p>
         </section>
-
         <AvailableExams />
         <PracticeSections />
-
         <section className="bg-slate-50">
             <div className="container mx-auto px-4 py-16">
                 <div className="grid lg:grid-cols-3 gap-12">
@@ -34,7 +31,6 @@ export default function MockTestsPage() {
                 </div>
             </div>
         </section>
-      </main>
-    </div>
+    </main>
   );
 }

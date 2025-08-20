@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { Navbar } from "@/components/landing/Navbar";
 import { storage } from '@/lib/firebaseClient';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Image from 'next/image';
@@ -94,8 +93,6 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="bg-slate-50 min-h-screen">
-            <Navbar />
             <main className="pt-16">
                 <section className="py-12 bg-white border-b border-slate-200">
                     <div className="container mx-auto px-4 flex justify-between items-center">
@@ -157,6 +154,5 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </main>
-        </div>
     );
 }

@@ -1,5 +1,4 @@
 // src/app/videos/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
 import { VideoDashboard } from "@/components/videos/VideoDashboard";
 import { IconVideo } from "@/components/ui/Icons";
 import { getCourseData } from "@/app/actions"; // Import the new action
@@ -9,8 +8,6 @@ export default async function VideosPage() {
   const courseData = await getCourseData();
 
   return (
-    <div className="bg-white text-slate-800 min-h-screen">
-      <Navbar />
       <main className="pt-16">
         <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
             <IconVideo className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
@@ -25,6 +22,5 @@ export default async function VideosPage() {
             <VideoDashboard initialCourseData={courseData} />
         </div>
       </main>
-    </div>
   );
 }

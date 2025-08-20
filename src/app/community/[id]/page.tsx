@@ -1,5 +1,5 @@
 // src/app/community/[id]/page.tsx
-import { Navbar } from "@/components/landing/Navbar";
+
 import { db } from "@/lib/firebaseAdmin";
 import { Timestamp } from "firebase-admin/firestore";
 import { notFound } from "next/navigation";
@@ -45,7 +45,7 @@ export default async function DiscussionDetailPage({ params }: { params: { id: s
 
     return (
         <div className="bg-slate-50 min-h-screen">
-            <Navbar />
+            <HorizontalNavbar />
             <main className="container mx-auto px-4 py-24">
                 <div className="max-w-3xl mx-auto">
                     <Link href="/community" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 mb-6 inline-block">&larr; Back to all discussions</Link>
