@@ -9,6 +9,7 @@ import { useAuth } from '@/components/auth/AuthProvider';
 type Lecture = { id: string; title: string; youtubeLink: string; };
 type Topic = { name: string; lectures: Lecture[]; };
 type Subject = { subject: string; topics: Topic[]; };
+type Progress = { completed: string[], revision: string[] };
 
 const IconStar = ({ className = "w-5 h-5", filled = false }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -45,6 +46,8 @@ const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, si
     );
 };
 
+
+
 // --- Main Dashboard Component ---
 export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subject[] }) => {
     const { user } = useAuth();
@@ -57,7 +60,7 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         if (user) {
             fetch(`/api/video-progress?userId=${user.uid}`)
                 .then(res => res.json())
-                .then(progress => {
+                .then((progress: Progress) => {
                     setCompletedLectures(new Set(progress.completed));
                     setRevisionLectures(new Set(progress.revision));
                 });
@@ -81,7 +84,7 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
 
     const overallProgress = totalLectures > 0 ? (completedLectures.size / totalLectures) * 100 : 0;
 
-    const updateVideoProgress = async (lectureId: string, type: 'completed' | 'revision', isAdding: boolean) => {
+    const updateVideoProgressAPI = async (lectureId: string, type: 'completed' | 'revision', isAdding: boolean) => {
         if (!user) return;
         await fetch('/api/video-progress', {
             method: 'POST',
@@ -90,22 +93,28 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         });
     };
 
-    const handleToggleLecture = (id: string) => {
-        if (!user) { alert("Please log in to track your progress."); return; }
+   const handleToggleLecture = (id: string) => {
+        if (!user) {
+            alert("Please log in to track your progress.");
+            return;
+        }
         const newSet = new Set(completedLectures);
         const isAdding = !newSet.has(id);
         if (isAdding) newSet.add(id); else newSet.delete(id);
         setCompletedLectures(newSet);
-        updateVideoProgress(id, 'completed', isAdding);
+        updateVideoProgressAPI(id, 'completed', isAdding);
     };
     
     const handleToggleRevision = (id: string) => {
-        if (!user) { alert("Please log in to save your revisions."); return; }
+        if (!user) {
+            alert("Please log in to save your revisions.");
+            return;
+        }
         const newSet = new Set(revisionLectures);
         const isAdding = !newSet.has(id);
         if (isAdding) newSet.add(id); else newSet.delete(id);
         setRevisionLectures(newSet);
-        updateVideoProgress(id, 'revision', isAdding);
+        updateVideoProgressAPI(id, 'revision', isAdding);
     };
     const toggleSubject = (subject: string) => setOpenSubjects(prev => {
         const newSet = new Set(prev);
