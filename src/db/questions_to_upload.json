@@ -1,0 +1,362 @@
+[
+  {
+    "exam_id": "nimcet",
+    "year": 2022,
+    "subject": "Mathematics",
+    "topic": "Logarithmic",
+    "question_text": "The value of 3^(3 - log₃5) is",
+    "options": [
+      "9/5",
+      "5/9",
+      "27/5",
+      "5/27"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "Using log properties, 3^(3 - log₃5) = 3^3 / 3^(log₃5) = 27 / 5.",
+    "difficulty": "easy",
+    "tags": [
+      "PYQ",
+      "logarithms",
+      "2022"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2021,
+    "subject": "Mathematics",
+    "topic": "Logarithmic",
+    "question_text": "If log(1 - x + x²) = a₁x + a₂x² + a₃x³ + ..., then a₃ + a₆ + a₉ + ... is equal to",
+    "options": [
+      "log 2",
+      "2/3 * log 2",
+      "1/3 * log 2",
+      "2 log 2"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "This question involves the expansion of log(1+x³) and requires knowledge of series.",
+    "difficulty": "hard",
+    "tags": [
+      "PYQ",
+      "logarithms",
+      "series expansion",
+      "2021"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2019,
+    "subject": "Mathematics",
+    "topic": "Logarithmic",
+    "question_text": "Solution set of inequality log₃((x+2)(x+4)) + log₁/₃(x+2) < 1/2 * log√₃(7) is",
+    "options": [
+      "(-2, -1)",
+      "(-2, 3)",
+      "(-1, 3)",
+      "(3, ∞)"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "This problem requires combining logarithmic terms and solving the resulting inequality.",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "logarithms",
+      "inequality",
+      "2019"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2014,
+    "subject": "Mathematics",
+    "topic": "Logarithmic",
+    "question_text": "If (x₀, y₀) is the solution of the equations: (2x)^ln(2) = (3y)^ln(3) and 3^ln(x) = 2^ln(y), then x₀ is",
+    "options": [
+      "1/6",
+      "1/3",
+      "1/2",
+      "6"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "Requires taking logarithms on both sides of the equations to solve the system.",
+    "difficulty": "hard",
+    "tags": [
+      "PYQ",
+      "logarithms",
+      "system of equations",
+      "2014"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "Mathematics",
+    "topic": "Logarithmic",
+    "question_text": "If logₓy = 100 and log₂x = 10, then the value of y is",
+    "options": [
+      "2^10",
+      "2^100",
+      "2^1000",
+      "2^10000"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "Use the change of base formula and substitution to find the value of y.",
+    "difficulty": "easy",
+    "tags": [
+      "PYQ",
+      "logarithms",
+      "2013"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2022,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "A survey is done among a population of 200 people who like either tea or coffee. It is found that 60% of the population like tea and 72% of the population like coffee. Let x be the number of people who like both tea & coffee. Let m ≤ x ≤ n then choose the correct option.",
+    "options": [
+      "n - m = 56",
+      "n - m = 28",
+      "n - m = 32",
+      "n + m = 92"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "Use the formula n(A U B) = n(A) + n(B) - n(A ∩ B) to find the range for x.",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "sets",
+      "venn diagrams",
+      "2022"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2020,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "There are two sets A and B with |A| = m and |B| = n. If |P(A)| - |P(B)| = 112 then choose the wrong option (where P(A) denotes the power set of A)",
+    "options": [
+      "m + n = 11",
+      "2n - m = 1",
+      "2m - n = 1",
+      "3n - m = 5"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "|P(A)| = 2^m. The equation is 2^m - 2^n = 112. Factoring gives 2^n(2^(m-n) - 1) = 16 * 7. This implies n=4 and m=7.",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "sets",
+      "power set",
+      "2020"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2021,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "Suppose A₁, A₂, ..., A₃₀ are 30 sets each with five elements and B₁, B₂, ..., Bₙ are n sets each with three elements such that U(Aᵢ) = U(Bⱼ) = S and each element of S belongs to exactly ten of the Aᵢ's and exactly 9 of the Bⱼ's. Then n =",
+    "options": [
+      "15",
+      "45",
+      "75",
+      "90"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "This is a counting problem. The total number of elements counted with multiplicity is 30*5 = 150. Since each element is counted 10 times, |S| = 150/10 = 15. For the B sets, n*3 = 15*9, so n=45.",
+    "difficulty": "hard",
+    "tags": [
+      "PYQ",
+      "sets",
+      "counting principle",
+      "2021"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2020,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "If A = {x, y, z} then the number of subsets in power set of A is",
+    "options": [
+      "6",
+      "8",
+      "7",
+      "9"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The power set P(A) has 2^|A| elements. So, |P(A)| = 2^3 = 8. The number of subsets of P(A) is 2^|P(A)| = 2^8 = 256. There seems to be an error in the question's provided options, it likely meant number of elements in power set.",
+    "difficulty": "easy",
+    "tags": [
+      "PYQ",
+      "sets",
+      "power set",
+      "2020"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2018,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "The function f(x) = log(x + √(x² + 1)) is",
+    "options": [
+      "An even function",
+      "An odd function",
+      "A periodic function",
+      "Neither an even nor an odd function"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "A function is odd if f(-x) = -f(x). f(-x) = log(-x + √(x² + 1)) = log(1 / (x + √(x² + 1))) = -log(x + √(x² + 1)) = -f(x).",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "functions",
+      "odd function",
+      "2018"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "Let A and B two sets containing four and two elements respectively. The number of subsets of the A × B, each having at least three elements is",
+    "options": [
+      "270",
+      "239",
+      "219",
+      "256"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The number of elements in A × B is 4 * 2 = 8. The total number of subsets is 2^8 = 256. We subtract the number of subsets with 0, 1, or 2 elements. 256 - (C(8,0) + C(8,1) + C(8,2)) = 256 - (1 + 8 + 28) = 219.",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "sets",
+      "cartesian product",
+      "subsets",
+      "2017"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "Two finite sets A and B are having m and n elements. The total number of subsets of the first set is 56 more than the total number of subsets of the second set. The value of m and n are",
+    "options": [
+      "7, 6",
+      "6, 3",
+      "5, 3",
+      "8, 7"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The equation is 2^m = 2^n + 56. We need to find powers of 2 that differ by 56. 2^6 = 64 and 2^3 = 8. 64 - 8 = 56. So m=6 and n=3.",
+    "difficulty": "easy",
+    "tags": [
+      "PYQ",
+      "sets",
+      "subsets",
+      "2016"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "Let P and Q denote the complements of two sets P and Q. then, the set (P-Q) U (Q-P) U (P ∩ Q) is",
+    "options": [
+      "P U Q",
+      "P' U Q'",
+      "P ∩ Q",
+      "P' ∩ Q'"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "(P-Q) is P ∩ Q'. (Q-P) is Q ∩ P'. The expression is the symmetric difference united with the intersection, which is equivalent to the union of P and Q.",
+    "difficulty": "easy",
+    "tags": [
+      "PYQ",
+      "sets",
+      "set operations",
+      "2015"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2010,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "How many proper subset of {1, 2, 3, 4, 5, 6, 7} contain the numbers 1 and 7?",
+    "options": [
+      "7",
+      "31",
+      "32",
+      "62"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "Since 1 and 7 must be in the subset, we only need to consider the remaining 5 elements {2, 3, 4, 5, 6}. The number of subsets we can form from these is 2^5 = 32. Since we need proper subsets of the original set, we exclude the set {1, 2, 3, 4, 5, 6, 7} itself, leaving 31 proper subsets.",
+    "difficulty": "medium",
+    "tags": [
+      "PYQ",
+      "sets",
+      "subsets",
+      "2010"
+    ]
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2009,
+    "subject": "Mathematics",
+    "topic": "Sets, Relation & Functions",
+    "question_text": "A set contains (2n+1) elements. If the number of subsets which contain at most n elements is 4096, then the value of n is :",
+    "options": [
+      "15",
+      "21",
+      "6",
+      "28"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The total number of subsets is 2^(2n+1). By symmetry, the number of subsets with at most n elements is half the total number of subsets. So, 2^(2n+1) / 2 = 2^(2n) = 4096. 2^12 = 4096, so 2n=12 and n=6.",
+    "difficulty": "hard",
+    "tags": [
+      "PYQ",
+      "sets",
+      "subsets",
+      "combinatorics",
+      "2009"
+    ]
+  }
+]
