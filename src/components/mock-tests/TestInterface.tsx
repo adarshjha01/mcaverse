@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 
-// (Keep the type definitions as they were)
 type Question = {
   id: string;
   question_text: string;
@@ -55,6 +54,8 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
       return;
     }
 
+    if (isSubmitting) return;
+
     if (timeLeft > 0 && !window.confirm("Are you sure you want to submit the test?")) {
       return;
     }
@@ -78,8 +79,8 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
 
       const result = await response.json();
       
-      // Redirect to a unique results page for this attempt
-      router.push(`/mock-tests/${test.id}/results/${result.attemptId}`);
+      // Redirect to the correct results page URL
+      router.push(`/mock-tests/take/${test.id}/results/${result.attemptId}`);
 
     } catch (error) {
       console.error("Error submitting test:", error);
@@ -101,7 +102,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
         </div>
       </div>
 
-      {currentQuestion && (
+      {currentQuestion ? (
         <div>
           <h2 className="text-xl font-semibold mb-4">Question {currentQuestionIndex + 1} of {questions.length}</h2>
           <p className="text-slate-700 mb-6 whitespace-pre-wrap">{currentQuestion.question_text}</p>
@@ -121,6 +122,10 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
             ))}
           </div>
         </div>
+      ) : (
+          <div className="text-center py-10">
+              <p className="text-slate-500">No questions available for this test.</p>
+          </div>
       )}
 
       <div className="flex justify-between items-center mt-8 pt-6 border-t">
@@ -140,7 +145,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
         </button>
         <button
           onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
-          disabled={currentQuestionIndex === questions.length - 1}
+          disabled={currentQuestionIndex >= questions.length - 1}
           className="bg-slate-200 text-slate-800 font-semibold px-6 py-2 rounded-lg hover:bg-slate-300 disabled:bg-slate-100 disabled:cursor-not-allowed"
         >
           Next

@@ -65,20 +65,24 @@ export const TestResults = ({ attempt, questions }: TestResultsProps) => {
               <p className="font-semibold mb-4">Question {index + 1}: {q.question_text}</p>
               <div className="space-y-2 mb-4">
                 {q.options.map((option, i) => {
-                  let borderColor = 'border-slate-300';
-                  if (i === correctAnswerIndex) borderColor = 'border-green-500';
-                  if (isAttempted && !isCorrect && i === userAnswerIndex) borderColor = 'border-red-500';
+                  let optionClass = 'border-slate-300';
+                  if (i === correctAnswerIndex) {
+                    optionClass = 'bg-green-100 border-green-500 text-green-800';
+                  }
+                  if (isAttempted && !isCorrect && i === userAnswerIndex) {
+                    optionClass = 'bg-red-100 border-red-500 text-red-800';
+                  }
 
                   return (
-                    <div key={i} className={`p-3 rounded-md border-2 ${borderColor}`}>
+                    <div key={i} className={`p-3 rounded-md border-2 ${optionClass}`}>
                       {option}
                     </div>
                   );
                 })}
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-200 text-sm">
-                <p><strong>Your Answer:</strong> <span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{isAttempted ? q.options[userAnswerIndex] : 'Not Attempted'}</span></p>
-                <p><strong>Correct Answer:</strong> <span className="text-green-600">{q.options[correctAnswerIndex]}</span></p>
+              <div className="mt-4 pt-4 border-t border-slate-200 text-sm bg-slate-50 p-4 rounded-md">
+                <p><strong>Your Answer:</strong> <span className={isCorrect ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>{isAttempted ? q.options[userAnswerIndex] : 'Not Attempted'}</span></p>
+                <p><strong>Correct Answer:</strong> <span className="text-green-600 font-semibold">{q.options[correctAnswerIndex]}</span></p>
                 <p className="mt-2"><strong>Explanation:</strong> {q.explanation}</p>
               </div>
             </div>
