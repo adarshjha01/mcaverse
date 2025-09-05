@@ -24,26 +24,31 @@ export async function GET(request: Request) {
 
         const attempts = await Promise.all(attemptsSnapshot.docs.map(async (doc) => {
             const attemptData = doc.data();
+            
+            // Gracefully handle cases where test might be missing
             const testDoc = await db.collection('mockTests').doc(attemptData.testId).get();
-            const testData = testDoc.data();
+            const testTitle = testDoc.exists ? testDoc.data()?.title : 'Unknown Test';
 
+            // Ensure submittedAt is a valid timestamp before converting
             const submittedAt = attemptData.submittedAt as Timestamp;
+            const submittedAtISO = submittedAt?.toDate ? submittedAt.toDate().toISOString() : new Date().toISOString();
 
             return {
                 id: doc.id,
                 testId: attemptData.testId,
-                title: testData?.title || 'Unknown Test',
-                score: attemptData.score,
-                totalAttempted: attemptData.totalAttempted,
-                correctCount: attemptData.correctCount,
-                incorrectCount: attemptData.incorrectCount,
-                submittedAt: submittedAt.toDate().toISOString(),
+                title: testTitle,
+                score: attemptData.score || 0,
+                totalAttempted: attemptData.totalAttempted || 0,
+                correctCount: attemptData.correctCount || 0,
+                incorrectCount: attemptData.incorrectCount || 0,
+                submittedAt: submittedAtISO,
             };
         }));
 
         return NextResponse.json(attempts);
     } catch (error) {
-        console.error("API GET Error:", error);
-        return NextResponse.json({ error: 'Failed to fetch recent attempts' }, { status: 500 });
+        // Log the detailed error on the server for debugging
+        console.error("API Route Error:", error);
+        return NextResponse.json({ error: 'Failed to fetch recent attempts due to a server error.' }, { status: 500 });
     }
 }

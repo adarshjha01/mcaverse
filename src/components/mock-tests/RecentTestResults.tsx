@@ -6,6 +6,7 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import Link from 'next/link';
 import { IconBarChart, IconRefreshCw } from '@/components/ui/Icons';
 
+// Define a type for the structure of a test result
 type TestResult = {
     id: string;
     testId: string;
@@ -22,8 +23,14 @@ export const RecentTestResults = () => {
     const [results, setResults] = useState<TestResult[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Fetch data when the component mounts or the user changes
     useEffect(() => {
         if (user) {
+            setLoading(true);
+            
+            // --- ADD THIS LOG ---
+            console.log("Frontend: Fetching results for userId:", user.uid);
+
             fetch(`/api/mock-tests/recent-attempts?userId=${user.uid}`)
                 .then(res => res.json())
                 .then(data => {
@@ -31,16 +38,19 @@ export const RecentTestResults = () => {
                     setLoading(false);
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error("Failed to fetch recent results:", err);
                     setLoading(false);
                 });
         } else {
+            // If no user, stop loading and show the empty state
             setLoading(false);
+            setResults([]);
         }
     }, [user]);
 
+    // ... rest of the component is unchanged
     if (loading) {
-        return <div>Loading recent results...</div>;
+        return <div className="text-center text-slate-500">Loading recent results...</div>;
     }
 
     return (
@@ -81,7 +91,9 @@ export const RecentTestResults = () => {
                         </div>
                     ))
                 ) : (
-                    <p className="text-slate-500 text-center">You have not attempted any tests yet.</p>
+                    <div className="text-center py-10 bg-slate-50 rounded-lg">
+                        <p className="text-slate-500">You have not attempted any tests yet.</p>
+                    </div>
                 )}
             </div>
         </div>
