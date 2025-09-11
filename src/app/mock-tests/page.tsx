@@ -17,8 +17,9 @@ export default function MockTestsPage() {
         </section>
         
         {/* These two components align with your vision */}
-        <AvailableExams />
         <PracticeSections />
+        <AvailableExams />
+        
 
         <section className="bg-slate-50">
             <div className="container mx-auto px-4 py-16">

@@ -21,7 +21,7 @@ export default function ExamCategoryPage({ params }: { params: { exam: string } 
     return (
         <main className="pt-16">
             <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
-                <h1 className="text-4xl font-bold mb-2">{examDetails.name} Tests</h1>
+                <h1 className="text-4xl font-bold mb-2">{examDetails.name} Tests Coming Soon...</h1>
                 <p className="text-lg text-slate-600">Select a category to start your practice.</p>
             </section>
             <div className="container mx-auto px-4 py-16">

@@ -1,0 +1,16 @@
+[
+  {
+    "nimcet_2009_q1_ques": "\\tan^{-1}\\frac{1}{1+2} + \\tan^{-1}\\frac{1}{1+(2)(3)} + \\ldots + \\tan^{-1}\\frac{1}{1+n(n+1)}",
+    "nimcet_2009_q1_exp1": "\\tan^{-1}x - \\tan^{-1}y = \\tan^{-1}\\frac{x-y}{1+xy}",
+    "nimcet_2009_q1_exp2": "\\tan^{-1}\\frac{1}{1+n(n+1)} = \\tan^{-1}(n+1) - \\tan^{-1}n",
+    "nimcet_2009_q1_exp3": "\\tan^{-1}(n+1) - \\tan^{-1}1",
+    "nimcet_2009_q1_exp4": "\\tan\\theta = \\frac{n}{n+2}",
+    "nimcet_2009_q3_ques": "\\tan^{-1}\\sqrt{x(x+1)} + \\sin^{-1}\\sqrt{x+x-1} = \\frac{\\pi}{2}",
+    "nimcet_2009_q3_exp1": "\\cos^{-1}\\sqrt{x+x-1} = \\tan^{-1}\\sqrt{x(x+1)}",
+    "nimcet_2009_q3_exp2": "x(x+1) = \\frac{1}{x+x-1}",
+    "nimcet_2009_q6_ques": "\\int_0^{\\pi/6} \\frac{x}{1+\\cos^2 x} dx",
+    "nimcet_2009_q7_ques": "\\tan^{-1} 2x + \\tan^{-1} \\frac{1}{1+(3)(4)} + \\tan^{-1} \\frac{1}{1-(3)(-4)}",
+    "nimcet_2009_q7_exp1": "\\tan^{-1} \\frac{1}{1-x}",
+    "nimcet_2009_q56_fig": "\\text{Figure with numbers: } \\begin{matrix} 6 & 7 \\\\ 3 & 5 \\\\ ? & 9 \\\\ 7 & 9 \\end{matrix}"
+  }
+]
