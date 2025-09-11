@@ -25,14 +25,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install ts-node and dotenv
-        run: npm install --save-dev ts-node dotenv
+      - name: Install script-specific dependencies
+        run: npm install --save-dev ts-node dotenv typescript
+
+      - name: Compile TypeScript script
+        run: npx tsc scripts/create-dpp.ts --esModuleInterop --module CommonJS
 
       - name: Run DPP creation script
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-        # FIX: Using the Node.js loader flag for ts-node, which is more reliable for ESM.
-        run: node --loader ts-node/esm scripts/create-dpp.ts
+        run: node scripts/create-dpp.js
 
