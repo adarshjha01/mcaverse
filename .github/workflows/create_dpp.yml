@@ -33,6 +33,6 @@ jobs:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
           FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-        # FIX: Added the --esm flag to correctly run the TypeScript ES Module
-        run: npx ts-node --esm scripts/create-dpp.ts
+        # FIX: Using the Node.js loader flag for ts-node, which is more reliable for ESM.
+        run: node --loader ts-node/esm scripts/create-dpp.ts
 
