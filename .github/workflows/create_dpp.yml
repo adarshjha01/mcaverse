@@ -1,0 +1,37 @@
+# .github/workflows/create_dpp.yml
+name: Create Daily Practice Problem
+
+on:
+  # Runs every day at 07:15 UTC (12:45 PM IST)
+  schedule:
+    - cron: '15 7 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  create_dpp:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install ts-node and dotenv
+        run: npm install --save-dev ts-node dotenv
+
+      - name: Run DPP creation script
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+        run: npx ts-node scripts/create-dpp.ts
+
