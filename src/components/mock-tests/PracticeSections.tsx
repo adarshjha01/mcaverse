@@ -10,6 +10,7 @@ const practiceTypes = [
         description: "Build a habit with daily problems and track your streak.",
         icon: <IconFlame className="text-red-500" />,
         buttonText: "Start Daily Practice",
+        href: "/dpp"
     },
     {
         id: "topic-wise",
@@ -17,6 +18,7 @@ const practiceTypes = [
         description: "Master individual topics and pinpoint your specific weak areas.",
         icon: <IconFocus className="text-orange-500" />,
         buttonText: "View Topics",
+        href: "/mock-tests/topic-wise"
     },
     {
         id: "subject-wise",
@@ -24,6 +26,7 @@ const practiceTypes = [
         description: "Strengthen your core subjects with dedicated practice tests.",
         icon: <IconLibrary className="text-purple-500" />,
         buttonText: "View Subjects",
+        href: "/mock-tests/subject-wise"
     }
     
 ];
@@ -41,7 +44,7 @@ export const PracticeSections = () => {
                             </div>
                             <h2 className="text-xl font-bold text-slate-800">{test.title}</h2>
                             <p className="text-slate-500 text-sm mb-6 flex-grow">{test.description}</p>
-                            <Link href={`/${test.id}`} className="mt-auto w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                            <Link href={test.href} className="mt-auto w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">
                                 {test.buttonText}
                             </Link>
                         </div>
