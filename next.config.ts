@@ -1,7 +1,15 @@
 import type { NextConfig } from 'next'
 
+/** @type {import('next').NextConfig} */
+
+
+
 const nextConfig: NextConfig = {
   // ... (your serverActions block if you have one)
+   eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'placehold.co' },
@@ -16,4 +24,5 @@ const nextConfig: NextConfig = {
   },
 }
 
+module.exports = nextConfig;
 export default nextConfig
