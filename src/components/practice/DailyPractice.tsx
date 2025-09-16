@@ -5,7 +5,18 @@ import { useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 
-export const DailyPractice = ({ dpp }: { dpp: any }) => {
+type DppQuestion = {
+    id: string;
+    question_text: string;
+    options: string[];
+};
+
+type Dpp = {
+    id: string;
+    questions: DppQuestion[];
+};
+export const DailyPractice = ({ dpp }: { dpp: Dpp }) => {
+
     const { user } = useAuth();
     const router = useRouter();
     const [answers, setAnswers] = useState<{ [key: string]: number }>({});
@@ -48,8 +59,8 @@ export const DailyPractice = ({ dpp }: { dpp: any }) => {
 
     return (
         <div className="bg-white p-8 rounded-lg shadow-md border border-slate-200">
-            <h2 className="text-2xl font-bold mb-6">Today's DPP</h2>
-            {dpp.questions.map((q: any, index: number) => (
+            <h2 className="text-2xl font-bold mb-6">Today&apos;s DPP</h2>
+            {dpp.questions.map((q: DppQuestion, index: number) => (
                 <div key={q.id} className="mb-8">
                     <p className="font-semibold mb-4">Question {index + 1}: {q.question_text}</p>
                     <div className="space-y-3">

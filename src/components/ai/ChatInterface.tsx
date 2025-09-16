@@ -3,6 +3,7 @@
 
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+// Make sure getAIResponse is exported from actions
 import { getAIResponse } from '@/app/actions';
 import { IconSendPurple } from '@/components/ui/Icons';
 
@@ -27,8 +28,9 @@ export const ChatInterface = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        // Check if state and its properties exist before updating messages
         if (state?.response) {
-            setMessages(prev => [...prev, { role: 'model', text: state.response }]);
+            setMessages(prev => [...prev, { role: 'model', text: state.response as string }]);
         }
         if (state?.error) {
             setMessages(prev => [...prev, { role: 'model', text: `Error: ${state.error}` }]);
@@ -36,7 +38,10 @@ export const ChatInterface = () => {
     }, [state]);
     
     useEffect(() => {
-        chatContainerRef.current?.scrollTo(0, chatContainerRef.current.scrollHeight);
+        // Auto-scroll to the latest message
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo(0, chatContainerRef.current.scrollHeight);
+        }
     }, [messages]);
 
     const handleFormSubmit = (formData: FormData) => {

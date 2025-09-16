@@ -5,6 +5,34 @@ import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { redirect } from 'next/navigation';
 
+// src/app/actions.ts
+
+import { z } from 'zod';
+
+const MessageSchema = z.object({
+  role: z.enum(['user', 'model']),
+  text: z.string(),
+});
+
+const FormStateSchema = z.object({
+  response: z.string().optional(),
+  error: z.string().optional(),
+});
+
+export async function getAIResponse(
+  previousState: z.infer<typeof FormStateSchema> | null,
+  formData: FormData
+): Promise<z.infer<typeof FormStateSchema>> {
+  const prompt = formData.get('prompt') as string;
+  const history = JSON.parse(formData.get('history') as string);
+
+  // Placeholder for your AI logic
+  if (prompt) {
+    return { response: `This is a placeholder response to: "${prompt}"` };
+  } else {
+    return { error: 'Prompt is required.' };
+  }
+}
 // --- Type Definitions for Video Data ---
 type Lecture = {
   id: string;
@@ -19,7 +47,12 @@ type Subject = {
   subject: string;
   topics: Topic[];
 };
-
+type YouTubePlaylistItem = {
+  snippet: {
+    resourceId: { videoId: string };
+    title: string;
+  };
+};
 // --- Function to fetch a single YouTube playlist ---
 async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
     const API_KEY = process.env.YOUTUBE_API_KEY;
@@ -28,12 +61,12 @@ async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
         const res = await fetch(URL, { next: { revalidate: 3600 } });
         if (!res.ok) return [];
         const data = await res.json();
-        return data.items.map((item: any) => ({
-            id: item.snippet.resourceId.videoId,
-            title: item.snippet.title,
-            youtubeLink: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
+        return data.items.map((item: YouTubePlaylistItem) => ({
+        id: item.snippet.resourceId.videoId,
+        title: item.snippet.title,
+        youtubeLink: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
         })).reverse();
-    } catch (error) {
+        } catch (error) {
         console.error(`Failed to fetch playlist ${playlistId}:`, error);
         return [];
     }

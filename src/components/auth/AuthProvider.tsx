@@ -9,7 +9,8 @@ import {
     signInWithEmailAndPassword,
     signOut,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    UserCredential
 } from 'firebase/auth';
 import { auth } from '@/lib/firebaseClient';
 import { useRouter, usePathname } from 'next/navigation';
@@ -18,10 +19,10 @@ import { useRouter, usePathname } from 'next/navigation';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<any>;
-  logIn: (email: string, password: string) => Promise<any>;
-  logOut: () => Promise<any>;
-  signInWithGoogle: () => Promise<any>;
+  signUp: (email: string, password: string) => Promise<UserCredential>;
+  logIn: (email: string, password: string) => Promise<UserCredential>;
+  logOut: () => Promise<void>;
+  signInWithGoogle: () => Promise<UserCredential>;
 }
 
 // Create the context

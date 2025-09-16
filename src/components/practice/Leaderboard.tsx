@@ -3,8 +3,14 @@
 
 import { useState, useEffect } from 'react';
 
+type Leader = {
+  id: string;
+  userName: string;
+  points: number;
+};
+
 export const Leaderboard = () => {
-    const [leaders, setLeaders] = useState<any[]>([]);
+    const [leaders, setLeaders] = useState<Leader[]>([]);
 
     useEffect(() => {
         fetch('/api/leaderboard')

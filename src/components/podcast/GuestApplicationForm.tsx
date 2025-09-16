@@ -49,7 +49,7 @@ export const GuestApplicationForm = () => {
     <div className="bg-white p-8 rounded-lg shadow-lg border border-slate-200 sticky top-24">
       <h2 className="text-2xl font-bold mb-4">Want to be a Guest?</h2>
       <p className="text-slate-600 mb-6">
-        If you're an industry professional, successful alumni, or have valuable insights for MCA students, we'd love to hear from you!
+        If you are an industry professional, successful alumni, or have valuable insights for MCA students, we would love to hear from you!
       </p>
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
         <div>

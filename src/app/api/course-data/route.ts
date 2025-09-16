@@ -11,6 +11,12 @@ type Subject = {
   subject: string;
   topics: { name: string; lectures: Lecture[] }[];
 };
+type YouTubeApiItem = {
+  snippet: {
+    resourceId: { videoId: string };
+    title: string;
+  };
+};
 
 // --- Function to fetch a single YouTube playlist ---
 async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
@@ -20,11 +26,11 @@ async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
         const res = await fetch(URL, { next: { revalidate: 3600 } });
         if (!res.ok) return [];
         const data = await res.json();
-        return data.items.map((item: any) => ({
+        return data.items.map((item: YouTubeApiItem) => ({
             id: item.snippet.resourceId.videoId,
             title: item.snippet.title,
             youtubeLink: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
-        })).reverse();
+        })).reverse();  
     } catch (error) {
         console.error(`Failed to fetch playlist ${playlistId}:`, error);
         return [];

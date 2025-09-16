@@ -7,6 +7,17 @@ type Episode = {
   thumbnailUrl: string;
   description: string;
 };
+type YouTubePlaylistItem = {
+  snippet: {
+    resourceId: { videoId: string };
+    title: string;
+    description: string;
+    thumbnails: {
+      high?: { url: string };
+      default: { url: string };
+    };
+  };
+};
 
 async function getYouTubePlaylistItems(): Promise<Episode[]> {
   const API_KEY = process.env.YOUTUBE_API_KEY;
@@ -17,11 +28,11 @@ async function getYouTubePlaylistItems(): Promise<Episode[]> {
     const res = await fetch(URL, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error('Failed to fetch YouTube playlist');
     const data = await res.json();
-    const episodes: Episode[] = data.items.map((item: any) => ({
-      id: item.snippet.resourceId.videoId,
-      title: item.snippet.title,
-      thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url,
-      description: item.snippet.description.substring(0, 150) + '...',
+    const episodes: Episode[] = data.items.map((item: YouTubePlaylistItem) => ({
+    id: item.snippet.resourceId.videoId,
+    title: item.snippet.title,
+    thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url,
+    description: item.snippet.description.substring(0, 150) + '...',
     }));
     return episodes.reverse();
   } catch (error) {

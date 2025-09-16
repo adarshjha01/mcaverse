@@ -29,7 +29,7 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({ featureName }) =
           <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
             The <span className="font-semibold text-indigo-600">{featureName}</span> feature is currently under construction. 
             <br />
-            We're working hard to bring you an amazing experience. Stay tuned!
+            We are working hard to bring you an amazing experience. Stay tuned!
           </p>
           <Link href="/" className="bg-indigo-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition-colors duration-300">
             Go Back Home

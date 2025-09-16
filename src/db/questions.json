@@ -1,2933 +1,1316 @@
 [
   {
     "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Inverse Trigonometric Functions",
-    "question_text": "If [L:nimcet_2009_q1_ques] then tan Î¸ is equal to",
-    "options": [
-      "n/(n+1)",
-      "(n+1)/(n+2)",
-      "n/(n+2)",
-      "(n-1)/(n+2)"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Using the identity [L:nimcet_2009_q1_exp1], we can write each term as [L:nimcet_2009_q1_exp2]. The sum telescopes to give [L:nimcet_2009_q1_exp3], so [L:nimcet_2009_q1_exp4].",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "inverse trigonometry",
-      "telescoping series"
-    ],
-    "question_id": "nimcet_2009_q1",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Coordinate Geometry",
-    "question_text": "If the distance of any point (x, y) from the origin is defined as d(x, y) = max (|x|, |y|), then the locus of the point (x, y), where d(x, y) = 1, is",
-    "options": [
-      "a square of area 1 sq unit",
-      "a circle of radius 1 unit",
-      "a triangle",
-      "a square of area 4 sq units"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "The condition max(|x|, |y|) = 1 means that either |x| = 1 or |y| = 1 (or both). This gives us four lines: x = Â±1 and y = Â±1, forming a square with vertices at (Â±1, Â±1). The area is 2Ã—2 = 4 sq units.",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "coordinate geometry",
-      "locus"
-    ],
-    "question_id": "nimcet_2009_q2",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Equations",
-    "question_text": "The number of solutions for [L:nimcet_2009_q3_ques] is",
-    "options": [
-      "zero",
-      "one",
-      "two",
-      "infinite"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Rearranging the equation: [L:nimcet_2009_q3_exp1]. For this to have solutions, we need [L:nimcet_2009_q3_exp2]. Squaring both sides gives us a quadratic equation with two solutions.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "equations",
-      "trigonometry"
-    ],
-    "question_id": "nimcet_2009_q3",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Triangle Geometry",
-    "question_text": "Let ABC be an isosceles triangle with AB = BC. If base BC is parallel to x-axis and mâ‚, mâ‚‚ are slopes of medians drawn through the angular points B and C, then",
-    "options": [
-      "mâ‚mâ‚‚ = 1/2",
-      "mâ‚mâ‚‚ = 0",
-      "mâ‚mâ‚‚ = -2",
-      "mâ‚mâ‚‚ = -1/2"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "For an isosceles triangle with AB = BC and BC parallel to x-axis, the medians from B and C have slopes that satisfy the relationship mâ‚mâ‚‚ = -1/2 due to the symmetry of the triangle.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "coordinate geometry",
-      "triangle",
-      "slopes"
-    ],
-    "question_id": "nimcet_2009_q4",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "System of Linear Equations",
-    "question_text": "If abc â‰  0, then the system of equations (b+c)(y+z) - ax = b+c, (c+a)(z+x) - by = c+a, (a+b)(x+y) - cz = a+b has",
-    "options": [
-      "a unique solution",
-      "no solution",
-      "infinite number of solutions",
-      "finitely many solutions"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "The given system can be rewritten in matrix form. Since abc â‰  0 and the coefficients satisfy certain conditions, the system has a unique solution.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "linear algebra",
-      "system of equations"
-    ],
-    "question_id": "nimcet_2009_q5",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Definite Integration",
-    "question_text": "The value of [L:nimcet_2009_q6_ques] is",
-    "options": [
-      "Ï€/6",
-      "Ï€/3",
-      "Ï€/2",
-      "Ï€"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Using the substitution method and properties of definite integrals, this integral evaluates to Ï€/3.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "integration",
-      "definite integral"
-    ],
-    "question_id": "nimcet_2009_q6",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Inverse Trigonometric Functions",
-    "question_text": "If [L:nimcet_2009_q7_ques] then [L:nimcet_2009_q7_exp1] is",
-    "options": [
-      "1/(1-6)",
-      "1/(1-3)",
-      "1/(1-4)",
-      "1/(1-5)"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Using the addition formula for inverse tangent functions and simplifying the expression.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "inverse trigonometry"
-    ],
-    "question_id": "nimcet_2009_q7",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Trigonometric Identities",
-    "question_text": "If A = cosÂ²Î¸ + sinâ´Î¸, then for all values of Î¸",
-    "options": [
-      "13/16 < A â‰¤ 1",
-      "13/16 â‰¤ A â‰¤ 1",
-      "3/4 â‰¤ A â‰¤ 1",
-      "1/4 â‰¤ A â‰¤ 1"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Let sinÂ²Î¸ = t, where 0 â‰¤ t â‰¤ 1. Then A = (1-t) + tÂ² = tÂ² - t + 1. Finding the minimum value by differentiation, we get A_min = 3/4 at t = 1/2, and A_max = 1 at t = 0 or t = 1.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "trigonometry",
-      "optimization"
-    ],
-    "question_id": "nimcet_2009_q8",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "A man has 5 coins, two of which are double-headed, one is double-tailed and two are normal. He shuts his eyes, picks a coin at random and tosses it. The probability that the lower face of the coin is a head is",
-    "options": [
-      "1/5",
-      "2/5",
-      "3/5",
-      "4/5"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "For double-headed coins: P(head on bottom) = 1. For double-tailed coin: P(head on bottom) = 0. For normal coins: P(head on bottom) = 1/2. Overall probability = (2Ã—1 + 1Ã—0 + 2Ã—1/2)/5 = 3/5 = 2/5.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability",
-      "conditional probability"
-    ],
-    "question_id": "nimcet_2009_q9",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Combinatorics",
-    "question_text": "How many different paths in the xy-plane are there from (1, 3) to (5, 6) if a path proceeds one step at a time by going either one step to the right (R) or one step upwards (U)?",
-    "options": [
-      "35",
-      "40",
-      "45",
-      "None of the above"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "To go from (1,3) to (5,6), we need 4 steps right and 3 steps up, for a total of 7 steps. The number of ways is C(7,4) = C(7,3) = 35.",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "combinatorics",
-      "paths"
-    ],
-    "question_id": "nimcet_2009_q10",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Related Rates",
-    "question_text": "Water runs into a conical tank of radius 5 ft and height 10 ft, at a constant rate of 2 ftÂ³/min. How fast is the water level rising when the water is 6 ft deep?",
-    "options": [
-      "2/9Ï€ ft/min",
-      "2/9 ft/min",
-      "Ï€/9 ft/min",
-      "2Ï€/9 ft/min"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Using similar triangles and related rates: V = (1/3)Ï€rÂ²h where r/h = 5/10 = 1/2. So V = (Ï€/12)hÂ³. dV/dt = (Ï€/4)hÂ²(dh/dt). When h=6 and dV/dt=2: 2 = (Ï€/4)(36)(dh/dt), so dh/dt = 2/(9Ï€).",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "calculus",
-      "related rates"
-    ],
-    "question_id": "nimcet_2009_q11",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Vector Algebra",
-    "question_text": "The vector B = 3i + 4k is to be written as the sum of a vector Bâ‚ parallel to A = i + j and a vector Bâ‚‚ perpendicular to A, then Bâ‚ is",
-    "options": [
-      "(3/2)(i + j)",
-      "3(i + j)",
-      "(3/2)(i + j)",
-      "None of these"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Bâ‚ = [(BÂ·A)/|A|Â²]A. Here BÂ·A = (3i+4k)Â·(i+j) = 3, |A|Â² = 2. So Bâ‚ = (3/2)(i+j).",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "vectors",
-      "projection"
-    ],
-    "question_id": "nimcet_2009_q12",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "A and B are independent witnesses in a case. The probability that A speaks the truth is 'x' and that B speaks the truth is 'y'. If A and B agree on a certain statement, the probability that the statement is true is",
-    "options": [
-      "xy/(xy+(1-x)(1-y))",
-      "xy",
-      "(1-x)(1-y)/(xy+(1-x)(1-y))",
-      "(1-x)(1-y)/xy"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "P(statement true | both agree) = P(both agree | true)Ã—P(true) / P(both agree) = xy / [xy + (1-x)(1-y)]",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability",
-      "bayes theorem"
-    ],
-    "question_id": "nimcet_2009_q13",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Combinatorics",
-    "question_text": "There are 10 points in a plane. Out of these, 6 are collinear. The number of triangles formed by joining these points is",
-    "options": [
-      "100",
-      "120",
-      "150",
-      "None of the above"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Total ways to choose 3 points from 10: C(10,3) = 120. But 6 collinear points cannot form triangles: C(6,3) = 20. Number of triangles = 120 - 20 = 100. Wait, let me recalculate: C(10,3) = 120, subtract C(6,3) = 20, so 120-20 = 100. But the answer shows 120, so it might be asking for total combinations.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "combinatorics",
-      "geometry"
-    ],
-    "question_id": "nimcet_2009_q14",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Coordinate Geometry",
-    "question_text": "The straight lines x/a - y/b = k and x/a + y/b = 1/k, kâ‰ 0 meet at",
-    "options": [
-      "a parabola",
-      "an ellipse",
-      "a hyperbola",
-      "a circle"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Solving the system of equations to find the intersection point and then eliminating k gives a hyperbola.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "coordinate geometry",
-      "locus"
-    ],
-    "question_id": "nimcet_2009_q15",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Set Theory",
-    "question_text": "The total number of relations that exist from the set A with m elements into the set AÃ—A is",
-    "options": [
-      "2^(mÂ²)",
-      "2^m",
-      "mÂ²",
-      "None of these"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "A relation from set A to AÃ—A is a subset of AÃ—(AÃ—A). Since |A| = m, |AÃ—A| = mÂ². So |AÃ—(AÃ—A)| = mÂ³. Number of relations = 2^(mÂ³). But this doesn't match options. Let me reconsider: if it's from A to AÃ—A, then it's 2^(mÃ—mÂ²) = 2^(mÂ³). The closest option is 2^(mÂ²).",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "set theory",
-      "relations"
-    ],
-    "question_id": "nimcet_2009_q16",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "Let A and B be two events such that P(AâˆªB) = P(Aâˆ©B) = 1/4 and P(A) = 1/4. Then events A and B are",
-    "options": [
-      "independent but not equally likely",
-      "mutually exclusive and independent",
-      "equally likely and mutually exclusive",
-      "equally likely but not independent"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "From P(AâˆªB) = P(A) + P(B) - P(Aâˆ©B): 1/4 = 1/4 + P(B) - 1/4, so P(B) = 1/4. Since P(A) = P(B) = 1/4, they are equally likely. But P(Aâˆ©B) = 1/4 â‰  P(A)P(B) = 1/16, so they are not independent.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability",
-      "independence"
-    ],
-    "question_id": "nimcet_2009_q17",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Matrix Algebra",
-    "question_text": "If A = [[1,2],[3,4]], then I + A + AÂ² + ... equals to",
-    "options": [
-      "[[10,6],[9,10]]",
-      "[[7,6],[9,16]]",
-      "[[-3,-2],[-3,-3]]",
-      "None of these"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "This is a geometric series of matrices: (I-A)â»Â¹ if |I-A| â‰  0. Computing I-A = [[-0,-2],[-3,-3]], then finding (I-A)â»Â¹.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "matrices",
-      "series"
-    ],
-    "question_id": "nimcet_2009_q18",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Coordinate Geometry",
-    "question_text": "A square with side 'a' is revolved about its centre through 45Â°. What is the area common to both the squares?",
-    "options": [
-      "2(âˆš2-1)aÂ² sq units",
-      "(âˆš2+1)aÂ²/2 sq units",
-      "(âˆš3-1)aÂ² sq units",
-      "(âˆš5-1)aÂ² sq units"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "When rotated 45Â°, the intersection forms an octagon. The area can be calculated using geometric principles.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "coordinate geometry",
-      "rotation"
-    ],
-    "question_id": "nimcet_2009_q19",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Set Theory",
-    "question_text": "If P = {4â¿-3n-1 | nâˆˆâ„•} and Q = {9n-9 | nâˆˆâ„•}, then Pâˆ©Q is equal to",
-    "options": [
-      "â„•",
-      "P",
-      "Q",
-      "None of these"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "We need to find when 4â¿-3n-1 = 9m-9 for some natural numbers n and m. This requires detailed analysis of the sequences.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "set theory",
-      "sequences"
-    ],
-    "question_id": "nimcet_2009_q20",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Functions",
-    "question_text": "Let f(x) = [xÂ²-3] where [ ] denotes the greatest integer function. Then the number of points in the interval (1, 2) where the function is discontinuous is",
-    "options": [
-      "4",
-      "2",
-      "6",
-      "None of these"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "f(x) is discontinuous when xÂ²-3 is an integer. In (1,2), xÂ² ranges from 1 to 4, so xÂ²-3 ranges from -2 to 1. The integer values are -2, -1, 0, 1, giving discontinuities at x = 1, âˆš2, âˆš3, 2. In open interval (1,2), we have âˆš2 and âˆš3, so 2 points. But checking the PDF answer suggests 4.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "functions",
-      "discontinuity"
-    ],
-    "question_id": "nimcet_2009_q21",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Vector Algebra",
-    "question_text": "If a, b, c are unit vectors, then |a-b|Â² + |b-c|Â² + |c-a|Â² does not exceed",
-    "options": [
-      "9",
-      "4",
-      "8",
-      "6"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Since |a|=|b|=|c|=1, expanding: |a-b|Â² = 2-2aÂ·b, |b-c|Â² = 2-2bÂ·c, |c-a|Â² = 2-2cÂ·a. Sum = 6-2(aÂ·b+bÂ·c+cÂ·a). The maximum occurs when aÂ·b+bÂ·c+cÂ·a is minimized, which is -3/2, giving maximum value of 9.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "vectors",
-      "optimization"
-    ],
-    "question_id": "nimcet_2009_q22",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Algebra",
-    "question_text": "If 2xâ´ + xÂ³ - 11xÂ² + x + 2 = 0, then the values of x + 1/x are",
-    "options": [
-      "-3, 5/2",
-      "-3, 3",
-      "1, -5/2",
-      "1, -5"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Dividing by xÂ² (assuming xâ‰ 0): 2xÂ² + x - 11 + 1/x + 2/xÂ² = 0. Rearranging: 2(xÂ² + 1/xÂ²) + (x + 1/x) - 11 = 0. Let y = x + 1/x, then xÂ² + 1/xÂ² = yÂ² - 2. So 2(yÂ²-2) + y - 11 = 0, giving 2yÂ² + y - 15 = 0, which factors as (2y-5)(y+3) = 0. Thus y = 5/2 or y = -3.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "algebra",
-      "polynomial equations"
-    ],
-    "question_id": "nimcet_2009_q23",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Determinants",
-    "question_text": "If A is a 3Ã—3 matrix with det(A) = 3, then det(adj A) is",
-    "options": [
-      "9",
-      "6",
-      "3",
-      "27"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "For an nÃ—n matrix A, det(adj A) = [det(A)]^(n-1). Since A is 3Ã—3 and det(A) = 3, det(adj A) = 3Â² = 9.",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "determinants",
-      "adjoint"
-    ],
-    "question_id": "nimcet_2009_q24",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Vector Algebra",
-    "question_text": "If a, b, c are non-coplanar unit vectors such that aÃ—(bÃ—c) = (b+c)/âˆš2, then the angle between a and b is",
-    "options": [
-      "Ï€/4",
-      "Ï€/2",
-      "3Ï€/4",
-      "Ï€"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Using vector triple product: aÃ—(bÃ—c) = b(aÂ·c) - c(aÂ·b). Given this equals (b+c)/âˆš2, comparing coefficients gives aÂ·c = aÂ·b = 1/âˆš2. Since |a|=|b|=1, cos Î¸ = aÂ·b = 1/âˆš2, so Î¸ = Ï€/4. But checking against options, 3Ï€/4 might be correct.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "vectors",
-      "triple product"
-    ],
-    "question_id": "nimcet_2009_q25",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Inverse Trigonometry",
-    "question_text": "If sinâ»Â¹x + cosâ»Â¹(1-x) = sinâ»Â¹(-x), then x satisfies the equation",
-    "options": [
-      "2xÂ² - 3x = 0",
-      "-3 â‰¤ x â‰¤ 1",
-      "-1 â‰¤ x â‰¤ 1/2",
-      "-1 â‰¤ x â‰¤ 1"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Using properties of inverse trigonometric functions and solving the equation step by step.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "inverse trigonometry"
-    ],
-    "question_id": "nimcet_2009_q26",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Exponential Equations",
-    "question_text": "If 2^(x+1) - 2^x = 2^(x-1) + 1, then the value of x is",
-    "options": [
-      "2",
-      "9",
-      "1",
-      "6"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Simplifying: 2Â·2^x - 2^x = 2^x/2 + 1, so 2^x = 2^x/2 + 1, giving 2^x/2 = 1, hence 2^x = 2, so x = 1. But this doesn't match the given options exactly.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "exponential equations"
-    ],
-    "question_id": "nimcet_2009_q27",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Trigonometric Equations",
-    "question_text": "The equation sin x + cos x + sin 2x + a = 0 is solvable for",
-    "options": [
-      "-3 â‰¤ a â‰¤ 1",
-      "-3/2 â‰¤ a â‰¤ 1/2",
-      "-2 â‰¤ a â‰¤ 1",
-      "-1 â‰¤ a â‰¤ 1"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Let t = sin x + cos x, then tÂ² = 1 + sin 2x, so sin 2x = tÂ² - 1. The equation becomes t + tÂ² - 1 + a = 0, or tÂ² + t + (a-1) = 0. Since -âˆš2 â‰¤ t â‰¤ âˆš2, we need to find the range of a for which this quadratic has solutions in [-âˆš2, âˆš2].",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "trigonometric equations"
-    ],
-    "question_id": "nimcet_2009_q28",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "A and B throw a die in succession to win a bet with A starting first. Whoever throws '1' first wins an amount of â‚¹110. What are the respective expectations of A and B?",
-    "options": [
-      "â‚¹70 and â‚¹40",
-      "â‚¹60 and â‚¹50",
-      "â‚¹75 and â‚¹35",
-      "None of these"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "P(A wins) = 1/6 + (5/6)Â²(1/6) + (5/6)â´(1/6) + ... = (1/6)/(1-(5/6)Â²) = 6/11. P(B wins) = (5/6)(1/6) + (5/6)Â³(1/6) + ... = 5/11. A's expectation = (6/11)Ã—110 = â‚¹60. B's expectation = (5/11)Ã—110 = â‚¹50.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability",
-      "expectation"
-    ],
-    "question_id": "nimcet_2009_q29",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "The probability that a man who is 85 yr old will die before attaining the age of 90 yr is 1/3. Aâ‚, Aâ‚‚, Aâ‚ƒ and Aâ‚„ are four persons who are 85 yr old. The probability that Aâ‚ will die before attaining the age of 90 yr and will be the first to die is",
-    "options": [
-      "65/81",
-      "13/81",
-      "65/324",
-      "13/108"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "P(Aâ‚ dies first and before 90) = P(Aâ‚ dies before 90) Ã— P(Aâ‚ dies first | Aâ‚ dies before 90). This involves conditional probability calculations with the given death probability.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability",
-      "conditional probability"
-    ],
-    "question_id": "nimcet_2009_q30",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Algebra",
-    "question_text": "Find the value of k in the equation xÂ³ - 6xÂ² + kx + 64 = 0, if it is known that the roots of the equation are in geometric progression.",
-    "options": [
-      "24",
-      "16",
-      "-16",
-      "-24"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Let the roots be a/r, a, ar. Then (a/r)Â·aÂ·ar = aÂ³ = -64, so a = -4. Sum of roots = a/r + a + ar = 6, so -4(1/r + 1 + r) = 6, giving 1/r + 1 + r = -3/2. Also, sum of products of roots taken two at a time = k, which can be calculated once r is found.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "algebra",
-      "geometric progression"
-    ],
-    "question_id": "nimcet_2009_q31",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Binomial Theorem",
-    "question_text": "If (1+x-2xÂ²)Â¹Â² = 1 + aâ‚x + aâ‚‚xÂ² + ... + aâ‚‚â‚„xÂ²â´, then the value of aâ‚‚ + aâ‚„ + aâ‚† + ... + aâ‚â‚‚ is",
-    "options": [
-      "1024",
-      "64",
-      "32",
-      "31"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Using properties of binomial expansion and substituting specific values of x to find the sum of coefficients of even-powered terms.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "binomial theorem"
-    ],
-    "question_id": "nimcet_2009_q32",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Area Under Curves",
-    "question_text": "The smaller of the areas bound by y = 2x and xÂ² + yÂ² = 4, is",
-    "options": [
-      "(Ï€ - 1) sq units",
-      "(Ï€ - 2) sq units",
-      "(2 - 1) sq units",
-      "(2Ï€ - 2) sq units"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Finding intersection points of y = 2x and xÂ² + yÂ² = 4, then calculating the area of the smaller region using integration.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "integration",
-      "area"
-    ],
-    "question_id": "nimcet_2009_q33",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Exponential Equations",
-    "question_text": "The number of distinct integral values of 'a' satisfying the equation 2^(aÂ²-3(2^a+2^(-a))+25) = 0 is",
-    "options": [
-      "0",
-      "1",
-      "2",
-      "3"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Since 2^x > 0 for all real x, the equation has no solutions. Wait, let me reconsider the equation structure.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "exponential equations"
-    ],
-    "question_id": "nimcet_2009_q34",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Set Theory",
-    "question_text": "Aâ‚, Aâ‚‚, Aâ‚ƒ and Aâ‚„ are subsets of a set U containing 75 elements with the following properties: Each subset contains 28 elements; the intersection of any two of the subsets contains 12 elements; the intersection of any three of the subsets contains 5 elements; the intersection of all four subsets contains 1 element. The number of elements belonging to none of the four subsets is",
-    "options": [
-      "15",
-      "17",
-      "16",
-      "18"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Using inclusion-exclusion principle: |Aâ‚âˆªAâ‚‚âˆªAâ‚ƒâˆªAâ‚„| = 4(28) - C(4,2)(12) + C(4,3)(5) - C(4,4)(1) = 112 - 72 + 20 - 1 = 59. Elements in none = 75 - 59 = 16.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "set theory",
-      "inclusion-exclusion"
-    ],
-    "question_id": "nimcet_2009_q35",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Set Theory",
-    "question_text": "From 50 students taking examination in Mathematics, Physics and Chemistry, 37 passed Mathematics, 24 Physics and 43 Chemistry. At most 19 passed Mathematics and Physics, at most 29 Mathematics and Chemistry and at most 20 Physics and Chemistry. The largest possible number that could have passed all three examinations is",
-    "options": [
-      "10",
-      "12",
-      "9",
-      "None of these"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Using inclusion-exclusion and the given constraints to find the maximum possible value of |Mâˆ©Pâˆ©C|.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "set theory",
-      "optimization"
-    ],
-    "question_id": "nimcet_2009_q36",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Calculus",
-    "question_text": "If y = f(x) is an odd and differentiable function defined on (-âˆž, âˆž) such that f'(3) = -2, then f'(-3) equals to",
-    "options": [
-      "4",
-      "2",
-      "-2",
-      "0"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "For an odd function f(x), f(-x) = -f(x). Differentiating both sides: -f'(-x) = -f'(x), so f'(-x) = f'(x). Wait, this gives f'(-3) = f'(3) = -2, but that's not among the expected logic. Let me reconsider: d/dx[f(-x)] = -f'(-x) and d/dx[-f(x)] = -f'(x). So -f'(-x) = -f'(x), giving f'(-x) = f'(x). This seems incorrect for odd functions. Actually, for odd functions, f'(-x) = f'(x), so f'(-3) = f'(3) = -2.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "calculus",
-      "odd functions"
-    ],
-    "question_id": "nimcet_2009_q37",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Optimization",
-    "question_text": "An open-top box is to be made out of a piece of cardboard measuring 6m Ã— 6m by cutting off equal squares from the corners and turning up the sides. The height of the box for maximum volume is",
-    "options": [
-      "2 m",
-      "2.5 m",
-      "1.2 m",
-      "None of these"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Let x be the side length of cut squares. Volume V = x(6-2x)Â². dV/dx = (6-2x)Â² - 4x(6-2x) = (6-2x)(6-2x-4x) = (6-2x)(6-6x). Setting to 0: x = 1 or x = 3. Since x < 3, we have x = 1. So height = 1 m.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "calculus",
-      "optimization"
-    ],
-    "question_id": "nimcet_2009_q38",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Probability",
-    "question_text": "An anti aircraft gun can take a maximum of four shots at an enemy plane moving away from it. The probabilities of hitting the plane at first, second, third and fourth shot are 0.4, 0.3, 0.2 and 0.1 respectively. The probability that the gun hits the plane is",
-    "options": [
-      "0.6972",
-      "0.6978",
-      "0.6976",
-      "0.6974"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "P(hit) = 1 - P(miss all) = 1 - (0.6)(0.7)(0.8)(0.9) = 1 - 0.3024 = 0.6976.",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "probability"
-    ],
-    "question_id": "nimcet_2009_q39",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Mathematics",
-    "topic": "Combinatorics",
-    "question_text": "A set contains (2n + 1) elements. If the number of subsets which contain at most n elements is 4096, then the value of n is",
-    "options": [
-      "28",
-      "21",
-      "15",
-      "6"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Number of subsets with at most n elements = C(2n+1,0) + C(2n+1,1) + ... + C(2n+1,n) = 2^(2n)/2 = 2^(2n-1) = 4096 = 2^12. So 2n-1 = 12, giving n = 6.5, but since n must be integer, n = 6.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "combinatorics"
-    ],
-    "question_id": "nimcet_2009_q40",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Word Problems",
-    "question_text": "Bala had three sons. He had some chocolates which he distributed among them. To his eldest son, he gave 3 chocolates more than half the number of chocolates with him. To his second eldest son, he gave 4 chocolates more than one-third of the remaining number of chocolates with him. To his youngest son, he gave 4 chocolates more than one-fourth of the remaining number of chocolates with him. He was left with 11 chocolates. How many chocolates did he initially have?",
-    "options": [
-      "180",
-      "73",
-      "144",
-      "120"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Let x be initial chocolates. Eldest: x/2 + 3. Remaining: x - (x/2 + 3) = x/2 - 3. Second: (x/2-3)/3 + 4. After second: (x/2-3) - [(x/2-3)/3 + 4] = 2(x/2-3)/3 - 4. Youngest: [2(x/2-3)/3 - 4]/4 + 4. Working backwards from 11 remaining chocolates.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "word problems",
-      "algebra"
-    ],
-    "question_id": "nimcet_2009_q41",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Time Calculations",
-    "question_text": "How long would it take you to count 1 billion orally if you could count 200 every minute and were given a day off every four years? Assume that you start counting on 1 January 2001.",
-    "options": [
-      "10 yr, 107 days, 5 h, 20 min",
-      "8 yr, 287 days, 15 h, 40 min",
-      "9 yr, 187 days, 5 h, 20 min",
-      "9 yr, 278 days, 12 h, 34 min"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "1 billion Ã· 200 = 5 million minutes = 83,333.33 hours = 3,472.22 days. Accounting for leap years and rest days, the calculation gives approximately 9 years, 187 days, 5 hours, 20 minutes.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "time calculations",
-      "arithmetic"
-    ],
-    "question_id": "nimcet_2009_q42",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logarithms",
-    "question_text": "Find the value of 'x', if (1/x)^(logâ‚„(1/6)) Ã— (1/6)^(logâ‚„(1/8)) Ã— ... = 2^(-1/5)",
-    "options": [
-      "2",
-      "1/2",
-      "4",
-      "1/4"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Using properties of logarithms and exponentials to simplify the infinite product and solve for x.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logarithms",
-      "infinite products"
-    ],
-    "question_id": "nimcet_2009_q43",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Theory",
-    "question_text": "Find the unit digit of (13687)^3265",
-    "options": [
-      "1",
-      "3",
-      "7",
-      "9"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Unit digit of 13687 is 7. Pattern of powers of 7: 7Â¹â‰¡7, 7Â²â‰¡9, 7Â³â‰¡3, 7â´â‰¡1 (mod 10). Since 3265 = 4Ã—816 + 1, (13687)^3265 â‰¡ 7Â¹ â‰¡ 7 (mod 10).",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "number theory",
-      "modular arithmetic"
-    ],
-    "question_id": "nimcet_2009_q44",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Letter Analysis",
-    "question_text": "How many pairs of letters are there in the word 'PRISON', each of which has as many letters between its two letters in the word as there are between them in the English alphabet?",
-    "options": [
-      "Two",
-      "One",
-      "Four",
-      "Three"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "PRISON: P-R-I-S-O-N. Checking pairs: P-R (gap of 0 in word, 1 in alphabet - no), R-I (gap of 0, 8 in alphabet - no), I-S (gap of 0, 9 in alphabet - no), etc. Need to find pairs where word gap equals alphabet gap.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "letter analysis",
-      "patterns"
-    ],
-    "question_id": "nimcet_2009_q45",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Combinatorics",
-    "question_text": "Twelve villages in a district are divided into 3 zones with 4 villages per each zone. The telephone department of the district intends to connect the villages with telephone lines such that every two villages in the same zone are connected with three direct lines and every two villages belonging to different zones are connected with two direct lines. How many direct lines are required?",
-    "options": [
-      "210",
-      "96",
-      "54",
-      "150"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Within zones: 3 zones Ã— C(4,2) Ã— 3 lines = 3 Ã— 6 Ã— 3 = 54 lines. Between zones: C(3,2) Ã— 4 Ã— 4 Ã— 2 lines = 3 Ã— 16 Ã— 2 = 96 lines. Total = 54 + 96 = 150.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "combinatorics",
-      "networks"
-    ],
-    "question_id": "nimcet_2009_q46",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logical Analysis",
-    "question_text": "Cars are safer than planes. Fifty per cent of plane accidents result in death, while only one percent of car accidents result in death. Which of the following, if true, would most seriously weaken the argument above?",
-    "options": [
-      "Planes are inspected more often than cars.",
-      "The number of car accidents is several hundred thousand times higher than the number of plane accidents.",
-      "Pilots never fly under the influence of alcohol, while car drivers often do.",
-      "Plane accidents are usually the fault of air traffic controllers, not of pilots."
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Option (b) weakens the argument by pointing out that despite the lower fatality rate per accident, the sheer volume of car accidents makes cars potentially more dangerous overall.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logical analysis",
-      "critical reasoning"
-    ],
-    "question_id": "nimcet_2009_q47",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Theory",
-    "question_text": "Sum of all three digit numbers (no digit being zero) having the property that all digits are perfect squares is",
-    "options": [
-      "3108",
-      "6216",
-      "13986",
-      "None of these"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Perfect square digits: 1, 4, 9. Three-digit numbers: 111, 114, 119, 141, 144, 149, 191, 194, 199, 411, 414, 419, 441, 444, 449, 491, 494, 499, 911, 914, 919, 941, 944, 949, 991, 994, 999. Each digit appears equally in each position. Sum = (1+4+9) Ã— 3 Ã— (111) Ã— 3 = 3108.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "number theory",
-      "digit analysis"
-    ],
-    "question_id": "nimcet_2009_q48",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Problem Solving",
-    "question_text": "A teacher gave a student the task of adding 'N' natural numbers starting from 1. After a while, the student reported his result as 700. The teacher replied that his result was wrong. The student realized that he has added one number twice by mistake. Find the sum of the digits of the number which the student had added twice.",
-    "options": [
-      "5",
-      "6",
-      "7",
-      "8"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Sum of 1 to N = N(N+1)/2. For N=37: sum = 703, but student got 700, difference = 3. For N=36: sum = 666, student got 700, difference = 34. So N=37 and the number added twice is 37-3=34. Wait, let me recalculate: if sum should be 666 and student got 700, then added number is 700-666=34. Sum of digits of 34 = 3+4=7.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "problem solving",
-      "arithmetic series"
-    ],
-    "question_id": "nimcet_2009_q49",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Work and Time",
-    "question_text": "Computer A takes 3 min to process an input while computer B takes 5 min. If computers A, B and C can process an average of 14 inputs in one hour, how many minutes does computer C alone take to process one input?",
-    "options": [
-      "10",
-      "4",
-      "6",
-      "None of these"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "In 60 minutes: A processes 60/3 = 20 inputs, B processes 60/5 = 12 inputs. Together A, B, C process 14Ã—60/60 = 14 inputs per minute, so 14Ã—60 = 840 inputs per hour. C processes 840 - 20Ã—60 - 12Ã—60 = 840 - 1200 - 720. This doesn't make sense. Let me reconsider: if they process 14 inputs total in one hour, then A does 20, B does 12, so C must do 14-20-12 which is negative. The problem might mean they work together.",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "work and time",
-      "rates"
-    ],
-    "question_id": "nimcet_2009_q50",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Mathematical Reasoning",
-    "question_text": "If A+B=C+D, B+D=2A, D+E=A+B, C+D=A+E, then which of the following is true?",
-    "options": [
-      "D>B>E>A>C",
-      "A>B>D>E>C",
-      "A>D>B>E>C",
-      "D>A>B>E>C"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Solving the system of equations: From the given equations, we can derive relationships between the variables and determine their relative ordering.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "mathematical reasoning",
-      "inequalities"
-    ],
-    "question_id": "nimcet_2009_q52",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Age Problems",
-    "question_text": "Reena visited her High School friend, Natasha after their 25th school reunion. 'What a nice pair of children you have, are they twins?' Reena asked. 'No my sister is older than I', said Natasha's son Rahul. 'The square of my age plus the cube of her age is 7148'. 'The square of my age plus the cube of his age is 5274', said Preeti, Natasha's daughter. How old were they?",
-    "options": [
-      "Preeti 23, Rahul 14",
-      "Preeti 18, Rahul 16",
-      "Preeti 21, Rahul 19",
-      "Preeti 19, Rahul 17"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Let Rahul's age be x and Preeti's age be y. Then xÂ² + yÂ³ = 7148 and yÂ² + xÂ³ = 5274. Solving this system of equations gives x = 17, y = 19.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "age problems",
-      "system of equations"
-    ],
-    "question_id": "nimcet_2009_q53",
-    "imageUrl": null
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Sequences",
-    "question_text": "What will come in place of the question mark (?) in the following series? 12, 22, 69, 272, 1365, ?",
-    "options": [
-      "8196",
-      "8195",
-      "6830",
-      "8184"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Pattern analysis: 12Ã—2-2=22, 22Ã—3+3=69, 69Ã—4-4=272, 272Ã—5+5=1365, 1365Ã—6-6=8184",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "sequences",
-      "patterns"
-    ],
-    "question_id": "nimcet_2009_q54"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Binary Problems",
-    "question_text": "Divide 1074 (in whole having incremental amounts) into a number of bags so that I can ask for any amount between 1 and 1074 and you can give me the proper amount by selecting a certain number of these bags without opening them. What is the minimum number of bags you will require?",
-    "options": [
-      "12",
-      "10",
-      "9",
-      "11"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Using binary representation: powers of 2 up to 1024, plus remainder 50. Bags: 1,2,4,8,16,32,64,128,256,512,1024,50 = 11 bags",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "binary",
-      "optimization"
-    ],
-    "question_id": "nimcet_2009_q55"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Pattern Recognition",
-    "question_text": "Which number will be there in the place of question mark (?) in the following figure? [L:nimcet_2009_q56_fig]",
-    "options": [
-      "5",
-      "6",
-      "4",
-      "8"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Pattern in the figure shows relationships between numbers",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "patterns",
-      "figures"
-    ],
-    "question_id": "nimcet_2009_q56",
-    "imageUrl": "nimcet_2009_q56.png"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Theory",
-    "question_text": "The remainder when x = 1! + 2! + 3! + ... + 100! is divided by 240 is",
-    "options": [
-      "153",
-      "33",
-      "73",
-      "187"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Since 6! and higher factorials are divisible by 240, only 1!+2!+3!+4!+5! matter: 1+2+6+24+120=153",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "factorials",
-      "modular arithmetic"
-    ],
-    "question_id": "nimcet_2009_q57"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Combinatorics",
-    "question_text": "Using the digits 1, 5, 2, 8 all possible four digit numbers are formed and the sum of all such numbers is between",
-    "options": [
-      "10000 and 20000",
-      "20000 and 50000",
-      "50000 and 100000",
-      "100000 and 150000"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Sum = (1+5+2+8) Ã— 3! Ã— 1111 = 16 Ã— 6 Ã— 1111 = 106656, which is between 100000 and 150000",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "combinatorics",
-      "digit sum"
-    ],
-    "question_id": "nimcet_2009_q58"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Theory",
-    "question_text": "The sum of the numbers from 1 to 100, which are not divisible by 3 and 5, is",
-    "options": [
-      "2946",
-      "2732",
-      "2632",
-      "2317"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Sum 1 to 100 = 5050. Subtract multiples of 3, 5, and add back multiples of 15 (inclusion-exclusion)",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "number theory",
-      "inclusion-exclusion"
-    ],
-    "question_id": "nimcet_2009_q59"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Relative Motion",
-    "question_text": "A motorboat going downstream a river passes a raft (freely floating with the river current) at a certain point 'A'. Exactly one hour later it turned back and after some time while coming upstream it passed the same raft at a point 'B' situated at a distance of 6 km from point 'A'. What is the speed of the water current in the river expressed in km/h?",
-    "options": [
-      "2.0",
-      "3.0",
-      "4.0",
-      "6.0"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Current speed = 6km/(2Ã—1hr) = 3 km/h using relative motion principles",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "relative motion",
-      "current"
-    ],
-    "question_id": "nimcet_2009_q60"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logic Puzzles",
-    "question_text": "You are in the land logic, where there are 3 types of rabbits. Blue rabbits always tell the truth, green rabbits sometimes tell the truth and red rabbits never tell the truth. Assume you cannot distinguish colours. A rabbit says to you 'I always lie'. What colour of rabbit is speaking to you?",
-    "options": [
-      "Blue",
-      "Red",
-      "Green",
-      "Cannot be concluded"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Blue rabbit cannot say 'I always lie' (contradiction). Red rabbit cannot say 'I always lie' (would be telling truth). Only green rabbit can make this statement.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logic puzzles",
-      "contradictions"
-    ],
-    "question_id": "nimcet_2009_q61"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Critical Reasoning",
-    "question_text": "It is wrong for doctors to lie about their patients' illnesses? Aren't doctors just like any other people we hire to do a job for us? Surely, we would not tolerate not being told the truth about the condition of our automobile from the mechanic we hired to fix it, or the condition of our roof from the carpenter we employed to repair it. Just as these workers would be guilty of violating their good faith contracts with us if they were to do this, doctors who lie to their patients about their illnesses violate these contracts as well, and this is clearly wrong. The conclusion of the argument is best expressed by which of the following?",
-    "options": [
-      "Doctors who lie to their patients about their illnesses violate their good faith contracts with these patients.",
-      "Doctors should never lie to their patients about their illnesses.",
-      "It is wrong for doctors to lie about their patients' illnesses.",
-      "Just as mechanics and carpenters enter into good faith contracts with us, so do doctors."
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "The main conclusion is stated in the opening question: 'It is wrong for doctors to lie about their patients' illnesses.'",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "critical reasoning",
-      "argument analysis"
-    ],
-    "question_id": "nimcet_2009_q62"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Permutations",
-    "question_text": "All the letters of the word 'INDIA' are permuted in all possible ways and the words thus formed are listed as in dictionary, then the 58th word in the list is",
-    "options": [
-      "IADNI",
-      "INIDA",
-      "INDIA",
-      "IIDNA"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Arranging INDIA alphabetically: A,D,I,I,N. Words starting with A: 4!/2! = 12. Words starting with D: 4!/2! = 12. Words starting with I: need to count systematically through IADIN, IADNI, etc.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "permutations",
-      "dictionary order"
-    ],
-    "question_id": "nimcet_2009_q63"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Counting",
-    "question_text": "Identify the number of triangles in the figure given below.",
-    "options": [
-      "45",
-      "35",
-      "41",
-      "32"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Systematic counting of triangles in the given geometric figure",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "counting",
-      "geometry"
-    ],
-    "question_id": "nimcet_2009_q64",
-    "imageUrl": "nimcet_2009_q64.png"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logical Statements",
-    "question_text": "Choose the ordered pair of statements (A, B) where the first statement implies the second and two statements are logically consistent with the main statement: 'Each state captain is the captain India loses.'",
-    "options": [
-      "AC",
-      "BC",
-      "CD",
-      "BD"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Analysis of logical implications and consistency",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logical statements",
-      "implications"
-    ],
-    "question_id": "nimcet_2009_q65"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Manipulation",
-    "question_text": "If all the 6's are replaced by 9's, then the algebraic sum of all the numbers from 1 to 100 (both inclusive), increases by",
-    "options": [
-      "300",
-      "450",
-      "30",
-      "350"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Count occurrences of digit 6 in units and tens place from 1-100, multiply by 3 (difference between 9 and 6)",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "number manipulation",
-      "digit counting"
-    ],
-    "question_id": "nimcet_2009_q66"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Step Problems",
-    "question_text": "Recently, while in Bengaluru, I decided to walk down the escalator of a tube station. I did some quick calculations in my mind. I found that if I walk down twenty-six steps, I reach the bottom. However, if I walk down thirty-four steps, I am able to reach the bottom eight steps ahead of time. What is the height of the stairway in steps?",
-    "options": [
-      "46",
-      "56",
-      "102",
-      "58"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Using relative motion concepts for escalator problems",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "motion problems",
-      "escalator"
-    ],
-    "question_id": "nimcet_2009_q67"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Number Problems",
-    "question_text": "What two-digit number means by the digit of the number, the number increases by 18 when their digits are reversed?",
-    "options": [
-      "1",
-      "3",
-      "7",
-      "8"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Let number be 10a + b. Reversed: 10b + a. Difference = 9(b-a) = 18, so b-a = 2",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "number problems",
-      "digit reversal"
-    ],
-    "question_id": "nimcet_2009_q68"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Word Formation",
-    "question_text": "Pick the 1st, 2nd, 4th, 5th and 6th letters in the word 'DEMOCRACY' and form a meaningful word then write the first and last letters in the word formed.",
-    "options": [
-      "SD",
-      "DE",
-      "OS",
-      "OR"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "DEMOCRACY: D-E-M-O-C-R-A-C-Y. Letters: D,E,O,C,R form CORDE â†’ CORED or ORDER â†’ first O, last R gives OR",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "word formation",
-      "anagrams"
-    ],
-    "question_id": "nimcet_2009_q69"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logical Deduction",
-    "question_text": "While Hameed had his back turned, a dog ran into his hardware shop, snatched a piece of steak from the counter and ran out. Hameed and his son began arguing over what had happened. He asked other shopkeepers, who had seen the dog. The shopkeepers only gave half-truths as they did not want to help much. So, each one made a statement which contained one truth and one lie. Shopkeeper 1 said: 'The dog had black hair and wore a bell.' Shopkeeper 2 said: 'The dog had a short tail and wore a collar.' Shopkeeper 3 said: 'The dog had white hair and no collar.' Based on the above statements which of the following could be correct description. The dog had:",
-    "options": [
-      "black hair, short tail and no collar",
-      "white hair, long tail and a collar",
-      "white hair, long tail and no collar",
-      "black hair, long tail and no collar"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Each statement has one truth and one lie. Working through the constraints systematically.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logical deduction",
-      "constraint satisfaction"
-    ],
-    "question_id": "nimcet_2009_q70"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Motion Problems",
-    "question_text": "A train after travelling 60 km meets with an accident and then proceeds at 3/5 of its former rate and arrives at the terminus 40 min late. Had the accident happened 30 km further on, it would have arrived 10 min earlier. Find the speed of the train and the distance respectively.",
-    "options": [
-      "30 km/h, 130 km",
-      "100 km/h, 140 km",
-      "30 km/h, 120 km",
-      "40 km/h, 180 km"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Let speed be v km/h and total distance d km. Setting up equations based on the given conditions.",
-    "difficulty": "Hard",
-    "tags": [
-      "PYQ",
-      "2009",
-      "motion problems",
-      "train problems"
-    ],
-    "question_id": "nimcet_2009_q71"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logic Puzzles",
-    "question_text": "After months of diligent searching for an administrative assistant to the president of the college, the field of applicants has been narrowed down to A, B, C, D, E and F. The examining committee agreed upon specific interview procedures with constraints. Which of the following is a possible sequence of combinations for interviews in two successive weeks?",
-    "options": [
-      "ABC, DEF",
-      "ADE, BDF",
-      "ADF, BCE",
-      "FDE, ABD"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "Based on the given constraints about interview scheduling",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logic puzzles",
-      "scheduling"
-    ],
-    "question_id": "nimcet_2009_q72"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Logic Puzzles",
-    "question_text": "At the first interview, the following candidates appear: A, B and D. Which of the following combinations can be called for the interview to be held in the next week?",
-    "options": [
-      "BCD",
-      "ACE",
-      "DEF",
-      "BCE"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Following the constraints from the interview scheduling rules",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "logic puzzles",
-      "scheduling"
-    ],
-    "question_id": "nimcet_2009_q73"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Data Analysis",
-    "question_text": "Question about interview procedures and constraints",
-    "options": [
-      "I only",
-      "II only",
-      "I and II only",
-      "III only"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Analysis based on given procedures",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "data analysis"
-    ],
-    "question_id": "nimcet_2009_q74"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Data Interpretation",
-    "question_text": "Based on the pie charts showing car price break-up, if transmission cost increases by 20%, by what amount is the profit reduced (total price of car remains same)?",
-    "options": [
-      "â‚¹3000",
-      "â‚¹4000",
-      "â‚¹6000",
-      "Cannot be determined"
-    ],
-    "correct_answers": [
-      1
-    ],
-    "explanation": "Analyzing the pie chart data for transmission cost impact",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "data interpretation",
-      "pie charts"
-    ],
-    "question_id": "nimcet_2009_q77",
-    "imageUrl": "nimcet_2009_q77.png"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 78 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q78"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 79 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q79"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 80 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q80"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 81 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q81"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 82 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q82"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 83 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q83"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 84 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q84"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 85 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q85"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 86 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q86"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 87 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q87"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 88 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q88"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 89 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q89"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 90 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q90"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 91 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q91"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 92 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q92"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 93 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q93"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 94 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q94"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Analytical Ability & Logical Reasoning",
-    "topic": "Various Topics",
-    "question_text": "Question 95 from reasoning section",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Detailed solution for the question",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "reasoning"
-    ],
-    "question_id": "nimcet_2009_q95"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Operating Systems",
-    "question_text": "On receiving an interrupt from an I/O device, the CPU",
-    "options": [
-      "hands over the control of address and data bus to interrupting device",
-      "branch off to interrupt service subroutine immediately",
-      "branch off to interrupt service subroutine after completion of current instruction",
-      "None of the above"
-    ],
-    "correct_answers": [
-      2
-    ],
-    "explanation": "CPU completes current instruction before handling interrupt",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "operating systems",
-      "interrupts"
-    ],
-    "question_id": "nimcet_2009_q96"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Architecture",
-    "question_text": "Micro-programmed control unit is",
-    "options": [
-      "faster than hard-wired unit",
-      "slower than hard wired unit",
-      "to facilitate easy implementation of new instructions",
-      "both (b) and (c)"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Micro-programmed control units are slower but more flexible",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer architecture"
-    ],
-    "question_id": "nimcet_2009_q97"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Architecture",
-    "question_text": "Index register in a digital computer is used for",
-    "options": [
-      "pointing to the stack address",
-      "indirect addressing",
-      "keeping track of the number of times loop is executed",
-      "address modification"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Index registers are used for address modification in indexed addressing",
-    "difficulty": "Easy",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer architecture"
-    ],
-    "question_id": "nimcet_2009_q98"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 99",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q99"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 100",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q100"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 101",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q101"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 102",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q102"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 103",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q103"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 104",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q104"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "Computer Awareness",
-    "topic": "Computer Science",
-    "question_text": "Computer Science question 105",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "Computer science concept explanation",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "computer science"
-    ],
-    "question_id": "nimcet_2009_q105"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
+    "year": 2017,
     "subject": "General English",
-    "topic": "Voice Change",
-    "question_text": "A sentence has been given in active (or passive) voice. Out of the four alternatives select the one which best expresses the same sentence in passive (or active) voice. 'I know him'",
+    "topic": "Reading Comprehension",
+    "question_text": "Anthropologists have pieced together the little they know about the history of left handedness and right handedness from indirect evidence. Through early men and women did not leave written records, they did leave tools, bones, and pictures. Stone Age hand axes and hatchets were made from stones that were carefully chipped away to form sharp cutting edges. In some the pattern of chipping shows that these tools and weapons were made by right handed people designed to fit comfortable into a right hand. Other Stone Age implements were made by or for left handers prehistoric pictures painted on the walls of caves provide further clues to the handedness of ancient people. A right hander finds it easier to draw faces of people and animals facing toward the left whereas, a left hander finds it easier to draw faces facing toward the right. Both kinds of faces have been found in ancient painting. On the whole the evidence seems to indicate the prehistoric people were either ambidextrous or about equally likely to be left or right handed. But in the Bronze Age, the picture changed. the tools and weapons found from that period are mostly made for right handed use. The predominance of right handedness among humans today had apparently already been established.\n\nWhat is the indirect evidence through which the preferred handedness of the Stone Age people could be understood?",
     "options": [
-      "He has been known by me.",
-      "He was known to me.",
-      "He is known by me.",
-      "He is known to me."
+      "Petrified forms of vegetation",
+      "Patterns of stone chipping",
+      "Fossilised waste material",
+      "Fossilised footprints"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The passage explicitly states that the 'pattern of chipping shows that these tools and weapons were made by right handed people'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2017",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2017_GE_01",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "Anthropologists have pieced together the little they know about the history of left handedness and right handedness from indirect evidence. Through early men and women did not leave written records, they did leave tools, bones, and pictures. Stone Age hand axes and hatchets were made from stones that were carefully chipped away to form sharp cutting edges. In some the pattern of chipping shows that these tools and weapons were made by right handed people designed to fit comfortable into a right hand. Other Stone Age implements were made by or for left handers prehistoric pictures painted on the walls of caves provide further clues to the handedness of ancient people. A right hander finds it easier to draw faces of people and animals facing toward the left whereas, a left hander finds it easier to draw faces facing toward the right. Both kinds of faces have been found in ancient painting. On the whole the evidence seems to indicate the prehistoric people were either ambidextrous or about equally likely to be left or right handed. But in the Bronze Age, the picture changed. the tools and weapons found from that period are mostly made for right handed use. The predominance of right handedness among humans today had apparently already been established.\n\nAccording to the passage, a person who is right handed is more likely to draw people and animals that are facing",
+    "options": [
+      "upward",
+      "downward",
+      "towards the right",
+      "towards the left"
     ],
     "correct_answers": [
       3
     ],
-    "explanation": "Active to passive voice conversion with 'know' verb",
+    "explanation": "The passage states, 'A right hander finds it easier to draw faces of people and animals facing toward the left'.",
     "difficulty": "Easy",
     "tags": [
       "PYQ",
-      "2009",
+      "2017",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2017_GE_02",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "Anthropologists have pieced together the little they know about the history of left handedness and right handedness from indirect evidence. Through early men and women did not leave written records, they did leave tools, bones, and pictures. Stone Age hand axes and hatchets were made from stones that were carefully chipped away to form sharp cutting edges. In some the pattern of chipping shows that these tools and weapons were made by right handed people designed to fit comfortable into a right hand. Other Stone Age implements were made by or for left handers prehistoric pictures painted on the walls of caves provide further clues to the handedness of ancient people. A right hander finds it easier to draw faces of people and animals facing toward the left whereas, a left hander finds it easier to draw faces facing toward the right. Both kinds of faces have been found in ancient painting. On the whole the evidence seems to indicate the prehistoric people were either ambidextrous or about equally likely to be left or right handed. But in the Bronze Age, the picture changed. the tools and weapons found from that period are mostly made for right handed use. The predominance of right handedness among humans today had apparently already been established.\n\nWhat does the word 'the picture' in the passage refer to?",
+    "options": [
+      "Faces of animals and people",
+      "People's view from inside a cave",
+      "People's tendency to work with either hand",
+      "The kinds of paint used on cave walls"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The passage discusses the likelihood of prehistoric people being left or right-handed, and then says 'in the Bronze Age, the picture changed.' Here, 'the picture' refers to the overall situation or tendency regarding handedness.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2017",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2017_GE_03",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "Anthropologists have pieced together the little they know about the history of left handedness and right handedness from indirect evidence. Through early men and women did not leave written records, they did leave tools, bones, and pictures. Stone Age hand axes and hatchets were made from stones that were carefully chipped away to form sharp cutting edges. In some the pattern of chipping shows that these tools and weapons were made by right handed people designed to fit comfortable into a right hand. Other Stone Age implements were made by or for left handers prehistoric pictures painted on the walls of caves provide further clues to the handedness of ancient people. A right hander finds it easier to draw faces of people and animals facing toward the left whereas, a left hander finds it easier to draw faces facing toward the right. Both kinds of faces have been found in ancient painting. On the whole the evidence seems to indicate the prehistoric people were either ambidextrous or about equally likely to be left or right handed. But in the Bronze Age, the picture changed. the tools and weapons found from that period are mostly made for right handed use. The predominance of right handedness among humans today had apparently already been established.\n\nThe author implies that which of the following developments occurred around the time of the Bronze Age?",
+    "options": [
+      "The establishment of written records",
+      "A change in the styles of cave painting",
+      "An increase in human skill in the handling of tools",
+      "The prevalence of right-handedness"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The passage states that in the Bronze Age, 'The predominance of right handedness among humans today had apparently already been established.'",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2017",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2017_GE_04",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "Anthropologists have pieced together the little they know about the history of left handedness and right handedness from indirect evidence. Through early men and women did not leave written records, they did leave tools, bones, and pictures. Stone Age hand axes and hatchets were made from stones that were carefully chipped away to form sharp cutting edges. In some the pattern of chipping shows that these tools and weapons were made by right handed people designed to fit comfortable into a right hand. Other Stone Age implements were made by or for left handers prehistoric pictures painted on the walls of caves provide further clues to the handedness of ancient people. A right hander finds it easier to draw faces of people and animals facing toward the left whereas, a left hander finds it easier to draw faces facing toward the right. Both kinds of faces have been found in ancient painting. On the whole the evidence seems to indicate the prehistoric people were either ambidextrous or about equally likely to be left or right handed. But in the Bronze Age, the picture changed. the tools and weapons found from that period are mostly made for right handed use. The predominance of right handedness among humans today had apparently already been established.\n\nWhat is the main idea conveyed through the passage?",
+    "options": [
+      "The purpose of ancient implements",
+      "The significance of prehistoric cave paintings",
+      "The development of right-handedness and left-handedness",
+      "The pattern of chipping ancient tools"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The entire passage traces the evidence for handedness from the Stone Age to the Bronze Age, discussing how the prevalence of right-handedness emerged over time.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2017",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2017_GE_05",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Idioms and Phrases",
+    "question_text": "Which of the following refers to the idiom 'under the Sun'?",
+    "options": [
+      "Anything and everything",
+      "A large number of things",
+      "A few things",
+      "Something"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The idiom 'under the sun' is a comprehensive term meaning 'everything that exists anywhere'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2017",
+      "idioms_and_phrases"
+    ],
+    "question_id": "nimcet_2017_GE_06",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Choose a phrasal verb to replace the explanation in brackets: When we arrive at the station, we (descend from) the train.",
+    "options": [
+      "Get down",
+      "Stand down",
+      "Get off",
+      "Stand out"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The phrasal verb 'get off' specifically means to leave a bus, train, aircraft, or boat.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2017",
+      "grammar",
+      "phrasal_verbs"
+    ],
+    "question_id": "nimcet_2017_GE_07",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Vocabulary",
+    "question_text": "Choose the suitable word to fill in the blank: The medal was awarded for the student's _______ conduct and courage.",
+    "options": [
+      "non-receptive",
+      "exemplary",
+      "unreliable",
+      "disputable"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "'Exemplary' means serving as a desirable model; representing the best of its kind. It fits the context of being awarded a medal.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2017",
+      "vocabulary"
+    ],
+    "question_id": "nimcet_2017_GE_08",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Spelling",
+    "question_text": "Which of the following is a correctly spelt word?",
+    "options": [
+      "Hiderence",
+      "Hindrence",
+      "Hindarrence",
+      "Hindrance"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The correct spelling for the word meaning a thing that provides resistance, delay, or obstruction is 'Hindrance'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2017",
+      "spelling"
+    ],
+    "question_id": "nimcet_2017_GE_09",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2017,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Which one of the following statements is grammatically correct?",
+    "options": [
+      "The Earth revolves round the Sun",
+      "I have not seen him since four years",
+      "She met an one-eyed man",
+      "One of the books borrowed by the Students are famous"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "Statement (a) is correct; it describes a universal truth using the simple present tense. (b) is incorrect; 'for' should be used for a duration ('for four years'). (c) is incorrect; 'a one-eyed man' is correct because 'one' starts with a consonant sound. (d) is incorrect; the verb should be 'is' to agree with 'One'.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2017",
+      "grammar",
+      "error_spotting"
+    ],
+    "question_id": "nimcet_2017_GE_10",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "While cement is the basic raw material for producing cement tiles and cement paint which are used extensively in building construction. The main consumers of white cement are therefore, cement title and cement paint manufacturing units. These consumers, mostly in the small scale sector, are today facing a major crisis because of a significant increase in the price of white cement during a sort period. The present annual licensed production capacity of white and grey cement in a country is approximately 3.5 lakh tones. The average demand of 2-2.5 lakh tones. This means that there is idle capacity to the tune of the laksh tones or more. The price is therefore, not a phenomenon arising out of inadequate production capacity but evidently because of artificial scarcity created by the manufactures in their self interest. The main reason for the continuing spurt in cement price is its decontrol. As it is, there is stiff competition in the cement paint and tile manufacturing business. Any further price revision at this stage is bound to have a severe adverse impact on the market conditions. The Government should take adequate steps to ensure that suitable control are brought in. Else it should allow import of cement.\n\nWhich of the following words has the opposite meaning as the word 'basic' as used in the passage?",
+    "options": [
+      "Vital",
+      "Unimportant",
+      "Advanced",
+      "Last"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "In the context of 'basic raw material', the word means fundamental or primary. The opposite would be something complex or 'Advanced'.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2016",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2016_GE_01",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "While cement is the basic raw material for producing cement tiles and cement paint which are used extensively in building construction. The main consumers of white cement are therefore, cement title and cement paint manufacturing units. These consumers, mostly in the small scale sector, are today facing a major crisis because of a significant increase in the price of white cement during a sort period. The present annual licensed production capacity of white and grey cement in a country is approximately 3.5 lakh tones. The average demand of 2-2.5 lakh tones. This means that there is idle capacity to the tune of the laksh tones or more. The price is therefore, not a phenomenon arising out of inadequate production capacity but evidently because of artificial scarcity created by the manufactures in their self interest. The main reason for the continuing spurt in cement price is its decontrol. As it is, there is stiff competition in the cement paint and tile manufacturing business. Any further price revision at this stage is bound to have a severe adverse impact on the market conditions. The Government should take adequate steps to ensure that suitable control are brought in. Else it should allow import of cement.\n\nWhy is the price of cement going up?",
+    "options": [
+      "Because the Government is controlling quota.",
+      "Because of export of white cement.",
+      "Because of the large usage of white cement.",
+      "Because of an artificial scarcity."
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The passage explicitly states the price increase is 'evidently because of artificial scarcity created by the manufactures in their self interest'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2016",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2016_GE_02",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "While cement is the basic raw material for producing cement tiles and cement paint which are used extensively in building construction. The main consumers of white cement are therefore, cement title and cement paint manufacturing units. These consumers, mostly in the small scale sector, are today facing a major crisis because of a significant increase in the price of white cement during a sort period. The present annual licensed production capacity of white and grey cement in a country is approximately 3.5 lakh tones. The average demand of 2-2.5 lakh tones. This means that there is idle capacity to the tune of the laksh tones or more. The price is therefore, not a phenomenon arising out of inadequate production capacity but evidently because of artificial scarcity created by the manufactures in their self interest. The main reason for the continuing spurt in cement price is its decontrol. As it is, there is stiff competition in the cement paint and tile manufacturing business. Any further price revision at this stage is bound to have a severe adverse impact on the market conditions. The Government should take adequate steps to ensure that suitable control are brought in. Else it should allow import of cement.\n\nWhat is the crisis faced by the cement tile manufacturers as described in the passage?",
+    "options": [
+      "White cement prices are very high.",
+      "White cement is not of good quality.",
+      "White cement usage is high.",
+      "White cement is priced very low."
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The passage states that the consumers 'are today facing a major crisis because of a significant increase in the price of white cement'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2016",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2016_GE_03",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "While cement is the basic raw material for producing cement tiles and cement paint which are used extensively in building construction. The main consumers of white cement are therefore, cement title and cement paint manufacturing units. These consumers, mostly in the small scale sector, are today facing a major crisis because of a significant increase in the price of white cement during a sort period. The present annual licensed production capacity of white and grey cement in a country is approximately 3.5 lakh tones. The average demand of 2-2.5 lakh tones. This means that there is idle capacity to the tune of the laksh tones or more. The price is therefore, not a phenomenon arising out of inadequate production capacity but evidently because of artificial scarcity created by the manufactures in their self interest. The main reason for the continuing spurt in cement price is its decontrol. As it is, there is stiff competition in the cement paint and tile manufacturing business. Any further price revision at this stage is bound to have a severe adverse impact on the market conditions. The Government should take adequate steps to ensure that suitable control are brought in. Else it should allow import of cement.\n\nWhich of the following words has the same meaning as the word 'artificial' as used in the passage?",
+    "options": [
+      "Deliberate",
+      "Prolonged",
+      "Practical",
+      "Unnatural"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "In the context of 'artificial scarcity', the word means not arising from natural causes but made by human beings. 'Unnatural' is the closest synonym.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2016",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2016_GE_04",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Spelling",
+    "question_text": "Choose the word that accurately signifies a person who makes money by starting or running a business:",
+    "options": [
+      "Entrepreneur",
+      "Andrapreneur",
+      "Entraprenour",
+      "Entrepreneour"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The correct spelling for a person who organizes and operates a business or businesses, taking on greater than normal financial risks in order to do so, is 'Entrepreneur'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2016",
+      "spelling"
+    ],
+    "question_id": "nimcet_2016_GE_05",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Vocabulary",
+    "question_text": "Which of the following is the correct phrase to describe a group of insects?",
+    "options": [
+      "A flock of insects",
+      "A swarm of insects",
+      "A school of insects",
+      "A shoal of insects"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The correct collective noun for a large or dense group of flying insects is a 'swarm'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2016",
+      "vocabulary"
+    ],
+    "question_id": "nimcet_2016_GE_06",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Which of the following has the closest meaning to the word 'REPUTATION'?",
+    "options": [
+      "Character",
+      "Respect",
+      "Fame",
+      "Honor"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "'Reputation' refers to the beliefs or opinions that are generally held about someone or something. 'Fame', the state of being known by many people, is the closest synonym in this context.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2016",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2016_GE_07",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Which of the following words means 'Theatrical'?",
+    "options": [
+      "thrilling",
+      "histrionic",
+      "delicate",
+      "delicious"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "'Histrionic' means overly theatrical or melodramatic in character or style, making it a direct synonym for 'theatrical'.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2016",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2016_GE_08",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Vocabulary",
+    "question_text": "Identify the word which is different from the rest of the words.",
+    "options": [
+      "indisputable",
+      "uncertain",
+      "dubious",
+      "doubtful"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The words 'uncertain', 'dubious', and 'doubtful' all relate to a lack of certainty. 'Indisputable' means unable to be challenged or denied, making it the odd one out.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2016",
+      "vocabulary"
+    ],
+    "question_id": "nimcet_2016_GE_09",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2016,
+    "subject": "General English",
+    "topic": "Analogies",
+    "question_text": "Select the pair that best expresses a relationship similar to that expressed in SCALE : TONE.",
+    "options": [
+      "Physician: Medicine",
+      "Wave: Amplitude",
+      "Spectrum: Colour",
+      "Rainbow: Shower"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "A scale is a series of tones arranged in a sequence. Similarly, a spectrum is a series of colors arranged in a sequence.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2016",
+      "analogies"
+    ],
+    "question_id": "nimcet_2016_GE_10",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "The proud warrior class of the samurai (meaning 'those who serve') grew from a band of mercenaries hired by feudal landowners in the 11th century to win them the control of Honshu, Japan's main island. These mercenaries lived by the cult of the sword, worshipping athletic prowess and martial skills. They developed a fierce loyalty to their masters and a fearlessness that made them formidable adversaries. They fought in elaborate armour, wielding their most prized possession, a double-edged sabre with which they could cut a man in half. Later the Spartan principles of Zen Buddhism, with its love of nature softened their fighting zeal. It became fashionable for them to live sparse and frugal lives during the Kamakura era (1192-1333), when the ruling warrior family Minamato moved their seat of power to the eastern city of Kamakura.\n\nWho are usually referred to as mercenaries?",
+    "options": [
+      "Soldiers with martial skills",
+      "Proud warriors",
+      "Soldiers who fight for money",
+      "Loyal warriors"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "A mercenary is a professional soldier hired to serve in a foreign army. The passage describes the samurai as a 'band of mercenaries hired by feudal landowners', indicating they fought for pay.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2015",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2015_GE_01",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "The proud warrior class of the samurai (meaning 'those who serve') grew from a band of mercenaries hired by feudal landowners in the 11th century to win them the control of Honshu, Japan's main island. These mercenaries lived by the cult of the sword, worshipping athletic prowess and martial skills. They developed a fierce loyalty to their masters and a fearlessness that made them formidable adversaries. They fought in elaborate armour, wielding their most prized possession, a double-edged sabre with which they could cut a man in half. Later the Spartan principles of Zen Buddhism, with its love of nature softened their fighting zeal. It became fashionable for them to live sparse and frugal lives during the Kamakura era (1192-1333), when the ruling warrior family Minamato moved their seat of power to the eastern city of Kamakura.\n\nWhich of the following best describes the warriors?",
+    "options": [
+      "Proud, greedy",
+      "Fearless, worshipful",
+      "Loyal, fearless",
+      "Possessive, soft"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The passage explicitly states that 'They developed a fierce loyalty to their masters and a fearlessness that made them formidable adversaries.'",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2015",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2015_GE_02",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Reading Comprehension",
+    "question_text": "The proud warrior class of the samurai (meaning 'those who serve') grew from a band of mercenaries hired by feudal landowners in the 11th century to win them the control of Honshu, Japan's main island. These mercenaries lived by the cult of the sword, worshipping athletic prowess and martial skills. They developed a fierce loyalty to their masters and a fearlessness that made them formidable adversaries. They fought in elaborate armour, wielding their most prized possession, a double-edged sabre with which they could cut a man in half. Later the Spartan principles of Zen Buddhism, with its love of nature softened their fighting zeal. It became fashionable for them to live sparse and frugal lives during the Kamakura era (1192-1333), when the ruling warrior family Minamato moved their seat of power to the eastern city of Kamakura.\n\nIn the Kamakura period, it became fashionable for these warriors to live:",
+    "options": [
+      "Zealous lives",
+      "Austere lives",
+      "Powerful lives",
+      "Natural lives"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The passage states that it became fashionable for them to live 'sparse and frugal lives'. 'Austere' is the best synonym for this lifestyle, meaning severe or strict in manner, attitude, or appearance.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2015",
+      "reading_comprehension"
+    ],
+    "question_id": "nimcet_2015_GE_03",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Choose the one which best expresses the following sentence in passive voice: 'You can play with these kittens quite safely'.",
+    "options": [
+      "These kittens can be played with quite safely.",
+      "These kittens can played with you quite safely.",
+      "These kittens can be played with you quite safely.",
+      "These kittens can played with you quite safely."
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The object 'these kittens' becomes the subject. The modal verb 'can' is followed by 'be' and the past participle of the main verb ('played'). The agent 'by you' is often omitted when it is implied or unimportant.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2015",
       "grammar",
       "voice"
     ],
-    "question_id": "nimcet_2009_q106"
+    "question_id": "nimcet_2015_GE_04",
+    "imageUrl": null
   },
   {
     "exam_id": "nimcet",
-    "year": 2009,
+    "year": 2015,
     "subject": "General English",
     "topic": "Vocabulary",
-    "question_text": "Select the set of words that best fits the meaning of the sentence as a whole. While the disease is in _____ state it is almost impossible to determine its existence by _____",
+    "question_text": "Which of the following terms refers to the original inhabitants of a place?",
     "options": [
-      "a dormant, postulate",
-      "a critical, examination",
-      "acute, analysis",
-      "a latent, observation"
+      "Originals",
+      "Aborigines",
+      "Abominables",
+      "Cannibals"
     ],
     "correct_answers": [
-      3
+      1
     ],
-    "explanation": "Latent means hidden/dormant; observation fits the context",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "vocabulary"
-    ],
-    "question_id": "nimcet_2009_q107"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 108",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q108"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 109",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q109"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 110",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q110"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 111",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q111"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 112",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q112"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 113",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q113"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 114",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q114"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 115",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q115"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 116",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q116"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "English Language",
-    "question_text": "English question 117",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answers": [
-      0
-    ],
-    "explanation": "English language concept",
-    "difficulty": "Medium",
-    "tags": [
-      "PYQ",
-      "2009",
-      "english"
-    ],
-    "question_id": "nimcet_2009_q117"
-  },
-  {
-    "exam_id": "nimcet",
-    "year": 2009,
-    "subject": "General English",
-    "topic": "Vocabulary",
-    "question_text": "For the word 'QUIBBLE' find the most appropriate meaning from the alternatives given below.",
-    "options": [
-      "Agreement",
-      "Appreciation",
-      "Creation",
-      "Complain"
-    ],
-    "correct_answers": [
-      3
-    ],
-    "explanation": "Quibble means to argue or complain about something",
+    "explanation": "'Aborigines' are the people who have lived in a country or region from the earliest times.",
     "difficulty": "Easy",
     "tags": [
       "PYQ",
-      "2009",
+      "2015",
       "vocabulary"
     ],
-    "question_id": "nimcet_2009_q118"
+    "question_id": "nimcet_2015_GE_05",
+    "imageUrl": null
   },
   {
     "exam_id": "nimcet",
-    "year": 2009,
+    "year": 2015,
     "subject": "General English",
-    "topic": "Reading Comprehension",
-    "question_text": "Based on the passage about pterosaurs, it can be inferred from the passage that the scientists now generally agree that",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Replace the underlined word with one of the choices given: 'The news of our success was met with exuberant cries'.",
     "options": [
-      "enormous wingspan of the pterosaurs enable them to fly great distances",
-      "structure of the skeleton of the pterosaurs suggests a close evolutionary relationship to bats",
-      "fossil remains of the pterosaurs reveal how they solved the problem of powered flight",
-      "pterosaurs were reptiles"
+      "Excited",
+      "Pathetic",
+      "Exclusive",
+      "Poignant"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "'Exuberant' means filled with or characterized by a lively energy and excitement. 'Excited' is the closest synonym.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2015",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2015_GE_06",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Select the word that is furthest in meaning to the word AFFLUENCE.",
+    "options": [
+      "Stagnation",
+      "Misery",
+      "Neglect",
+      "Poverty"
     ],
     "correct_answers": [
       3
     ],
-    "explanation": "The passage states this is the least controversial assertion",
-    "difficulty": "Medium",
+    "explanation": "'Affluence' means the state of having a great deal of money; wealth. 'Poverty' is its direct opposite.",
+    "difficulty": "Easy",
     "tags": [
       "PYQ",
-      "2009",
-      "reading comprehension"
+      "2015",
+      "synonyms_and_antonyms"
     ],
-    "question_id": "nimcet_2009_q119"
+    "question_id": "nimcet_2015_GE_07",
+    "imageUrl": null
   },
   {
     "exam_id": "nimcet",
-    "year": 2009,
+    "year": 2015,
     "subject": "General English",
-    "topic": "Reading Comprehension",
-    "question_text": "According to the passage, the skeleton of pterosaurs can be distinguished from that of a bird by the",
+    "topic": "Sentence Structure",
+    "question_text": "Rearrange the parts P, Q, R and S to form a complete and meaningful sentence: 'I enclose (P) and the postage (Q) a postal order (R) the price of books (S) which will cover'.",
     "options": [
-      "size of its wingspan",
-      "presence of hollow spaces in its bones",
-      "anatomic origin of its wing strut",
-      "presence of hook like projections on its hind feet"
+      "RPSQ",
+      "QSPR",
+      "QSRP",
+      "QPSR"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The correct sequence is 'I enclose a postal order (Q) which will cover (S) the price of books (R) and the postage (P)'. The sequence is QSRP.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2015",
+      "sentence_structure"
+    ],
+    "question_id": "nimcet_2015_GE_08",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Which of the following is the antonym of the word 'Exigency'?",
+    "options": [
+      "Penchant",
+      "Emergency",
+      "Earnestness",
+      "Indifference"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "'Exigency' refers to an urgent need or demand. 'Indifference', meaning lack of interest or concern, is an opposite concept.",
+    "difficulty": "Hard",
+    "tags": [
+      "PYQ",
+      "2015",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2015_GE_09",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2015,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Which of the following prepositions fills the blank in the sentence 'Quinine is an effective antidote ______ Malaria'?",
+    "options": [
+      "to",
+      "against",
+      "for",
+      "over"
     ],
     "correct_answers": [
       2
     ],
-    "explanation": "The passage mentions the different finger structure supporting the wing",
+    "explanation": "While 'antidote to' is common for poisons, 'antidote for' is often used for diseases or conditions, making it the most suitable choice here.",
     "difficulty": "Medium",
     "tags": [
       "PYQ",
-      "2009",
-      "reading comprehension"
+      "2015",
+      "grammar",
+      "prepositions"
     ],
-    "question_id": "nimcet_2009_q120"
+    "question_id": "nimcet_2015_GE_10",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Change the speech: She says, \"I like going to the seaside\".",
+    "options": [
+      "She says she likes going to the seaside",
+      "She says I like going to the seaside",
+      "She says that she liked going to the seaside",
+      "She says she like going to the seaside"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "When the reporting verb ('says') is in the present tense, the tense of the reported speech does not change. The pronoun 'I' changes to 'she'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "reported_speech"
+    ],
+    "question_id": "nimcet_2013_GE_01",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Sentence Structure",
+    "question_text": "Arrange the following to form a correct sentence: (P) will normally be granted (Q) candidates should note (R) that no request for (S) change of centre",
+    "options": [
+      "SRQP",
+      "PRQS",
+      "QSPR",
+      "QRSP"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The logical order is 'Candidates should note (Q) that no request for (R) change of centre (S) will normally be granted (P)'. The correct sequence is QRSP.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2013",
+      "sentence_structure"
+    ],
+    "question_id": "nimcet_2013_GE_02",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Rewrite the sentence after correcting the error: 'She was one of the average student of the class.'",
+    "options": [
+      "She was one of the average students of the class",
+      "She is one of the average student of the class",
+      "She was one among the average student of the class",
+      "She is an average students of the class"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The phrase 'one of the' is followed by a plural noun. Therefore, 'student' should be corrected to 'students'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "error_spotting"
+    ],
+    "question_id": "nimcet_2013_GE_03",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Choose appropriate words to form a grammatically correct sentence: 'The decoration of the new house, including the furniture and curtains, ______.'",
+    "options": [
+      "is very pleasing",
+      "are very pleasing",
+      "is most pleasing",
+      "are pleasing"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The subject of the sentence is 'The decoration' (singular). The phrase 'including the furniture and curtains' is parenthetical. Therefore, the verb must be singular ('is').",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "subject_verb_agreement"
+    ],
+    "question_id": "nimcet_2013_GE_04",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Fill in the blank: 'The President of the United States, accompanied by his advisors, _______ en route to Europe.'",
+    "options": [
+      "were",
+      "are",
+      "was",
+      "is"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The main subject is 'The President' (singular). The phrase 'accompanied by his advisors' does not affect the verb. The context implies a past event, so 'was' is appropriate.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "subject_verb_agreement"
+    ],
+    "question_id": "nimcet_2013_GE_05",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Choose the suitable word for the blank to make it a meaningful statement. 'What you say is _______ my comprehension.'",
+    "options": [
+      "before",
+      "beside",
+      "behind",
+      "beyond"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The preposition 'beyond' is used to mean 'outside the limits or range of', so 'beyond my comprehension' means 'I cannot understand it'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "prepositions"
+    ],
+    "question_id": "nimcet_2013_GE_06",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Idioms and Phrases",
+    "question_text": "Choose the word that best expresses the meaning of the idiom: 'to smell a rat'.",
+    "options": [
+      "To suspect something bad",
+      "To misunderstand",
+      "To detect a bad smell",
+      "To forsake"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The idiom 'to smell a rat' means to suspect that something is wrong or that someone is trying to deceive you.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "idioms_and_phrases"
+    ],
+    "question_id": "nimcet_2013_GE_07",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Choose the word that best expresses the meaning of the word ABRIDGE.",
+    "options": [
+      "Judge",
+      "Release",
+      "Shorten",
+      "Dissolve"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "To 'abridge' a text means to shorten it by condensation.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2013_GE_08",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Idioms and Phrases",
+    "question_text": "'A dog's breakfast' means",
+    "options": [
+      "Breakfast cooked for a dog",
+      "Breakfast cooked by a dog",
+      "Something that has been done very badly",
+      "None of these"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The idiom 'a dog's breakfast' (or 'a dog's dinner') refers to a complete mess or something that has been done very poorly.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2013",
+      "idioms_and_phrases"
+    ],
+    "question_id": "nimcet_2013_GE_09",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2013,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Pick the part of the sentence that has an error: 'My elder brother is a MA whereas I am only a BA'",
+    "options": [
+      "My elder brother",
+      "is a MA",
+      "whereas I am",
+      "only a BA"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The choice of article ('a' or 'an') depends on the sound of the following word. 'MA' is pronounced 'em-ay', which starts with a vowel sound, so it should be 'an MA'.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2013",
+      "grammar",
+      "articles"
+    ],
+    "question_id": "nimcet_2013_GE_10",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2012,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "And now for this evening's main headline: Britain ............another Olympic gold medal.",
+    "options": [
+      "Had won",
+      "Wins",
+      "Won",
+      "Has won"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The present perfect tense ('has won') is used to report recent news or events.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2012",
+      "grammar",
+      "tenses"
+    ],
+    "question_id": "nimcet_2012_GE_11",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2012,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Fill in the blank: 'I could not ..................... him to attend the meeting.'",
+    "options": [
+      "prevail over",
+      "prevail upon",
+      "prevail about",
+      "prevail in"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "The phrasal verb 'prevail upon' means to persuade someone to do something.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2012",
+      "grammar",
+      "phrasal_verbs"
+    ],
+    "question_id": "nimcet_2012_GE_12",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Fill in the blank with appropriate words given. Anne had to pay for everything because as usual, Peter _______ his wallet at home.",
+    "options": [
+      "had left",
+      "was leaving",
+      "left",
+      "leave"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "The past perfect tense ('had left') is used to describe an action that happened before another past action ('had to pay').",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2011",
+      "grammar",
+      "tenses"
+    ],
+    "question_id": "nimcet_2011_GE_11",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Pick the synonym of the word MEAGRE.",
+    "options": [
+      "helpful",
+      "abundant",
+      "essential",
+      "limited"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "'Meagre' means lacking in quantity or quality. 'Limited' is the closest synonym.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2011",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2011_GE_12",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Idioms and Phrases",
+    "question_text": "Choose the words that best express the meaning of the given idiom - Mud Slinging.",
+    "options": [
+      "Giving pain",
+      "Abusing someone",
+      "Laying blame",
+      "Damaging the reputation"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "'Mud slinging' refers to the act of making insulting or malicious attacks against an opponent, especially in a political context, with the aim of damaging their reputation.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2011",
+      "idioms_and_phrases"
+    ],
+    "question_id": "nimcet_2011_GE_13",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Spelling",
+    "question_text": "For a word, four spellings are given. Choose the correct one.",
+    "options": [
+      "cieling",
+      "cealing",
+      "ceiling",
+      "ceeling"
+    ],
+    "correct_answers": [
+      2
+    ],
+    "explanation": "The correct spelling is 'ceiling'. The mnemonic 'i before e, except after c' applies here.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2011",
+      "spelling"
+    ],
+    "question_id": "nimcet_2011_GE_14",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Spelling",
+    "question_text": "Choose the wrongly spelt word.",
+    "options": [
+      "Believe",
+      "Relieve",
+      "Grieve",
+      "Deceive"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "The words 'Believe', 'Relieve', and 'Grieve' follow the 'i before e' rule. 'Deceive' is an exception and is spelled correctly with 'ei' after 'c'. All options are spelled correctly, so the question is flawed.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2011",
+      "spelling"
+    ],
+    "question_id": "nimcet_2011_GE_15",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Choose the word or phrase that is most similar in meaning to the word - POLEMIC",
+    "options": [
+      "black",
+      "magnetic",
+      "grimace",
+      "controversial"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "A 'polemic' is a strong verbal or written attack on someone or something. It is inherently 'controversial'.",
+    "difficulty": "Hard",
+    "tags": [
+      "PYQ",
+      "2011",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2011_GE_16",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Pick the antonym of the word TIMID",
+    "options": [
+      "bold",
+      "lazy",
+      "calm",
+      "slow"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "'Timid' means showing a lack of courage or confidence; easily frightened. 'Bold' is a direct antonym.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2011",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2011_GE_17",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Grammar",
+    "question_text": "Pick the part of the sentence that has an error. 'If you would have come to me, I would have helped you.'",
+    "options": [
+      "If you would have",
+      "Come to me",
+      "I would have",
+      "Helped you"
+    ],
+    "correct_answers": [
+      0
+    ],
+    "explanation": "This is a third conditional sentence. The 'if' clause should be in the past perfect tense ('had come'), not 'would have come'. The correct sentence is 'If you had come to me...'.",
+    "difficulty": "Medium",
+    "tags": [
+      "PYQ",
+      "2011",
+      "grammar",
+      "error_spotting"
+    ],
+    "question_id": "nimcet_2011_GE_18",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Synonyms and Antonyms",
+    "question_text": "Choose the word or phrase that is most nearly opposite in meaning to the word EXTRINSIC",
+    "options": [
+      "Reputable",
+      "Inherent",
+      "Ambitious",
+      "Cursory"
+    ],
+    "correct_answers": [
+      1
+    ],
+    "explanation": "'Extrinsic' means not part of the essential nature of someone or something; coming or operating from outside. 'Inherent' means existing in something as a permanent, essential, or characteristic attribute, which is the opposite.",
+    "difficulty": "Hard",
+    "tags": [
+      "PYQ",
+      "2011",
+      "synonyms_and_antonyms"
+    ],
+    "question_id": "nimcet_2011_GE_19",
+    "imageUrl": null
+  },
+  {
+    "exam_id": "nimcet",
+    "year": 2011,
+    "subject": "General English",
+    "topic": "Idioms and Phrases",
+    "question_text": "Select the alternative giving the closest meaning of the idiom - To eat a humble pie",
+    "options": [
+      "To become a vegetarian",
+      "Disinfecting everything",
+      "To fill one's belly",
+      "To say you are sorry for a mistake that you made"
+    ],
+    "correct_answers": [
+      3
+    ],
+    "explanation": "To 'eat humble pie' means to make a humble apology and accept humiliation.",
+    "difficulty": "Easy",
+    "tags": [
+      "PYQ",
+      "2011",
+      "idioms_and_phrases"
+    ],
+    "question_id": "nimcet_2011_GE_20",
+    "imageUrl": null
   }
 ]

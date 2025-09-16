@@ -18,7 +18,7 @@ export async function POST(request: Request) {
             const data = doc.data()!;
             const upvotes = data.upvotes || [];
             const downvotes = data.downvotes || [];
-            let voteCount = data.voteCount || 0;
+            const voteCount = data.voteCount || 0;
 
             const hasUpvoted = upvotes.includes(userId);
             const hasDownvoted = downvotes.includes(userId);

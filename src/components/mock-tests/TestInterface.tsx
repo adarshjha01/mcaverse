@@ -1,7 +1,7 @@
 // src/components/mock-tests/TestInterface.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 
@@ -47,7 +47,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!user) {
       alert("Please log in to submit your test.");
       router.push('/login');
@@ -87,7 +87,17 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
       alert("There was an error submitting your test. Please try again.");
       setIsSubmitting(false);
     }
-  };
+  }, [user, test.id, answers, isSubmitting, router, timeLeft]);
+
+  useEffect(() => {
+  if (timeLeft === 0) {
+    handleSubmit();
+  }
+  const timer = setInterval(() => {
+    setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
+  }, 1000);
+  return () => clearInterval(timer);
+}, [timeLeft, handleSubmit]);
 
   const currentQuestion = questions[currentQuestionIndex];
   const minutes = Math.floor(timeLeft / 60);

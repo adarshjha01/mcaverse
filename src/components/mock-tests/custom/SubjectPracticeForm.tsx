@@ -53,9 +53,14 @@ export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
         } else {
             setError(result.error || 'An unknown error occurred.');
         }
-    } catch (err: any) {
-        setError(err.message);
-    } finally {
+      } catch (err: unknown) {
+      if (err instanceof Error) {
+          setError(err.message);
+      } else {
+          setError('An unexpected error occurred.');
+        }
+      }
+        finally {
         setLoading(false);
     }
   };
