@@ -3,13 +3,15 @@
 
 import { useState, useEffect } from 'react';
 
+// Add this type definition
 type Leader = {
-  id: string;
-  userName: string;
-  points: number;
+    id: string;
+    userName: string;
+    points: number;
 };
 
 export const Leaderboard = () => {
+    // Update the state to use the Leader type
     const [leaders, setLeaders] = useState<Leader[]>([]);
 
     useEffect(() => {

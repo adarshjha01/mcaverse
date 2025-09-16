@@ -68,14 +68,14 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
         setError(result.error || 'An unknown error occurred.');
       }
 
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred.');
-      }
+    } catch (err: unknown) { // Change 'any' to 'unknown'
+        if (err instanceof Error) {
+            setError(err.message);
+        } else {
+            setError('An unknown error occurred.');
+        }
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 
+// Add these type definitions
 type DppQuestion = {
     id: string;
     question_text: string;
@@ -15,8 +16,9 @@ type Dpp = {
     id: string;
     questions: DppQuestion[];
 };
-export const DailyPractice = ({ dpp }: { dpp: Dpp }) => {
 
+// Update the component's props from 'any' to the new 'Dpp' type
+export const DailyPractice = ({ dpp }: { dpp: Dpp }) => {
     const { user } = useAuth();
     const router = useRouter();
     const [answers, setAnswers] = useState<{ [key: string]: number }>({});

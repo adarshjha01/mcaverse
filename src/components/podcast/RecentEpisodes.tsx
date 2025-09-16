@@ -7,7 +7,9 @@ type Episode = {
   thumbnailUrl: string;
   description: string;
 };
-type YouTubePlaylistItem = {
+
+// Add this new type for the YouTube API response item
+type YouTubeApiItem = {
   snippet: {
     resourceId: { videoId: string };
     title: string;
@@ -28,11 +30,13 @@ async function getYouTubePlaylistItems(): Promise<Episode[]> {
     const res = await fetch(URL, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error('Failed to fetch YouTube playlist');
     const data = await res.json();
-    const episodes: Episode[] = data.items.map((item: YouTubePlaylistItem) => ({
-    id: item.snippet.resourceId.videoId,
-    title: item.snippet.title,
-    thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url,
-    description: item.snippet.description.substring(0, 150) + '...',
+    
+    // Use the new type here
+    const episodes: Episode[] = data.items.map((item: YouTubeApiItem) => ({
+      id: item.snippet.resourceId.videoId,
+      title: item.snippet.title,
+      thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default.url,
+      description: item.snippet.description.substring(0, 150) + '...',
     }));
     return episodes.reverse();
   } catch (error) {
@@ -41,6 +45,7 @@ async function getYouTubePlaylistItems(): Promise<Episode[]> {
   }
 }
 
+// ... rest of the component remains the same
 export const RecentEpisodes = async () => {
   const episodes = await getYouTubePlaylistItems();
 

@@ -10,7 +10,7 @@ import {
     signOut,
     GoogleAuthProvider,
     signInWithPopup,
-    UserCredential
+    UserCredential // Import UserCredential
 } from 'firebase/auth';
 import { auth } from '@/lib/firebaseClient';
 import { useRouter, usePathname } from 'next/navigation';
@@ -77,4 +77,3 @@ export const useAuth = () => {
   }
   return context;
 };
-
