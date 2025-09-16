@@ -6,9 +6,14 @@ import { notFound } from "next/navigation";
 import { ReplySection } from "@/components/community/ReplySection";
 import Link from 'next/link';
 
-// --- Updated Type Definitions ---
+// --- Type Definitions ---
 type Post = { id: string; title: string; content: string; authorName: string; createdAt: Date; };
 type Reply = { id: string; content: string; authorId: string; authorName: string; createdAt: Date; };
+
+// Define a type for the page's props
+type Props = {
+  params: { id: string };
+};
 
 async function getDiscussionDetails(id: string): Promise<{ post: Post; replies: Reply[] }> {
     const postRef = db.collection('discussions').doc(id);
@@ -40,7 +45,8 @@ async function getDiscussionDetails(id: string): Promise<{ post: Post; replies: 
     return { post, replies };
 }
 
-export default async function DiscussionDetailPage({ params }: { params: { id: string } }) {
+// Use the new Props type for the component's props
+export default async function DiscussionDetailPage({ params }: Props) {
     const { post, replies } = await getDiscussionDetails(params.id);
 
     return (
