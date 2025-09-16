@@ -6,7 +6,6 @@ import { notFound } from "next/navigation";
 import Image from 'next/image';
 import Link from "next/link";
 
-// --- Type Definition for a full Story ---
 type Story = {
   id: string;
   name: string;
@@ -17,30 +16,28 @@ type Story = {
   submittedAt: Date;
 };
 
-// --- Function to fetch a single story's details ---
+// Define a specific type for the page's props
+type Props = {
+  params: { id: string };
+};
+
 async function getStoryDetails(id: string): Promise<Story> {
     const storyRef = db.collection('success-stories').doc(id);
     const docSnap = await storyRef.get();
-
-    if (!docSnap.exists) {
-        notFound(); // This will render the 404 page
-    }
+    if (!docSnap.exists) notFound();
 
     const data = docSnap.data()!;
     return {
-        id: docSnap.id,
-        name: data.name,
-        batch: data.batch,
-        title: data.title,
-        content: data.content,
-        imageUrl: data.imageUrl || null,
+        id: docSnap.id, name: data.name, batch: data.batch, title: data.title,
+        content: data.content, imageUrl: data.imageUrl || null,
         submittedAt: (data.submittedAt as Timestamp).toDate(),
     };
 }
 
-export default async function StoryDetailPage({ params }: { params: { id: string } }) {
+// Use the new Props type here
+export default async function StoryDetailPage({ params }: Props) {
   const story = await getStoryDetails(params.id);
-
+  // ... rest of the component is the same
   return (
       <main className="pt-16">
         <div className="container mx-auto px-4 py-16">

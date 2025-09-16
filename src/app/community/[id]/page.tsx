@@ -10,7 +10,7 @@ import Link from 'next/link';
 type Post = { id: string; title: string; content: string; authorName: string; createdAt: Date; };
 type Reply = { id: string; content: string; authorId: string; authorName: string; createdAt: Date; };
 
-// Define a type for the page's props
+// Define a specific type for the page's props
 type Props = {
   params: { id: string };
 };
@@ -45,7 +45,7 @@ async function getDiscussionDetails(id: string): Promise<{ post: Post; replies: 
     return { post, replies };
 }
 
-// Use the new Props type for the component's props
+// Use the new Props type here
 export default async function DiscussionDetailPage({ params }: Props) {
     const { post, replies } = await getDiscussionDetails(params.id);
 
