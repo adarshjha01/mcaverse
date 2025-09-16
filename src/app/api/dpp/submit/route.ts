@@ -104,6 +104,13 @@ export async function POST(request: Request) {
             return { finalTotalPoints: newTotalPoints, finalStreak: newStreak };
         });
         
+        // Log the daily attempt for the contribution graph
+        const dppAttemptRef = userRef.collection('dppAttempts').doc(dppId);
+        await dppAttemptRef.set({
+            submittedAt: Timestamp.now(),
+            score: pointsEarned,
+        });
+
         return NextResponse.json({ 
             success: true, 
             score: pointsEarned, 

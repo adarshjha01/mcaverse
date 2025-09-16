@@ -88,7 +88,7 @@ const Footer = () => {
                 
                 {/* Bottom Bar */}
                 <div className="border-t border-slate-800 pt-8 text-center text-sm">
-                    <p>&copy; {new Date().getFullYear()} MCAverse. All rights reserved. | Made with <span className="text-red-500">❤️</span> by Adarsh for MCA students</p>
+                    <p>&copy; {new Date().getFullYear()} MCAverse. All rights reserved. | Made with <span className="text-red-500">❤️</span> by Adarsh for MCA Community</p>
                 </div>
             </div>
         </footer>

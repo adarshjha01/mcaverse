@@ -8,16 +8,14 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Image from 'next/image';
 import Link from 'next/link';
 import { ProgressSnapshot } from '@/components/dashboard/ProgressSnapshot';
-import { IconBuilding, IconMapPin, IconGithub, IconLinkedIn, IconBook } from '@/components/ui/Icons';
+import ContributionCalendar from '@/components/dashboard/ContributionCalendar';
+import { IconBuilding, IconMapPin, IconBook } from '@/components/ui/Icons';
 
 type ProfileData = {
     name?: string;
     college?: string;
     course?: string;
     location?: string;
-    bio?: string;
-    linkedin?: string;
-    github?: string;
     photoURL?: string;
 };
 
@@ -65,6 +63,7 @@ export default function DashboardPage() {
 
             if (response.ok) {
                 setMessage({ text: result.message, type: 'success' });
+                // Re-fetch profile data to update UI
                 fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()).then(setProfile);
                 setIsEditing(false);
             } else {
@@ -77,82 +76,84 @@ export default function DashboardPage() {
         }
     };
 
-    if (authLoading || (loading && !isEditing)) {
-        return <div className="flex h-screen items-center justify-center text-slate-700">Loading...</div>;
+    if (authLoading || loading) {
+        return <div className="flex h-screen items-center justify-center text-slate-700">Loading Dashboard...</div>;
     }
 
     if (!user) {
         return (
-            <div className="flex h-screen items-center justify-center text-center">
+            <main className="pt-16 flex h-screen items-center justify-center text-center">
                 <div>
                     <p className="mb-4 text-slate-700">Please log in to view your dashboard.</p>
                     <Link href="/login" className="bg-indigo-600 text-white px-6 py-2 rounded-lg">Login</Link>
                 </div>
-            </div>
+            </main>
         );
     }
 
     return (
-            <main className="pt-16">
-                <section className="py-12 bg-white border-b border-slate-200">
-                    <div className="container mx-auto px-4 flex justify-between items-center">
-                        <div className="flex items-center gap-4">
-                            <Image src={profile.photoURL || user.photoURL || `https://placehold.co/80x80/E2E8F0/475569?text=${(user.displayName || 'U').charAt(0)}`} alt="Profile" width={80} height={80} className="rounded-full" />
-                            <div>
-                                <h1 className="text-3xl font-bold text-slate-800">{profile.name || user.displayName}</h1>
-                                <p className="text-slate-500">{user.email}</p>
+        <main className="pt-16 bg-slate-50 min-h-screen">
+            <div className="container mx-auto px-4 py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    
+                    {/* --- Left Column: Profile --- */}
+                    <div className="lg:col-span-1">
+                        {isEditing ? (
+                            <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md border border-slate-200 space-y-6">
+                                <h2 className="text-xl font-bold text-slate-800">Edit Profile</h2>
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
+                                    <input type="text" id="name" name="name" defaultValue={profile.name || user.displayName || ''} required className="mt-1 block w-full rounded-md border-slate-300"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="image" className="block text-sm font-medium text-slate-700">Profile Picture</label>
+                                    <input type="file" id="image" name="image" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-indigo-50"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="college" className="block text-sm font-medium text-slate-700">College</label>
+                                    <input type="text" id="college" name="college" defaultValue={profile.college || ''} placeholder="e.g., National Institute of Technology" className="mt-1 block w-full rounded-md border-slate-300"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="course" className="block text-sm font-medium text-slate-700">Course</label>
+                                    <input type="text" id="course" name="course" defaultValue={profile.course || ''} placeholder="e.g., Master of Computer Applications" className="mt-1 block w-full rounded-md border-slate-300"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="location" className="block text-sm font-medium text-slate-700">Location</label>
+                                    <input type="text" id="location" name="location" defaultValue={profile.location || ''} placeholder="e.g., Bengaluru, India" className="mt-1 block w-full rounded-md border-slate-300"/>
+                                </div>
+                                <div className="flex justify-end gap-4">
+                                    <button type="button" onClick={() => setIsEditing(false)} className="bg-slate-200 text-slate-800 font-semibold px-4 py-2 rounded-lg">Cancel</button>
+                                    <button type="submit" disabled={loading} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg">
+                                        {loading ? "Saving..." : "Save"}
+                                    </button>
+                                </div>
+                                {message && <p className={`text-sm text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>{message.text}</p>}
+                            </form>
+                        ) : (
+                            <div className="bg-white p-6 rounded-lg shadow-md border border-slate-200 space-y-4">
+                               <div className="flex flex-col items-center">
+                                 <Image src={profile.photoURL || user.photoURL || `https://placehold.co/128x128/E2E8F0/475569?text=${(user.displayName || 'U').charAt(0)}`} alt="Profile" width={128} height={128} className="rounded-full mb-4" />
+                                 <h1 className="text-2xl font-bold text-slate-800">{profile.name || user.displayName}</h1>
+                                  <button onClick={() => setIsEditing(true)} className="w-full mt-4 bg-slate-100 text-slate-800 font-semibold px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">
+                                    Edit Profile
+                                  </button>
+                               </div>
+                                <div className="pt-4 border-t border-slate-200 space-y-3">
+                                    <div className="flex items-center gap-3 text-sm"><IconBuilding className="w-5 h-5 text-slate-500"/> <span className="text-slate-600">{profile.college || 'Not specified'}</span></div>
+                                    <div className="flex items-center gap-3 text-sm"><IconBook className="w-5 h-5 text-slate-500"/> <span className="text-slate-600">{profile.course || 'Not specified'}</span></div>
+                                    <div className="flex items-center gap-3 text-sm"><IconMapPin className="w-5 h-5 text-slate-500"/> <span className="text-slate-600">{profile.location || 'Not specified'}</span></div>
+                                </div>
                             </div>
-                        </div>
-                        <button onClick={() => setIsEditing(!isEditing)} className="bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                            {isEditing ? "Cancel" : "Edit Profile"}
-                        </button>
+                        )}
                     </div>
-                </section>
 
-                <div className="container mx-auto px-4 py-12">
-                    {isEditing ? (
-                        <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border border-slate-200 space-y-6">
-                            <h2 className="text-2xl font-bold text-slate-800">Edit Profile</h2>
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
-                                <input type="text" id="name" name="name" defaultValue={profile.name || user.displayName || ''} required className="mt-1 block w-full rounded-md border-slate-300"/>
-                            </div>
-                            <div>
-                                <label htmlFor="image" className="block text-sm font-medium text-slate-700">Profile Picture</label>
-                                <input type="file" id="image" name="image" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} className="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-indigo-50"/>
-                            </div>
-                             <div>
-                                <label htmlFor="college" className="block text-sm font-medium text-slate-700">College</label>
-                                <input type="text" id="college" name="college" defaultValue={profile.college || ''} placeholder="e.g., National Institute of Technology" className="mt-1 block w-full rounded-md border-slate-300"/>
-                            </div>
-                             <div>
-                                <label htmlFor="course" className="block text-sm font-medium text-slate-700">Course</label>
-                                <input type="text" id="course" name="course" defaultValue={profile.course || ''} placeholder="e.g., Master of Computer Applications" className="mt-1 block w-full rounded-md border-slate-300"/>
-                            </div>
-                             <div>
-                                <label htmlFor="location" className="block text-sm font-medium text-slate-700">Location</label>
-                                <input type="text" id="location" name="location" defaultValue={profile.location || ''} placeholder="e.g., Bengaluru, India" className="mt-1 block w-full rounded-md border-slate-300"/>
-                            </div>
-                            <div className="flex justify-end gap-4">
-                                <button type="button" onClick={() => setIsEditing(false)} className="bg-slate-200 text-slate-800 font-semibold px-6 py-3 rounded-lg">Cancel</button>
-                                <button type="submit" disabled={loading} className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg">
-                                    {loading ? "Saving..." : "Save Changes"}
-                                </button>
-                            </div>
-                            {message && <p className={`text-sm text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>{message.text}</p>}
-                        </form>
-                    ) : (
-                        <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border border-slate-200 space-y-4">
-                            <h2 className="text-2xl font-bold text-slate-800">Your Profile</h2>
-                            <div className="flex items-center gap-3"><IconBuilding className="text-slate-500"/> <span className="font-semibold text-slate-700">College:</span> <span className="text-slate-600">{profile.college || 'Not specified'}</span></div>
-                            <div className="flex items-center gap-3"><IconBook className="text-slate-500"/> <span className="font-semibold text-slate-700">Course:</span> <span className="text-slate-600">{profile.course || 'Not specified'}</span></div>
-                            <div className="flex items-center gap-3"><IconMapPin className="text-slate-500"/> <span className="font-semibold text-slate-700">Location:</span> <span className="text-slate-600">{profile.location || 'Not specified'}</span></div>
-                        </div>
-                    )}
-                    <div className="max-w-2xl mx-auto">
+                    {/* --- Right Column: Activity --- */}
+                    <div className="lg:col-span-3 space-y-8">
                         <ProgressSnapshot />
+                        <ContributionCalendar userId={user.uid} />
                     </div>
                 </div>
-            </main>
+            </div>
+        </main>
     );
 }
