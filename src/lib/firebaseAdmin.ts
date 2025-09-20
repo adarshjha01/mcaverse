@@ -1,21 +1,22 @@
 // src/lib/firebaseAdmin.ts
-import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import admin from 'firebase-admin';
 
-// This is a more robust way to handle the service account credentials
-const serviceAccount: ServiceAccount = {
-  projectId: process.env.FIREBASE_PROJECT_ID!,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
-  // The .env file can struggle with newlines, so we replace the literal '\n' with actual newlines
-  privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-};
-
-if (!getApps().length) {
-  initializeApp({
-    credential: cert(serviceAccount),
-  });
+if (!admin.apps.length) {
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      }),
+      databaseURL: `https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseio.com`,
+    });
+  } catch (error: any) {
+    console.error('Firebase admin initialization error', error.stack);
+  }
 }
 
-const db = getFirestore();
+const db = admin.firestore();
+const auth = admin.auth(); // Correctly export the auth module
 
-export { db };
+export { db, auth };

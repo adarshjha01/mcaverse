@@ -11,6 +11,7 @@ import { ProgressSnapshot } from '@/components/dashboard/ProgressSnapshot';
 import ContributionCalendar from '@/components/dashboard/ContributionCalendar';
 import { IconBuilding, IconMapPin, IconBook } from '@/components/ui/Icons';
 
+// --- Type Definitions ---
 type ProfileData = {
     name?: string;
     college?: string;
@@ -19,49 +20,47 @@ type ProfileData = {
     photoURL?: string;
 };
 
-// Define the types for course data, consistent with ProgressSnapshot
 type Subject = {
   subject: string;
   topics: { name: string; lectures: any[] }[];
 };
 
+
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth();
     const [profile, setProfile] = useState<ProfileData>({});
     const [file, setFile] = useState<File | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [pageLoading, setPageLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
+    const [formLoading, setFormLoading] = useState(false);
     
-    // FIX: Add state to hold the course data for the ProgressSnapshot
+    // FIX: State to hold the course data for the ProgressSnapshot
     const [courseData, setCourseData] = useState<Subject[] | null>(null);
 
     useEffect(() => {
-        // Only proceed if authentication is resolved and we have a user
         if (!authLoading && user) {
-            // Use Promise.all to fetch profile and course data in parallel
+            // Fetch profile and course data in parallel for efficiency
             Promise.all([
                 fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()),
-                fetch('/api/course-data').then(res => res.json()) // Assumes an API route at this path
+                fetch('/api/course-data').then(res => res.json())
             ]).then(([profileData, fetchedCourseData]) => {
                 setProfile(profileData);
                 setCourseData(fetchedCourseData);
             }).catch(error => {
                 console.error("Failed to fetch dashboard data:", error);
             }).finally(() => {
-                // Set loading to false after all fetches are complete
-                setLoading(false);
+                setPageLoading(false);
             });
-        } else if (!authLoading && !user) {
-            // If authentication is done and there's no user, stop loading
-            setLoading(false);
+        } else if (!authLoading) {
+            setPageLoading(false);
         }
     }, [user, authLoading]);
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!user) return;
-        setLoading(true);
+        setFormLoading(true);
         setMessage(null);
 
         const formData = new FormData(event.currentTarget);
@@ -81,8 +80,8 @@ export default function DashboardPage() {
 
             if (response.ok) {
                 setMessage({ text: result.message, type: 'success' });
-                // Re-fetch profile data to update UI
-                fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()).then(setProfile);
+                const updatedProfile = await fetch(`/api/profile?userId=${user.uid}`).then(res => res.json());
+                setProfile(updatedProfile);
                 setIsEditing(false);
             } else {
                 setMessage({ text: result.error || 'An error occurred.', type: 'error' });
@@ -90,11 +89,11 @@ export default function DashboardPage() {
         } catch (error) {
             setMessage({ text: 'An unexpected error occurred.', type: 'error' });
         } finally {
-            setLoading(false);
+            setFormLoading(false);
         }
     };
 
-    if (authLoading || loading) {
+    if (authLoading || pageLoading) {
         return <div className="flex h-screen items-center justify-center text-slate-700">Loading Dashboard...</div>;
     }
 
@@ -141,8 +140,8 @@ export default function DashboardPage() {
                                 </div>
                                 <div className="flex justify-end gap-4">
                                     <button type="button" onClick={() => setIsEditing(false)} className="bg-slate-200 text-slate-800 font-semibold px-4 py-2 rounded-lg">Cancel</button>
-                                    <button type="submit" disabled={loading} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg">
-                                        {loading ? "Saving..." : "Save"}
+                                    <button type="submit" disabled={formLoading} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg">
+                                        {formLoading ? "Saving..." : "Save"}
                                     </button>
                                 </div>
                                 {message && <p className={`text-sm text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>{message.text}</p>}
@@ -168,7 +167,7 @@ export default function DashboardPage() {
                     {/* --- Right Column: Activity --- */}
                     <div className="lg:col-span-3 space-y-8">
                         {/* FIX: Pass the fetched course data as a prop */}
-                        <ProgressSnapshot />
+                        <ProgressSnapshot initialCourseData={courseData} />
                         <ContributionCalendar userId={user.uid} />
                     </div>
                 </div>

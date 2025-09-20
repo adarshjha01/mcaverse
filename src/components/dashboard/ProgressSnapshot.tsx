@@ -40,75 +40,61 @@ const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, si
     );
 };
 
-export const ProgressSnapshot = () => {
+export const ProgressSnapshot = ({ initialCourseData }: { initialCourseData: Subject[] | null }) => {
     const { user } = useAuth();
-    const [courseData, setCourseData] = useState<Subject[]>([]);
     const [completedLectures, setCompletedLectures] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
-            const courseRes = await fetch('/api/course-data');
-            const courses = await courseRes.json();
-            setCourseData(courses);
-
-            if (user) {
-                const progressRes = await fetch(`/api/video-progress?userId=${user.uid}`);
-                const progress: Progress = await progressRes.json();
-                setCompletedLectures(new Set(progress.completed));
-            }
+        if (user) {
+            fetch(`/api/video-progress?userId=${user.uid}`)
+                .then(res => res.json())
+                .then((progress: Progress) => {
+                    if (progress && progress.completed) {
+                        setCompletedLectures(new Set(progress.completed));
+                    }
+                }).finally(() => setLoading(false));
+        } else if (!user) {
             setLoading(false);
         }
-        fetchData();
     }, [user]);
 
     const { totalLectures, subjectStats } = useMemo(() => {
+        if (!initialCourseData || !Array.isArray(initialCourseData)) {
+            return { totalLectures: 0, subjectStats: [] };
+        }
+        
         let total = 0;
-        const stats = courseData.map(subject => {
+        const stats = initialCourseData.map(subject => {
             const subjectTotal = subject.topics.reduce((acc, topic) => acc + topic.lectures.length, 0);
             total += subjectTotal;
             const completed = subject.topics.reduce((acc, topic) =>
                 acc + topic.lectures.filter(lec => completedLectures.has(lec.id)).length, 0);
             return { name: subject.subject, completed, total: subjectTotal };
         });
+
         return { totalLectures: total, subjectStats: stats };
-    }, [completedLectures, courseData]);
+    }, [completedLectures, initialCourseData]);
 
     const overallProgress = totalLectures > 0 ? (completedLectures.size / totalLectures) * 100 : 0;
     
     const subjectColors: { [key: string]: string } = {
         "Mathematics": "bg-green-500",
-        "Logical Reasoning": "bg-yellow-500",
-        "Computer Science": "bg-red-500",
+        "Analytical Ability & Logical Reasoning": "bg-yellow-500",
+        "Computer Awareness": "bg-red-500",
         "English": "bg-blue-500",
     };
 
-    if (loading) {
-        return (
-             <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm animate-pulse">
-                <div className="h-8 bg-slate-200 rounded w-1/2 mb-4"></div>
-                <div className="h-24 bg-slate-100 rounded"></div>
+    if (loading || !initialCourseData) {
+         return (
+             <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm animate-pulse h-[144px]">
+                <div className="h-full bg-slate-100 rounded"></div>
              </div>
         )
     }
 
-    if (!user) {
-        return (
-            <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm text-center">
-                <p className="text-slate-600">Please <Link href="/login" className="text-orange-500 hover:underline font-semibold">log in</Link> to see your progress.</p>
-            </div>
-        );
-    }
-
     return (
         <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-md">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-slate-800">Your Progress</h2>
-                <Link href="/videos" className="text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
-                    View All Videos &rarr;
-                </Link>
-            </div>
              <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="flex items-center gap-4 pr-8 border-b md:border-b-0 md:border-r border-slate-200 pb-6 md:pb-0 w-full md:w-auto">
                     <div className="flex-shrink-0">
