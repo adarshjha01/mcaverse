@@ -12,12 +12,11 @@ type Subject = { subject: string; topics: Topic[]; };
 type Progress = { completed: string[], revision: string[] };
 
 const IconStar = ({ className = "w-5 h-5", filled = false }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
     </svg>
 );
 
-// --- Circular Progress Bar Component ---
 const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, size?: number }) => {
     const radius = (size / 2) - 5;
     const circumference = 2 * Math.PI * radius;
@@ -46,23 +45,70 @@ const CircularProgressBar = ({ percentage, size = 80 }: { percentage: number, si
     );
 };
 
+const LectureTable = ({ lectures, completedLectures, revisionLectures, onToggleLecture, onToggleRevision }: {
+    lectures: Lecture[];
+    completedLectures: Set<string>;
+    revisionLectures: Set<string>;
+    onToggleLecture: (id: string) => void;
+    onToggleRevision: (id: string) => void;
+}) => (
+    <table className="w-full text-sm text-left table-fixed">
+        <thead className="text-xs text-slate-500 uppercase">
+            <tr>
+                <th className="py-2 px-2 w-16">Status</th>
+                <th className="py-2 px-2">Title</th>
+                <th className="py-2 px-2 w-24 text-center">Resource</th>
+                <th className="py-2 px-2 w-24 text-center">Revision</th>
+            </tr>
+        </thead>
+        <tbody>
+            {lectures.map(lecture => (
+                <tr key={lecture.id} className="border-b border-slate-200 last:border-b-0">
+                    <td className="py-2 px-2">
+                        <input
+                            type="checkbox"
+                            checked={completedLectures.has(lecture.id)}
+                            onChange={() => onToggleLecture(lecture.id)}
+                            className="w-4 h-4 text-indigo-600 bg-slate-100 border-slate-300 rounded focus:ring-indigo-500"
+                        />
+                    </td>
+                    <td className={`py-2 px-2 truncate ${completedLectures.has(lecture.id) ? 'line-through text-slate-400' : 'text-slate-700'}`}>
+                        {lecture.title}
+                    </td>
+                    <td className="py-2 px-2 w-24 text-center">
+                        <a href={lecture.youtubeLink} target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 flex justify-center">
+                            <IconPlayCircle />
+                        </a>
+                    </td>
+                    <td className="py-2 px-2 w-24 text-center">
+                        <button onClick={() => onToggleRevision(lecture.id)} className={`w-full flex justify-center text-slate-400 hover:text-yellow-500 ${revisionLectures.has(lecture.id) ? 'text-yellow-400' : ''}`}>
+                            <IconStar filled={revisionLectures.has(lecture.id)} />
+                        </button>
+                    </td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+);
 
-
-// --- Main Dashboard Component ---
 export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subject[] }) => {
     const { user } = useAuth();
     const [completedLectures, setCompletedLectures] = useState<Set<string>>(new Set());
     const [revisionLectures, setRevisionLectures] = useState<Set<string>>(new Set());
-    const [openSubjects, setOpenSubjects] = useState<Set<string>>(new Set(initialCourseData[0]?.subject ? [initialCourseData[0].subject] : []));
-    const [openTopics, setOpenTopics] = useState<Set<string>>(new Set(initialCourseData[0]?.topics[0]?.name ? [initialCourseData[0].topics[0].name] : []));
+    
+    // FIX: Safely initialize state, even if initialCourseData is undefined initially
+    const [openSubjects, setOpenSubjects] = useState<Set<string>>(new Set(initialCourseData?.[0]?.subject ? [initialCourseData[0].subject] : []));
+    const [openTopics, setOpenTopics] = useState<Set<string>>(new Set(initialCourseData?.[0]?.topics[0]?.name ? [initialCourseData[0].topics[0].name] : []));
 
     useEffect(() => {
         if (user) {
             fetch(`/api/video-progress?userId=${user.uid}`)
                 .then(res => res.json())
                 .then((progress: Progress) => {
-                    setCompletedLectures(new Set(progress.completed));
-                    setRevisionLectures(new Set(progress.revision));
+                    if (progress) {
+                        setCompletedLectures(new Set(progress.completed));
+                        setRevisionLectures(new Set(progress.revision));
+                    }
                 });
         } else {
             setCompletedLectures(new Set());
@@ -71,6 +117,11 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
     }, [user]);
 
     const { totalLectures, subjectStats } = useMemo(() => {
+        // FIX: Add a guard clause to prevent crash
+        if (!initialCourseData || !Array.isArray(initialCourseData)) {
+            return { totalLectures: 0, subjectStats: [] };
+        }
+        
         let total = 0;
         const stats = initialCourseData.map(subject => {
             const subjectTotal = subject.topics.reduce((acc, topic) => acc + topic.lectures.length, 0);
@@ -93,7 +144,7 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         });
     };
 
-   const handleToggleLecture = (id: string) => {
+    const handleToggleLecture = (id: string) => {
         if (!user) {
             alert("Please log in to track your progress.");
             return;
@@ -104,7 +155,7 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         setCompletedLectures(newSet);
         updateVideoProgressAPI(id, 'completed', isAdding);
     };
-    
+
     const handleToggleRevision = (id: string) => {
         if (!user) {
             alert("Please log in to save your revisions.");
@@ -116,6 +167,7 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         setRevisionLectures(newSet);
         updateVideoProgressAPI(id, 'revision', isAdding);
     };
+    
     const toggleSubject = (subject: string) => setOpenSubjects(prev => {
         const newSet = new Set(prev);
         if (newSet.has(subject)) newSet.delete(subject); else newSet.add(subject);
@@ -127,13 +179,27 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
         if (newSet.has(topic)) newSet.delete(topic); else newSet.add(topic);
         return newSet;
     });
-    
+
     const subjectColors: { [key: string]: string } = {
         "Mathematics": "bg-green-500",
         "Logical Reasoning": "bg-yellow-500",
         "Computer Science": "bg-red-500",
         "English": "bg-blue-500",
     };
+    
+    // FIX: Show a loading skeleton while data is not ready
+     if (!initialCourseData) {
+        return (
+            <div className="max-w-6xl mx-auto animate-pulse">
+                <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-md mb-8 h-36"></div>
+                <div className="space-y-4">
+                    <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm h-16"></div>
+                    <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm h-16"></div>
+                    <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm h-16"></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -186,43 +252,17 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
                                                 </button>
                                                 {isTopicOpen && (
                                                     <div className="px-3 pb-3">
-                                                        <table className="w-full text-sm text-left table-fixed">
-                                                            <thead className="text-xs text-slate-500 uppercase">
-                                                                <tr>
-                                                                    <th className="py-2 px-2 w-16">Status</th>
-                                                                    <th className="py-2 px-2">Title</th>
-                                                                    <th className="py-2 px-2 w-24 text-center">Resource</th>
-                                                                    <th className="py-2 px-2 w-24 text-center">Revision</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {topic.lectures.map(lecture => (
-                                                                    <tr key={lecture.id} className="border-b border-slate-200 last:border-b-0">
-                                                                        <td className="py-2 px-2">
-                                                                            <input 
-                                                                                type="checkbox"
-                                                                                checked={completedLectures.has(lecture.id)}
-                                                                                onChange={() => handleToggleLecture(lecture.id)}
-                                                                                className="w-4 h-4 text-indigo-600 bg-slate-100 border-slate-300 rounded focus:ring-indigo-500"
-                                                                            />
-                                                                        </td>
-                                                                        <td className={`py-2 px-2 truncate ${completedLectures.has(lecture.id) ? 'line-through text-slate-400' : 'text-slate-700'}`}>
-                                                                            {lecture.title}
-                                                                        </td>
-                                                                        <td className="py-2 px-2">
-                                                                            <a href={lecture.youtubeLink} target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-800 flex justify-center">
-                                                                                <IconPlayCircle />
-                                                                            </a>
-                                                                        </td>
-                                                                        <td className="py-2 px-2">
-                                                                            <button onClick={() => handleToggleRevision(lecture.id)} className={`w-full flex justify-center text-slate-400 hover:text-yellow-500 ${revisionLectures.has(lecture.id) ? 'text-yellow-400' : ''}`}>
-                                                                                <IconStar filled={revisionLectures.has(lecture.id)} />
-                                                                            </button>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))}
-                                                            </tbody>
-                                                        </table>
+                                                      {topic.lectures && topic.lectures.length > 0 ? (
+                                                          <LectureTable
+                                                              lectures={topic.lectures}
+                                                              completedLectures={completedLectures}
+                                                              revisionLectures={revisionLectures}
+                                                              onToggleLecture={handleToggleLecture}
+                                                              onToggleRevision={handleToggleRevision}
+                                                          />
+                                                      ) : (
+                                                        <p className="text-xs text-slate-500 italic px-2 py-1">Coming soon</p>
+                                                      )}
                                                     </div>
                                                 )}
                                             </div>

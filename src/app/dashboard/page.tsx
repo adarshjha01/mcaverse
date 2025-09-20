@@ -19,6 +19,12 @@ type ProfileData = {
     photoURL?: string;
 };
 
+// Define the types for course data, consistent with ProgressSnapshot
+type Subject = {
+  subject: string;
+  topics: { name: string; lectures: any[] }[];
+};
+
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth();
     const [profile, setProfile] = useState<ProfileData>({});
@@ -26,16 +32,28 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
+    
+    // FIX: Add state to hold the course data for the ProgressSnapshot
+    const [courseData, setCourseData] = useState<Subject[] | null>(null);
 
     useEffect(() => {
-        if (user) {
-            fetch(`/api/profile?userId=${user.uid}`)
-                .then(res => res.json())
-                .then(data => {
-                    setProfile(data);
-                    setLoading(false);
-                });
-        } else if (!authLoading) {
+        // Only proceed if authentication is resolved and we have a user
+        if (!authLoading && user) {
+            // Use Promise.all to fetch profile and course data in parallel
+            Promise.all([
+                fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()),
+                fetch('/api/course-data').then(res => res.json()) // Assumes an API route at this path
+            ]).then(([profileData, fetchedCourseData]) => {
+                setProfile(profileData);
+                setCourseData(fetchedCourseData);
+            }).catch(error => {
+                console.error("Failed to fetch dashboard data:", error);
+            }).finally(() => {
+                // Set loading to false after all fetches are complete
+                setLoading(false);
+            });
+        } else if (!authLoading && !user) {
+            // If authentication is done and there's no user, stop loading
             setLoading(false);
         }
     }, [user, authLoading]);
@@ -149,6 +167,7 @@ export default function DashboardPage() {
 
                     {/* --- Right Column: Activity --- */}
                     <div className="lg:col-span-3 space-y-8">
+                        {/* FIX: Pass the fetched course data as a prop */}
                         <ProgressSnapshot />
                         <ContributionCalendar userId={user.uid} />
                     </div>

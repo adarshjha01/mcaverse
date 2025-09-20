@@ -4,10 +4,8 @@
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { redirect } from 'next/navigation';
-
-// src/app/actions.ts
-
 import { z } from 'zod';
+import { subjectsData, TopicData } from '@/db/video-data'; // Import the new centralized data source
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'model']),
@@ -42,6 +40,7 @@ type Lecture = {
 type Topic = {
   name: string;
   lectures: Lecture[];
+  playlistId?: string;
 };
 type Subject = {
   subject: string;
@@ -53,14 +52,22 @@ type YouTubePlaylistItem = {
     title: string;
   };
 };
+
 // --- Function to fetch a single YouTube playlist ---
 async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
     const API_KEY = process.env.YOUTUBE_API_KEY;
     const URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${API_KEY}&maxResults=50`;
     try {
         const res = await fetch(URL, { next: { revalidate: 3600 } });
-        if (!res.ok) return [];
+        if (!res.ok) {
+            console.error(`Failed to fetch playlist ${playlistId}, status: ${res.status}`);
+            return [];
+        };
         const data = await res.json();
+        if (!data.items) {
+            console.error(`No items found in playlist ${playlistId}`);
+            return [];
+        }
         return data.items.map((item: YouTubePlaylistItem) => ({
         id: item.snippet.resourceId.videoId,
         title: item.snippet.title,
@@ -74,22 +81,30 @@ async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
 
 // --- Server Action to get all course data ---
 export async function getCourseData(): Promise<Subject[]> {
-    const playlistIds = {
-        "Mathematics": process.env.YOUTUBE_MATH_PLAYLIST_ID,
-        "Logical Reasoning": process.env.YOUTUBE_LR_PLAYLIST_ID,
-        "Computer Science": process.env.YOUTUBE_CS_PLAYLIST_ID,
-        "English": process.env.YOUTUBE_ENGLISH_PLAYLIST_ID,
-    };
     const courseData: Subject[] = [];
-    for (const [subject, id] of Object.entries(playlistIds)) {
-        if (id) {
-            const lectures = await fetchPlaylist(id);
-            courseData.push({
-                subject,
-                topics: [{ name: `${subject} Lectures`, lectures }]
-            });
-        }
+
+    // --- Process all subjects from the centralized data file ---
+    for (const subjectInfo of subjectsData) {
+        const topics: Topic[] = await Promise.all(
+            subjectInfo.topics.map(async (topic: TopicData) => {
+                if (topic.playlistId && topic.playlistId !== "YOUR_PLAYLIST_ID_HERE") {
+                    return {
+                        name: topic.name,
+                        lectures: await fetchPlaylist(topic.playlistId),
+                        playlistId: topic.playlistId,
+                    };
+                }
+                // Return topic with empty lectures if no playlist is provided
+                return { name: topic.name, lectures: [] };
+            })
+        );
+        
+        courseData.push({
+            subject: subjectInfo.subject,
+            topics: topics,
+        });
     }
+
     return courseData;
 }
 
@@ -101,14 +116,14 @@ type CustomTestParams = {
   userId: string;
 };
 
-// --- NEW: Server Action to create a custom test ---
+// --- Server Action to create a custom test ---
 export async function createCustomTest(params: CustomTestParams) {
   "use server";
   const { subject, topic, numQuestions, duration, userId } = params;
 
   try {
     // 1. Build the query based on provided parameters
-    let query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData> = 
+    let query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData> =
         db.collection('questions').where('subject', '==', subject);
     if (topic) {
       query = query.where('topic', '==', topic);
