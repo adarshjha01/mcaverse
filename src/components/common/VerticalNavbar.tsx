@@ -1,18 +1,18 @@
 // src/components/common/VerticalNavbar.tsx
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
-import { IconVideo, IconFileText, IconBot, IconTrophy, IconMic, IconUsers, IconUserCircle, IconLogout, IconChevronRight, IconMenu2 } from '@/components/ui/Icons';
+import { IconVideo, IconFileText, IconBot, IconTrophy, IconMic, IconUsers, IconUserCircle, IconLogout, IconChevronRight, IconMenu2, IconMail } from '@/components/ui/Icons';
 
 // Updated NavSection to handle collapsed state
 const NavSection = ({ title, children, isCollapsed }: { title: string, children: React.ReactNode, isCollapsed: boolean }) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = React.useState(true);
     
     if (isCollapsed) {
         return <div className="space-y-1">{children}</div>;
@@ -79,6 +79,7 @@ export const VerticalNavbar = ({ isCollapsed, onToggle }: { isCollapsed: boolean
                     <NavLink href="/podcast" icon={<IconMic className="w-5 h-5"/>} label="Podcast" isCollapsed={isCollapsed} />
                 <NavLink href="/community" icon={<IconUsers className="w-5 h-5"/>} label="Community" isCollapsed={isCollapsed} />
                 <NavLink href="/about" icon={<IconUserCircle className="w-5 h-5"/>} label="About Us" isCollapsed={isCollapsed} />
+                <NavLink href="/contact" icon={<IconMail className="w-5 h-5"/>} label="Contact" isCollapsed={isCollapsed} />
             </nav>
 
             <div className="flex-shrink-0 border-t border-slate-700 pt-4">

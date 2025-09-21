@@ -1,7 +1,6 @@
 // src/app/api/user/practice-history/route.ts
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
-import { Timestamp } from 'firebase-admin/firestore';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -12,22 +11,20 @@ export async function GET(request: Request) {
     }
 
     try {
-        const attemptsSnapshot = await db.collection('users').doc(userId).collection('dppAttempts').get();
+        // Fetch from the new 'contributions' collection
+        const contributionsSnapshot = await db.collection('users').doc(userId).collection('contributions').get();
         
-        if (attemptsSnapshot.empty) {
-            return NextResponse.json([]);
+        if (contributionsSnapshot.empty) {
+            return NextResponse.json({}); // Return an empty object if no contributions
         }
-
-        const dates = attemptsSnapshot.docs.map(doc => {
-            const data = doc.data();
-            const submittedAt = data.submittedAt as Timestamp;
-            return submittedAt.toDate().toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
+        
+        // Create an object mapping date strings to their contribution count
+        const contributions: { [date: string]: number } = {};
+        contributionsSnapshot.forEach(doc => {
+            contributions[doc.id] = doc.data().count;
         });
 
-        // Remove duplicates in case user submits DPP multiple times a day
-        const uniqueDates = [...new Set(dates)];
-
-        return NextResponse.json(uniqueDates);
+        return NextResponse.json(contributions);
     } catch (error) {
         console.error("Error fetching practice history:", error);
         return NextResponse.json({ error: 'Failed to fetch practice history' }, { status: 500 });
