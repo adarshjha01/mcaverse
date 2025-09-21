@@ -10,7 +10,7 @@ import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
 import { IconVideo, IconFileText, IconBot, IconTrophy, IconMic, IconUsers, IconUserCircle, IconLogout, IconChevronRight, IconMenu2, IconMail } from '@/components/ui/Icons';
 
-// Updated NavSection to handle collapsed state
+// No changes needed in NavSection
 const NavSection = ({ title, children, isCollapsed }: { title: string, children: React.ReactNode, isCollapsed: boolean }) => {
     const [isOpen, setIsOpen] = React.useState(true);
     
@@ -29,10 +29,13 @@ const NavSection = ({ title, children, isCollapsed }: { title: string, children:
     );
 };
 
-// Updated NavLink to handle collapsed state
+// Updated NavLink to handle nested routes correctly
 const NavLink = ({ href, icon, label, isCollapsed }: { href: string, icon: React.ReactNode, label: string, isCollapsed: boolean }) => {
     const pathname = usePathname();
-    const isActive = pathname === href;
+    // FIX: Changed from pathname === href to pathname.startsWith(href)
+    // This ensures parent links stay active on child pages.
+    const isActive = pathname.startsWith(href);
+    
     return (
         <div className="relative group">
             <Link href={href} className={`flex items-center gap-3 rounded-md text-sm font-medium transition-colors ${isCollapsed ? 'px-3 py-3 justify-center' : 'px-4 py-2'} ${
