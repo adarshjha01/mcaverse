@@ -1,36 +1,46 @@
-// src/app/actions.ts
 "use server";
 
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { subjectsData, TopicData } from '@/db/video-data'; // Import the new centralized data source
-
-const MessageSchema = z.object({
-  role: z.enum(['user', 'model']),
-  text: z.string(),
-});
+import { subjectsData, TopicData } from '@/db/video-data';
 
 const FormStateSchema = z.object({
   response: z.string().optional(),
   error: z.string().optional(),
 });
 
+// --- Funny fallback responses for MCAverse Chat ---
+const humorousResponses: string[] = [
+  "Oops! My circuits are overheating. Try exploring other MCAverse features while I reboot! 🤖",
+  "I'm still in training — maybe check out the Quizzes while I learn to chat properly! 🚀",
+  "Server’s taking a chai break ☕. Be right back — until then, explore more of MCAverse!",
+  "My AI brain’s in maintenance mode. But hey, have you checked the syllabus tracker yet? 😅",
+  "Hold on, I'm debugging my own thoughts... Meanwhile, enjoy other sections of MCAverse!",
+];
+
+// --- Server Action for AI Response ---
 export async function getAIResponse(
   previousState: z.infer<typeof FormStateSchema> | null,
   formData: FormData
 ): Promise<z.infer<typeof FormStateSchema>> {
-  const prompt = formData.get('prompt') as string;
-  const history = JSON.parse(formData.get('history') as string);
+  try {
+    const prompt = (formData.get('prompt') as string)?.toLowerCase() || '';
 
-  // Placeholder for your AI logic
-  if (prompt) {
-    return { response: `This is a placeholder response to: "${prompt}"` };
-  } else {
-    return { error: 'Prompt is required.' };
+    if (!prompt) return { error: 'Please type something first!' };
+
+    // Intentionally return a funny fallback instead of hitting real AI API
+    const randomResponse = humorousResponses[Math.floor(Math.random() * humorousResponses.length)];
+    return { response: randomResponse };
+
+  } catch (error) {
+    console.error('Chat AI error:', error);
+    const fallback = humorousResponses[Math.floor(Math.random() * humorousResponses.length)];
+    return { response: fallback };
   }
 }
+
 // --- Type Definitions for Video Data ---
 type Lecture = {
   id: string;
@@ -171,3 +181,4 @@ export async function createCustomTest(params: CustomTestParams) {
     return { error: 'Failed to create the test on the server. Please try again.' };
   }
 }
+
