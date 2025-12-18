@@ -1,10 +1,11 @@
 // src/app/videos/page.tsx
 import { VideoDashboard } from "@/components/videos/VideoDashboard";
 import { IconVideo } from "@/components/ui/Icons";
-import { getCourseData } from "@/app/actions"; // Import the new action
+import { getCourseData } from "@/app/actions"; 
+
+export const dynamic = 'force-dynamic'; // Ensure page doesn't cache stale data forever
 
 export default async function VideosPage() {
-  // Fetch course data on the server when the page loads
   const courseData = await getCourseData();
 
   return (
@@ -18,8 +19,14 @@ export default async function VideosPage() {
         </section>
 
         <div className="container mx-auto px-4 py-16">
-            {/* Pass the fetched data to the client component */}
-            <VideoDashboard initialCourseData={courseData} />
+            {courseData.length > 0 ? (
+                <VideoDashboard initialCourseData={courseData} />
+            ) : (
+                <div className="text-center py-12">
+                    <p className="text-xl text-slate-500">Loading course content or no content available...</p>
+                    <p className="text-sm text-slate-400 mt-2">If you are the admin, please check your database connection.</p>
+                </div>
+            )}
         </div>
       </main>
   );

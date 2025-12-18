@@ -11,6 +11,7 @@ import { ProgressSnapshot } from '@/components/dashboard/ProgressSnapshot';
 import ContributionCalendar from '@/components/dashboard/ContributionCalendar';
 import { IconBuilding, IconMapPin, IconBook } from '@/components/ui/Icons';
 
+// --- Type Definitions ---
 type ProfileData = {
     name?: string;
     college?: string;
@@ -19,31 +20,47 @@ type ProfileData = {
     photoURL?: string;
 };
 
+type Subject = {
+  subject: string;
+  topics: { name: string; lectures: any[] }[];
+};
+
+
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth();
     const [profile, setProfile] = useState<ProfileData>({});
     const [file, setFile] = useState<File | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [pageLoading, setPageLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
+    const [formLoading, setFormLoading] = useState(false);
+    
+    // FIX: State to hold the course data for the ProgressSnapshot
+    const [courseData, setCourseData] = useState<Subject[] | null>(null);
 
     useEffect(() => {
-        if (user) {
-            fetch(`/api/profile?userId=${user.uid}`)
-                .then(res => res.json())
-                .then(data => {
-                    setProfile(data);
-                    setLoading(false);
-                });
+        if (!authLoading && user) {
+            // Fetch profile and course data in parallel for efficiency
+            Promise.all([
+                fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()),
+                fetch('/api/course-data').then(res => res.json())
+            ]).then(([profileData, fetchedCourseData]) => {
+                setProfile(profileData);
+                setCourseData(fetchedCourseData);
+            }).catch(error => {
+                console.error("Failed to fetch dashboard data:", error);
+            }).finally(() => {
+                setPageLoading(false);
+            });
         } else if (!authLoading) {
-            setLoading(false);
+            setPageLoading(false);
         }
     }, [user, authLoading]);
 
     const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!user) return;
-        setLoading(true);
+        setFormLoading(true);
         setMessage(null);
 
         const formData = new FormData(event.currentTarget);
@@ -63,8 +80,8 @@ export default function DashboardPage() {
 
             if (response.ok) {
                 setMessage({ text: result.message, type: 'success' });
-                // Re-fetch profile data to update UI
-                fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()).then(setProfile);
+                const updatedProfile = await fetch(`/api/profile?userId=${user.uid}`).then(res => res.json());
+                setProfile(updatedProfile);
                 setIsEditing(false);
             } else {
                 setMessage({ text: result.error || 'An error occurred.', type: 'error' });
@@ -72,11 +89,11 @@ export default function DashboardPage() {
         } catch (error) {
             setMessage({ text: 'An unexpected error occurred.', type: 'error' });
         } finally {
-            setLoading(false);
+            setFormLoading(false);
         }
     };
 
-    if (authLoading || loading) {
+    if (authLoading || pageLoading) {
         return <div className="flex h-screen items-center justify-center text-slate-700">Loading Dashboard...</div>;
     }
 
@@ -123,8 +140,8 @@ export default function DashboardPage() {
                                 </div>
                                 <div className="flex justify-end gap-4">
                                     <button type="button" onClick={() => setIsEditing(false)} className="bg-slate-200 text-slate-800 font-semibold px-4 py-2 rounded-lg">Cancel</button>
-                                    <button type="submit" disabled={loading} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg">
-                                        {loading ? "Saving..." : "Save"}
+                                    <button type="submit" disabled={formLoading} className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg">
+                                        {formLoading ? "Saving..." : "Save"}
                                     </button>
                                 </div>
                                 {message && <p className={`text-sm text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>{message.text}</p>}
@@ -149,7 +166,8 @@ export default function DashboardPage() {
 
                     {/* --- Right Column: Activity --- */}
                     <div className="lg:col-span-3 space-y-8">
-                        <ProgressSnapshot />
+                        {/* FIX: Pass the fetched course data as a prop */}
+                        <ProgressSnapshot initialCourseData={courseData} />
                         <ContributionCalendar userId={user.uid} />
                     </div>
                 </div>

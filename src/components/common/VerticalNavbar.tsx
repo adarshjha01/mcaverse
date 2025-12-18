@@ -1,18 +1,18 @@
 // src/components/common/VerticalNavbar.tsx
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
-import { IconVideo, IconFileText, IconBot, IconTrophy, IconMic, IconUsers, IconUserCircle, IconLogout, IconChevronRight, IconMenu2 } from '@/components/ui/Icons';
+import { IconVideo, IconFileText, IconBot, IconTrophy, IconMic, IconUsers, IconUserCircle, IconLogout, IconChevronRight, IconMenu2, IconMail } from '@/components/ui/Icons';
 
-// Updated NavSection to handle collapsed state
+// No changes needed in NavSection
 const NavSection = ({ title, children, isCollapsed }: { title: string, children: React.ReactNode, isCollapsed: boolean }) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = React.useState(true);
     
     if (isCollapsed) {
         return <div className="space-y-1">{children}</div>;
@@ -29,10 +29,13 @@ const NavSection = ({ title, children, isCollapsed }: { title: string, children:
     );
 };
 
-// Updated NavLink to handle collapsed state
+// Updated NavLink to handle nested routes correctly
 const NavLink = ({ href, icon, label, isCollapsed }: { href: string, icon: React.ReactNode, label: string, isCollapsed: boolean }) => {
     const pathname = usePathname();
-    const isActive = pathname === href;
+    // FIX: Changed from pathname === href to pathname.startsWith(href)
+    // This ensures parent links stay active on child pages.
+    const isActive = pathname.startsWith(href);
+    
     return (
         <div className="relative group">
             <Link href={href} className={`flex items-center gap-3 rounded-md text-sm font-medium transition-colors ${isCollapsed ? 'px-3 py-3 justify-center' : 'px-4 py-2'} ${
@@ -79,6 +82,7 @@ export const VerticalNavbar = ({ isCollapsed, onToggle }: { isCollapsed: boolean
                     <NavLink href="/podcast" icon={<IconMic className="w-5 h-5"/>} label="Podcast" isCollapsed={isCollapsed} />
                 <NavLink href="/community" icon={<IconUsers className="w-5 h-5"/>} label="Community" isCollapsed={isCollapsed} />
                 <NavLink href="/about" icon={<IconUserCircle className="w-5 h-5"/>} label="About Us" isCollapsed={isCollapsed} />
+                <NavLink href="/contact" icon={<IconMail className="w-5 h-5"/>} label="Contact" isCollapsed={isCollapsed} />
             </nav>
 
             <div className="flex-shrink-0 border-t border-slate-700 pt-4">

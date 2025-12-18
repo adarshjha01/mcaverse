@@ -2,157 +2,122 @@
 "use server";
 
 import { db } from '@/lib/firebaseAdmin';
-import { FieldValue } from 'firebase-admin/firestore';
-import { redirect } from 'next/navigation';
 
-// src/app/actions.ts
-
-import { z } from 'zod';
-
-const MessageSchema = z.object({
-  role: z.enum(['user', 'model']),
-  text: z.string(),
-});
-
-const FormStateSchema = z.object({
-  response: z.string().optional(),
-  error: z.string().optional(),
-});
-
-export async function getAIResponse(
-  previousState: z.infer<typeof FormStateSchema> | null,
-  formData: FormData
-): Promise<z.infer<typeof FormStateSchema>> {
-  const prompt = formData.get('prompt') as string;
-  const history = JSON.parse(formData.get('history') as string);
-
-  // Placeholder for your AI logic
-  if (prompt) {
-    return { response: `This is a placeholder response to: "${prompt}"` };
-  } else {
-    return { error: 'Prompt is required.' };
-  }
-}
-// --- Type Definitions for Video Data ---
-type Lecture = {
+// --- Type Definitions ---
+export type Lecture = {
   id: string;
   title: string;
   youtubeLink: string;
 };
-type Topic = {
+
+export type Topic = {
   name: string;
   lectures: Lecture[];
 };
-type Subject = {
+
+export type Subject = {
   subject: string;
   topics: Topic[];
 };
+
+type FirestoreTopic = {
+  name: string;
+  playlistId: string;
+};
+
 type YouTubePlaylistItem = {
   snippet: {
     resourceId: { videoId: string };
     title: string;
   };
 };
-// --- Function to fetch a single YouTube playlist ---
+
+// --- Helper: Fetch YouTube Playlist ---
 async function fetchPlaylist(playlistId: string): Promise<Lecture[]> {
+    // Return empty if no ID is provided (e.g. placeholder topics)
+    if (!playlistId) return [];
+
     const API_KEY = process.env.YOUTUBE_API_KEY;
+    if (!API_KEY) {
+        console.error("YOUTUBE_API_KEY is not defined in environment variables.");
+        return [];
+    }
+
     const URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${API_KEY}&maxResults=50`;
+    
     try {
+        // Cache for 1 hour (3600 seconds)
         const res = await fetch(URL, { next: { revalidate: 3600 } });
-        if (!res.ok) return [];
+        
+        if (!res.ok) {
+            console.error(`YouTube API Error: ${res.status} ${res.statusText}`);
+            return [];
+        }
+        
         const data = await res.json();
+        if (!data.items) return [];
+
         return data.items.map((item: YouTubePlaylistItem) => ({
-        id: item.snippet.resourceId.videoId,
-        title: item.snippet.title,
-        youtubeLink: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
-        })).reverse();
-        } catch (error) {
+            id: item.snippet.resourceId.videoId,
+            title: item.snippet.title,
+            youtubeLink: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
+        })).reverse(); // Optional: Reverse if you want oldest first (typical for tutorials)
+        
+    } catch (error) {
         console.error(`Failed to fetch playlist ${playlistId}:`, error);
         return [];
     }
 }
 
-// --- Server Action to get all course data ---
+// --- Main Action: Get Course Data Dynamic ---
 export async function getCourseData(): Promise<Subject[]> {
-    const playlistIds = {
-        "Mathematics": process.env.YOUTUBE_MATH_PLAYLIST_ID,
-        "Logical Reasoning": process.env.YOUTUBE_LR_PLAYLIST_ID,
-        "Computer Science": process.env.YOUTUBE_CS_PLAYLIST_ID,
-        "English": process.env.YOUTUBE_ENGLISH_PLAYLIST_ID,
-    };
-    const courseData: Subject[] = [];
-    for (const [subject, id] of Object.entries(playlistIds)) {
-        if (id) {
-            const lectures = await fetchPlaylist(id);
-            courseData.push({
-                subject,
-                topics: [{ name: `${subject} Lectures`, lectures }]
-            });
+    try {
+        // 1. Fetch the curriculum structure from Firestore
+        const snapshot = await db.collection('curriculum').orderBy('order', 'asc').get();
+        
+        if (snapshot.empty) {
+            console.warn("No curriculum found in Firestore. Please seed the database.");
+            return [];
         }
+
+        const courseData: Subject[] = [];
+
+        // 2. Fetch all playlists in parallel
+        await Promise.all(snapshot.docs.map(async (doc) => {
+            const data = doc.data();
+            const subjectName = data.title;
+            const topicsList: FirestoreTopic[] = data.topics || [];
+
+            const processedTopics: Topic[] = [];
+
+            // 3. For each topic, fetch the YouTube videos
+            for (const topic of topicsList) {
+                // Only fetch if a playlist ID exists
+                const lectures = topic.playlistId ? await fetchPlaylist(topic.playlistId) : [];
+                
+                // Add topic even if lectures are empty (so it shows up in UI as "Coming Soon" or empty)
+                processedTopics.push({
+                    name: topic.name,
+                    lectures: lectures
+                });
+            }
+
+            if (processedTopics.length > 0) {
+                courseData.push({
+                    subject: subjectName,
+                    topics: processedTopics
+                });
+            }
+        }));
+
+        // 4. Re-sort strictly by the 'order' field (Promise.all might mix them up)
+        const orderMap = new Map(snapshot.docs.map(d => [d.data().title, d.data().order]));
+        courseData.sort((a, b) => (orderMap.get(a.subject) || 0) - (orderMap.get(b.subject) || 0));
+
+        return courseData;
+
+    } catch (error) {
+        console.error("Error fetching course data:", error);
+        return [];
     }
-    return courseData;
-}
-
-type CustomTestParams = {
-  subject: string;
-  topic?: string;
-  numQuestions: number;
-  duration: number;
-  userId: string;
-};
-
-// --- NEW: Server Action to create a custom test ---
-export async function createCustomTest(params: CustomTestParams) {
-  "use server";
-  const { subject, topic, numQuestions, duration, userId } = params;
-
-  try {
-    // 1. Build the query based on provided parameters
-    let query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData> = 
-        db.collection('questions').where('subject', '==', subject);
-    if (topic) {
-      query = query.where('topic', '==', topic);
-    }
-
-    const questionsSnapshot = await query.get();
-
-    if (questionsSnapshot.empty) {
-      return { error: 'No questions found for the selected criteria. Please try another combination.' };
-    }
-
-    const allQuestionIds = questionsSnapshot.docs.map(doc => doc.id);
-
-    // 2. Handle cases where there aren't enough questions
-    if (allQuestionIds.length < numQuestions) {
-        return { error: `Only found ${allQuestionIds.length} questions. Please select a smaller number.` };
-    }
-
-    // 3. Shuffle and select the requested number of questions
-    const selectedQuestionIds = allQuestionIds
-      .sort(() => 0.5 - Math.random())
-      .slice(0, numQuestions);
-
-    // 4. Create a new temporary mock test document
-    const testTitle = topic
-      ? `Custom: ${subject} - ${topic}`
-      : `Custom: ${subject}`;
-
-    const newTestRef = await db.collection('mockTests').add({
-      title: testTitle,
-      exam: 'custom',
-      testType: topic ? 'topic-wise' : 'subject-wise',
-      durationInMinutes: duration,
-      question_ids: selectedQuestionIds,
-      isCustom: true,
-      userId: userId,
-      createdAt: FieldValue.serverTimestamp(),
-    });
-
-    // 5. If successful, redirect the user to the test
-    redirect(`/mock-tests/take/${newTestRef.id}`);
-
-  } catch (error) {
-    console.error("Error creating custom test:", error);
-    return { error: 'Failed to create the test on the server. Please try again.' };
-  }
 }
