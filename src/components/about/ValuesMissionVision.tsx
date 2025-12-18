@@ -23,11 +23,11 @@ export const ValuesMissionVision = () => {
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
                         <h3 className="text-2xl font-bold mb-3">Our Mission</h3>
-                        <p className="text-slate-700">To provide free, high-quality education for aspirants preparing for various MCA entrance exams, offering comprehensive resources, practical knowledge, and a supportive community that bridges the gap between academic learning and industry requirements — accessible to every student, regardless of background or location.</p>
+                        <p className="text-slate-700">To empower every MCA and BCA student — from aspirants to professionals — with free, high-quality education, practical guidance, and a supportive community. We simplify every “what to do” and “how to do,” bridging the gap between academic learning and real-world requirements, so every student, regardless of background, can confidently navigate their journey and achieve their goals.</p>
                     </div>
                     <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
                         <h3 className="text-2xl font-bold mb-3">Our Vision</h3>
-                        <p className="text-slate-700">To become the leading educational platform for MCA students in India, creating a generation of skilled professionals who are industry-ready and equipped with both technical expertise and soft skills necessary for successful careers in technology.</p>
+                        <p className="text-slate-700">To become India’s leading one-stop platform for MCA and BCA students, shaping a generation of learners who are not just exam-ready, but industry-ready. We aim to nurture confident, skilled professionals equipped with both technical expertise and life skills, guiding them from aspirant life to a successful career in technology.</p>
                     </div>
                 </div>
             </div>

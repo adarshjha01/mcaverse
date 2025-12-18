@@ -15,7 +15,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={true}
       className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 disabled:bg-slate-400"
     >
       <IconSendPurple className="w-5 h-5" />
@@ -68,7 +68,7 @@ export const ChatInterface = () => {
         <div className="flex">
           <div className="bg-purple-600 text-white p-3 rounded-lg max-w-xs">
             <p className="text-sm">
-              My developers are still tuning my AI brain! Ask me anything and I might surprise you. 😄
+              My developers are still tuning my AI brain! In the meantime watch some Podcast or explore other features of MCAverse :) 
             </p>
           </div>
         </div>

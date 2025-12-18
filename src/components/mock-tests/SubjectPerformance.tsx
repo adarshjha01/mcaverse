@@ -53,7 +53,7 @@ export const SubjectPerformance = () => {
     
     return (
         <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-md sticky top-24">
-            <h2 className="text-2xl font-bold mb-6">Subject Performance</h2>
+            <h2 className="text-2xl font-bold mb-6">Syllabus Completed</h2>
             {subjects.length > 0 ? (
                 <div className="space-y-4">
                     {subjects.map(subject => (
