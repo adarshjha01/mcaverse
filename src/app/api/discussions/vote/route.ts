@@ -2,11 +2,24 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { verifyAuth } from '@/lib/auth-admin'; // Import security helper
 
 export async function POST(request: Request) {
+    // 1. Verify Identity
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { discussionId, userId, voteType } = await request.json();
+    
     if (!userId || !discussionId || !voteType) {
         return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    }
+
+    // 2. Enforce Ownership (You can only vote as yourself)
+    if (userId !== requesterUid) {
+        return NextResponse.json({ error: "Forbidden: Cannot vote for another user." }, { status: 403 });
     }
 
     const docRef = db.collection('discussions').doc(discussionId);
@@ -18,7 +31,7 @@ export async function POST(request: Request) {
             const data = doc.data()!;
             const upvotes = data.upvotes || [];
             const downvotes = data.downvotes || [];
-            const voteCount = data.voteCount || 0;
+            // const voteCount = data.voteCount || 0; // Unused variable
 
             const hasUpvoted = upvotes.includes(userId);
             const hasDownvoted = downvotes.includes(userId);

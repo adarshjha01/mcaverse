@@ -9,15 +9,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ProgressSnapshot } from '@/components/dashboard/ProgressSnapshot';
 import ContributionCalendar from '@/components/dashboard/ContributionCalendar';
-import { IconBuilding, IconMapPin, IconBook } from '@/components/ui/Icons';
+import { IconBuilding, IconMapPin, IconBook, IconFlame } from '@/components/ui/Icons'; // Import IconFlame
 
-// --- Type Definitions ---
+// ... (Keep existing types) ...
 type ProfileData = {
     name?: string;
     college?: string;
     course?: string;
     location?: string;
     photoURL?: string;
+    currentStreak?: number; // Add this field
 };
 
 type Subject = {
@@ -25,22 +26,20 @@ type Subject = {
   topics: { name: string; lectures: any[] }[];
 };
 
-
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth();
     const [profile, setProfile] = useState<ProfileData>({});
+    // ... (Keep existing state: file, pageLoading, isEditing, etc.) ...
     const [file, setFile] = useState<File | null>(null);
     const [pageLoading, setPageLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
     const [formLoading, setFormLoading] = useState(false);
-    
-    // FIX: State to hold the course data for the ProgressSnapshot
     const [courseData, setCourseData] = useState<Subject[] | null>(null);
 
+    // ... (Keep existing useEffect and handleFormSubmit) ...
     useEffect(() => {
         if (!authLoading && user) {
-            // Fetch profile and course data in parallel for efficiency
             Promise.all([
                 fetch(`/api/profile?userId=${user.uid}`).then(res => res.json()),
                 fetch('/api/course-data').then(res => res.json())
@@ -67,6 +66,11 @@ export default function DashboardPage() {
         formData.append('userId', user.uid);
 
         try {
+            // --- SECURITY FIX START ---
+            // Get the ID token from the current user
+            const token = await user.getIdToken();
+            // --- SECURITY FIX END ---
+
             if (file) {
                 const storageRef = ref(storage, `profile-pictures/${user.uid}/${file.name}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
@@ -75,11 +79,19 @@ export default function DashboardPage() {
                 formData.append('imageUrl', downloadURL);
             }
 
-            const response = await fetch('/api/profile', { method: 'POST', body: formData });
+            const response = await fetch('/api/profile', { 
+                method: 'POST', 
+                body: formData,
+                // Add Authorization Header
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const result = await response.json();
 
             if (response.ok) {
                 setMessage({ text: result.message, type: 'success' });
+                // For fetching, public read is allowed, so no token needed for GET
                 const updatedProfile = await fetch(`/api/profile?userId=${user.uid}`).then(res => res.json());
                 setProfile(updatedProfile);
                 setIsEditing(false);
@@ -87,6 +99,7 @@ export default function DashboardPage() {
                 setMessage({ text: result.error || 'An error occurred.', type: 'error' });
             }
         } catch (error) {
+            console.error(error);
             setMessage({ text: 'An unexpected error occurred.', type: 'error' });
         } finally {
             setFormLoading(false);
@@ -117,6 +130,7 @@ export default function DashboardPage() {
                     <div className="lg:col-span-1">
                         {isEditing ? (
                             <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md border border-slate-200 space-y-6">
+                                {/* ... (Keep form fields exactly as they were) ... */}
                                 <h2 className="text-xl font-bold text-slate-800">Edit Profile</h2>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
@@ -151,6 +165,15 @@ export default function DashboardPage() {
                                <div className="flex flex-col items-center">
                                  <Image src={profile.photoURL || user.photoURL || `https://placehold.co/128x128/E2E8F0/475569?text=${(user.displayName || 'U').charAt(0)}`} alt="Profile" width={128} height={128} className="rounded-full mb-4" />
                                  <h1 className="text-2xl font-bold text-slate-800">{profile.name || user.displayName}</h1>
+                                 
+                                 {/* --- STREAK DISPLAY ADDED HERE --- */}
+                                 <div className="flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-full border border-orange-200 mt-2">
+                                     <IconFlame className="w-5 h-5 text-orange-500" />
+                                     <span className="font-bold text-orange-700">
+                                         {profile.currentStreak || 0} Day Streak
+                                     </span>
+                                 </div>
+                                 
                                   <button onClick={() => setIsEditing(true)} className="w-full mt-4 bg-slate-100 text-slate-800 font-semibold px-4 py-2 rounded-lg hover:bg-slate-200 transition-colors">
                                     Edit Profile
                                   </button>
@@ -166,7 +189,6 @@ export default function DashboardPage() {
 
                     {/* --- Right Column: Activity --- */}
                     <div className="lg:col-span-3 space-y-8">
-                        {/* FIX: Pass the fetched course data as a prop */}
                         <ProgressSnapshot initialCourseData={courseData} />
                         <ContributionCalendar userId={user.uid} />
                     </div>

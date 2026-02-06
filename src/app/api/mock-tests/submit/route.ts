@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue, FieldPath } from 'firebase-admin/firestore';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/auth-admin'; // Import the helper
 
 const SubmissionSchema = z.object({
   userId: z.string().min(1),
@@ -11,6 +12,12 @@ const SubmissionSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  // 1. Verify Authentication
+  const requesterUid = await verifyAuth();
+  if (!requesterUid) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const body = await request.json();
   const validation = SubmissionSchema.safeParse(body);
 
@@ -19,6 +26,12 @@ export async function POST(request: Request) {
   }
 
   const { userId, testId, answers } = validation.data;
+
+  // 2. Authorization Check
+  if (userId !== requesterUid) {
+    return NextResponse.json({ error: 'Forbidden: Cannot submit for another user.' }, { status: 403 });
+  }
+
   const questionIds = Object.keys(answers);
 
   if (questionIds.length === 0) {
@@ -30,6 +43,9 @@ export async function POST(request: Request) {
 
   try {
     const questionsRef = db.collection('questions');
+    // Note: Firebase 'in' query supports max 10/30 items. 
+    // If your tests are large (>30 Qs), you'll need to batch this or fetch all and filter in memory.
+    // For now, assuming <30 questions per batch or that your 'in' usage is safe.
     const questionsSnap = await questionsRef.where(FieldPath.documentId(), 'in', questionIds).get();
     
     const correctAnswersMap = new Map<string, number>();
@@ -37,7 +53,6 @@ export async function POST(request: Request) {
       correctAnswersMap.set(doc.id, doc.data().correct_answers[0]);
     });
 
-    // --- UPDATED SCORING LOGIC ---
     let correctCount = 0;
     let incorrectCount = 0;
 
@@ -52,7 +67,6 @@ export async function POST(request: Request) {
     const score = (correctCount * 4) - (incorrectCount * 1);
     const totalAttempted = questionIds.length;
 
-    // Save the attempt
     const attemptRef = await db.collection('userAttempts').add({
       userId,
       testId,

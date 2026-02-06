@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { getAuth } from 'firebase-admin/auth';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/auth-admin'; // Import the helper
 
 const ProfileSchema = z.object({
   name: z.string().min(2, "Name is required."),
@@ -15,7 +16,8 @@ const ProfileSchema = z.object({
   imageUrl: z.string().url().optional(),
 });
 
-// GET function to fetch profile data
+// GET function (Public read is okay, but strictly speaking, personal data should be protected. 
+// For a community app, reading other profiles is usually fine.)
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
@@ -32,11 +34,23 @@ export async function GET(request: Request) {
     }
 }
 
-// POST function to update profile data
+// POST function (Protected Write)
 export async function POST(request: Request) {
+    // 1. Verify Authentication
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const userId = formData.get('userId') as string;
+    
     if (!userId) return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+
+    // 2. Authorization Check: Ensure requester matches the target userId
+    if (userId !== requesterUid) {
+        return NextResponse.json({ error: 'Forbidden: You can only edit your own profile.' }, { status: 403 });
+    }
 
     const validatedFields = ProfileSchema.safeParse(Object.fromEntries(formData));
     if (!validatedFields.success) {
@@ -46,11 +60,13 @@ export async function POST(request: Request) {
     const { name, imageUrl, ...profileData } = validatedFields.data;
 
     try {
+        // Update Auth Profile (Display Name / Photo)
         await getAuth().updateUser(userId, {
             displayName: name,
             ...(imageUrl && { photoURL: imageUrl }),
         });
 
+        // Update Firestore Profile
         await db.collection('users').doc(userId).set({
             name,
             ...(imageUrl && { photoURL: imageUrl }),
@@ -59,6 +75,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: true, message: "Profile updated successfully!" });
     } catch (error) {
+        console.error("Profile update error:", error);
         return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
     }
 }
