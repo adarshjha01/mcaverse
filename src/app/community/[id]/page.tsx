@@ -1,5 +1,4 @@
 // src/app/community/[id]/page.tsx
-
 import { db } from "@/lib/firebaseAdmin";
 import { Timestamp } from "firebase-admin/firestore";
 import { notFound } from "next/navigation";
@@ -55,13 +54,16 @@ async function getDiscussionDetails(
   return { post, replies };
 }
 
-// ✅ Fixed: params is just an object, not a Promise
-export default async function DiscussionDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { post, replies } = await getDiscussionDetails(params.id);
+// 1. Define Props Type correctly for Next.js 15
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+// 2. Async Component
+export default async function DiscussionDetailPage({ params }: PageProps) {
+  // 3. Await the params before using properties
+  const { id } = await params;
+  const { post, replies } = await getDiscussionDetails(id);
 
   return (
     <div className="bg-slate-50 min-h-screen">

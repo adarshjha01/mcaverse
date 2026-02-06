@@ -4,8 +4,8 @@ import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
+import { verifyAuth } from '@/lib/auth-admin'; // 1. Import Security Helper
 
-// Updated schema to match the form data
 const PostSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters."),
   content: z.string().min(10, "Content must be at least 10 characters."),
@@ -14,6 +14,12 @@ const PostSchema = z.object({
 });
 
 export async function POST(request: Request) {
+    // 2. Verify Identity
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const validatedFields = PostSchema.safeParse(Object.fromEntries(formData));
 
@@ -26,6 +32,12 @@ export async function POST(request: Request) {
 
     try {
         const { title, content, authorId, authorName } = validatedFields.data;
+
+        // 3. Enforce Ownership
+        if (authorId !== requesterUid) {
+            return NextResponse.json({ error: "Forbidden: You cannot post as another user." }, { status: 403 });
+        }
+
         await db.collection('discussions').add({
             title,
             content,

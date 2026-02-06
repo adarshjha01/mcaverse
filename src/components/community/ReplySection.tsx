@@ -32,26 +32,37 @@ export const ReplySection = ({
       authorName: user.displayName || "Anonymous",
     };
 
-    const response = await fetch("/api/discussions/reply", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newReplyData),
-    });
+    try {
+        // --- SECURITY UPDATE: Send Token ---
+        const token = await user.getIdToken();
+        const response = await fetch("/api/discussions/reply", {
+          method: "POST",
+          headers: { 
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}` 
+          },
+          body: JSON.stringify(newReplyData),
+        });
 
-    if (response.ok) {
-      const optimisticReply: Reply = {
-        id: Date.now().toString(),
-        content: newReplyData.replyContent,
-        authorId: newReplyData.authorId,
-        authorName: newReplyData.authorName,
-        createdAt: new Date(),
-      };
-      setReplies([...replies, optimisticReply]);
-      setReplyContent("");
-    } else {
-      alert("Failed to post reply.");
+        if (response.ok) {
+          const optimisticReply: Reply = {
+            id: Date.now().toString(),
+            content: newReplyData.replyContent,
+            authorId: newReplyData.authorId,
+            authorName: newReplyData.authorName,
+            createdAt: new Date(),
+          };
+          setReplies([...replies, optimisticReply]);
+          setReplyContent("");
+        } else {
+          alert("Failed to post reply.");
+        }
+    } catch (error) {
+        console.error("Error posting reply:", error);
+        alert("An error occurred.");
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   };
   
   const handleDeleteReply = async (replyId: string) => {
@@ -59,11 +70,21 @@ export const ReplySection = ({
 
       setReplies(current => current.filter(r => r.id !== replyId));
 
-      await fetch('/api/discussions/reply/delete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ discussionId, replyId, userId: user.uid }),
-      });
+      try {
+          // --- SECURITY UPDATE: Send Token ---
+          const token = await user.getIdToken();
+          await fetch('/api/discussions/reply/delete', {
+              method: 'POST',
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}` 
+              },
+              body: JSON.stringify({ discussionId, replyId }), 
+          });
+      } catch (error) {
+          console.error("Error deleting reply:", error);
+          alert("Failed to delete reply.");
+      }
   };
 
   return (

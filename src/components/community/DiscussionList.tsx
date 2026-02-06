@@ -7,7 +7,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { useState, useTransition } from "react";
 
 // --- Type Definitions ---
-type Discussion = { 
+type Discussion = { 
   id: string;
   title: string;
   authorId: string;
@@ -52,9 +52,10 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
     const { user } = useAuth();
     const [discussions, setDiscussions] = useState(initialDiscussions);
 
-    const handleVoteOptimistic = (discussionId: string, voteType: 'up' | 'down') => {
+    const handleVoteOptimistic = async (discussionId: string, voteType: 'up' | 'down') => {
         if (!user) return;
         
+        // Optimistic UI Update
         setDiscussions(currentDiscussions => 
             currentDiscussions.map(d => {
                 if (d.id === discussionId) {
@@ -89,24 +90,44 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
             }).sort((a, b) => b.voteCount - a.voteCount)
         );
 
-        // Send request to the server
-        fetch('/api/discussions/vote', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ discussionId, userId: user.uid, voteType }),
-        });
+        try {
+            // --- SECURITY UPDATE: Send Token ---
+            const token = await user.getIdToken();
+            await fetch('/api/discussions/vote', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ discussionId, userId: user.uid, voteType }),
+            });
+        } catch (error) {
+            console.error("Failed to submit vote", error);
+            // In a real app, you might revert the optimistic update here
+        }
     };
 
     const handleDeletePost = async (discussionId: string) => {
         if (!user || !window.confirm("Are you sure you want to delete this post?")) return;
 
+        // Optimistic UI Update
         setDiscussions(current => current.filter(d => d.id !== discussionId));
 
-        await fetch('/api/discussions/delete', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ discussionId, userId: user.uid }),
-        });
+        try {
+            // --- SECURITY UPDATE: Send Token ---
+            const token = await user.getIdToken();
+            await fetch('/api/discussions/delete', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ discussionId }), 
+            });
+        } catch (error) {
+            console.error("Failed to delete post", error);
+            alert("Failed to delete post.");
+        }
     };
 
     return (

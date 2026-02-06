@@ -23,7 +23,19 @@ export const NewPostForm = () => {
     formData.append('authorName', user.displayName || 'Anonymous');
     
     try {
-      const response = await fetch('/api/discussions', { method: 'POST', body: formData });
+      // --- SECURITY UPDATE START ---
+      const token = await user.getIdToken(); // Get the token
+      // --- SECURITY UPDATE END ---
+
+      const response = await fetch('/api/discussions', { 
+        method: 'POST', 
+        body: formData,
+        // Add the Authorization header
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+      });
+
       if (response.ok) {
         router.push('/community');
         router.refresh();
