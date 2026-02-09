@@ -1,8 +1,14 @@
-// src/components/community/ConnectWithUs.tsx
-import { IconSend, IconMessageCircle, IconYouTube, IconLinkedIn } from "@/components/ui/Icons";
+import Link from 'next/link';
+import { IconYouTube, IconLinkedIn, IconTwitter, IconWhatsapp } from '@/components/ui/Icons';
 
-// Array of all social links for easy management
 const socialLinks = [
+    { 
+        name: "YouTube", 
+        icon: <IconYouTube className="w-8 h-8" />, 
+        href: "https://www.youtube.com/@adarshjhanitkurukshetra",
+        color: "text-red-600 dark:text-red-500",
+        bgColor: "bg-red-50 dark:bg-red-900/10",
+        description: "Watch video tutorials"
     {
         name: "Join Telegram Channel",
         href: "https://t.me/adarshjhanitkurukshetra",
@@ -21,36 +27,41 @@ const socialLinks = [
         icon: <IconYouTube />,
         className: "bg-red-600 hover:bg-red-700",
     },
-    {
-        name: "Follow on LinkedIn",
+    { 
+        name: "LinkedIn", 
+        icon: <IconLinkedIn className="w-8 h-8" />, 
         href: "https://www.linkedin.com/in/adarsh-jha-972b71243/",
-        icon: <IconLinkedIn />,
-        className: "bg-blue-700 hover:bg-blue-800",
-    }
-    
+        color: "text-blue-700 dark:text-blue-500",
+        bgColor: "bg-blue-50 dark:bg-blue-900/10",
+        description: "Connect professionally"
+    },
+    { 
+        name: "Twitter", 
+        icon: <IconTwitter className="w-8 h-8" />, 
+        href: "https://x.com/theadarshjha22",
+        color: "text-sky-500 dark:text-sky-400",
+        bgColor: "bg-sky-50 dark:bg-sky-900/10",
+        description: "Follow for updates"
+    },
 ];
 
 export const ConnectWithUs = () => {
     return (
-        <div className="bg-white p-8 rounded-lg shadow-lg border border-slate-200 sticky top-24">
-            <h2 className="text-2xl font-bold mb-4">Connect With Us</h2>
-            <p className="text-slate-600 mb-6">
-                Get instant updates, join live discussions, and be part of our active community across all platforms.
-            </p>
-            <div className="space-y-4">
-                {socialLinks.map(link => (
-                    <a 
-                        key={link.name}
-                        href={link.href}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`w-full flex items-center justify-center gap-3 text-white font-semibold py-3 rounded-lg shadow-md transition-colors ${link.className}`}
-                    >
-                        {link.icon}
-                        <span>{link.name}</span>
-                    </a>
-                ))}
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {socialLinks.map((social) => (
+                <Link 
+                    key={social.name} 
+                    href={social.href} 
+                    target="_blank"
+                    className="flex flex-col items-center p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all hover:-translate-y-1 group"
+                >
+                    <div className={`p-3 rounded-full mb-3 ${social.bgColor} ${social.color} transition-colors`}>
+                        {social.icon}
+                    </div>
+                    <span className="font-bold text-slate-800 dark:text-slate-100">{social.name}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 text-center mt-1">{social.description}</span>
+                </Link>
+            ))}
         </div>
     );
 };
