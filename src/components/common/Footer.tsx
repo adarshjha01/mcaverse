@@ -12,13 +12,13 @@ const Footer = () => {
 
     const resources = [
         { href: "/ai-assistant", label: "AI Assistant" },
-        { href: "/podcast", label: "Podcast" }, // Assuming podcast is a section on the homepage
+        { href: "/podcast", label: "Podcast" }, 
         { href: "/about", label: "About Us" },
-        { href: "/contact", label: "Contact" }, // Assuming contact is a section on the homepage
+        { href: "/contact", label: "Contact" }, 
     ];
 
     const socialLinks = [
-        { href: "https://www.youtube.com/@adarshjhanitkurukshetra", label: "YouTube" },
+        { href: "https://www.youtube.com/@adarshjhamcaverse", label: "YouTube" },
         { href: "https://www.linkedin.com/in/adarsh-jha-972b71243/", label: "LinkedIn" },
         { href: "https://x.com/theadarshjha22", label: "Twitter" },
     ];

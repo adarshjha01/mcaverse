@@ -17,7 +17,7 @@ const socialLinks = [
     },
     {
         name: "Subscribe on YouTube",
-        href: "https://www.youtube.com/@adarshjhanitkurukshetra",
+        href: "https://www.youtube.com/@adarshjhamcaverse",
         icon: <IconYouTube />,
         className: "bg-red-600 hover:bg-red-700",
     },
