@@ -4,17 +4,14 @@
 import { useMemo } from 'react';
 
 type StreakHistoryProps = {
-  completionDates: Set<string>; // Expecting dates in 'YYYY-MM-DD' format
+  completionDates: Set<string>;
 };
 
 const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
-  const currentYear = new Date().getFullYear();
-
   const { days, monthLabels } = useMemo(() => {
-    const today = new Date();
     const startDate = new Date();
     startDate.setFullYear(startDate.getFullYear() - 1);
-    const dayCount = 371; // Always render 53 weeks for a consistent grid width
+    const dayCount = 371; 
 
     const gridStartDate = new Date(startDate);
     gridStartDate.setDate(gridStartDate.getDate() - startDate.getDay());
@@ -28,9 +25,8 @@ const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
         days.push(date);
         
         if (date.getDate() === 1 && date > startDate) {
-            const month = date.toLocaleString('default', { month: 'short' });
             labels.push({
-                month: month,
+                month: date.toLocaleString('default', { month: 'short' }),
                 weekIndex: Math.floor(i / 7)
             });
         }
@@ -39,11 +35,11 @@ const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-slate-200">
-        <h2 className="text-xl font-bold text-slate-800 mb-4">Practice History</h2>
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
+        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Practice History</h2>
 
       <div className="flex gap-3">
-        <div className="flex flex-col gap-1 pt-6 text-xs text-slate-400">
+        <div className="flex flex-col gap-1 pt-6 text-xs text-slate-400 dark:text-slate-500 font-medium">
             <div className="h-3"></div>
             <div className="h-3 flex items-center">Mon</div>
             <div className="h-3"></div>
@@ -53,9 +49,9 @@ const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
             <div className="h-3"></div>
         </div>
         
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto no-scrollbar">
           <div className="relative">
-            <div className="flex absolute -top-5 text-xs text-slate-500">
+            <div className="flex absolute -top-5 text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {monthLabels.map(({ month, weekIndex }) => (
                     <div key={month + weekIndex} className="absolute" style={{ left: `calc(${weekIndex} * (0.75rem + 0.25rem))` }}>
                         {month}
@@ -69,13 +65,19 @@ const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
                 const hasContribution = completionDates.has(dateString);
                 
                 const isVisible = day <= new Date() && day > new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-                const colorClass = isVisible ? (hasContribution ? 'bg-green-500' : 'bg-slate-200') : 'bg-transparent';
+                
+                // Color Logic: 
+                // Contribution -> Green (Light/Dark)
+                // Empty -> Slate-200 (Light) / Slate-700 (Dark)
+                const colorClass = isVisible 
+                    ? (hasContribution ? 'bg-green-500 dark:bg-green-600' : 'bg-slate-100 dark:bg-slate-800') 
+                    : 'bg-transparent';
 
                 return (
                   <div key={index} className="relative group">
                     <div className={`w-3 h-3 rounded-[2px] ${colorClass}`} />
                     {isVisible && (
-                      <span className="absolute bottom-full mb-2 w-max px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <span className="absolute bottom-full mb-2 w-max px-2 py-1 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 left-1/2 -translate-x-1/2 whitespace-nowrap">
                         {hasContribution ? 'Practice' : 'No practice'} on {day.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>
                     )}
@@ -87,12 +89,12 @@ const StreakHistory = ({ completionDates }: StreakHistoryProps) => {
         </div>
       </div>
       
-      <div className="flex justify-end items-center gap-2 mt-4 text-xs text-slate-500 pr-2">
+      <div className="flex justify-end items-center gap-2 mt-4 text-xs text-slate-500 dark:text-slate-400 pr-2">
             <span>Less</span>
-            <div className="w-3 h-3 rounded-[2px] bg-slate-200"></div>
-            <div className="w-3 h-3 rounded-[2px] bg-green-300"></div>
-            <div className="w-3 h-3 rounded-[2px] bg-green-500"></div>
-            <div className="w-3 h-3 rounded-[2px] bg-green-700"></div>
+            <div className="w-3 h-3 rounded-[2px] bg-slate-100 dark:bg-slate-800"></div>
+            <div className="w-3 h-3 rounded-[2px] bg-green-300 dark:bg-green-800"></div>
+            <div className="w-3 h-3 rounded-[2px] bg-green-500 dark:bg-green-600"></div>
+            <div className="w-3 h-3 rounded-[2px] bg-green-700 dark:bg-green-400"></div>
             <span>More</span>
         </div>
     </div>
