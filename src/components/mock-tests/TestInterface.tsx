@@ -1,9 +1,10 @@
+// src/components/mock-tests/TestInterface.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { LatexText } from '@/components/ui/LatexText'; // Ensure you have this component
+import { LatexText } from '@/components/ui/LatexText';
 
 type Question = {
   id: string;
@@ -41,7 +42,6 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
 
     if (isSubmitting) return;
 
-    // Only confirm if triggered manually (time left > 0)
     if (timeLeft > 0 && !window.confirm("Are you sure you want to submit the test?")) {
       return;
     }
@@ -49,9 +49,15 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     setIsSubmitting(true);
 
     try {
+      // 1. GET THE TOKEN
+      const token = await user.getIdToken();
+
       const response = await fetch('/api/mock-tests/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // <--- 2. ADD THIS HEADER
+        },
         body: JSON.stringify({
           userId: user.uid,
           testId: test.id,
@@ -60,7 +66,9 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
       });
 
       if (!response.ok) {
-        throw new Error('Submission failed');
+        // Optional: Read the error message from the server for better debugging
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Submission failed');
       }
 
       const result = await response.json();
@@ -73,7 +81,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     }
   }, [user, test.id, answers, isSubmitting, router, timeLeft]);
 
-  // Timer Effect (Fixed: Removed Duplicate)
+  // Timer Effect
   useEffect(() => {
     if (timeLeft === 0) {
       handleSubmit();
