@@ -1,11 +1,10 @@
-// src/components/landing/HorizontalNavbar.tsx
 "use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
+// import { ThemeToggle } from '@/components/common/ThemeToggle'; // Commented out
 import { 
     IconVideo, 
     IconFileText, 
@@ -60,17 +59,17 @@ export const HorizontalNavbar = () => {
                             );
                         })}
                         
-                        {/* THEME TOGGLE (Desktop) */}
-                        <div className="mx-2 border-l border-slate-200 dark:border-slate-700 pl-2">
+                        {/* Theme Toggle Removed */}
+                        {/* <div className="mx-2 border-l border-slate-200 dark:border-slate-700 pl-2">
                             <ThemeToggle />
-                        </div>
+                        </div> */}
 
                         <Link href="/login" className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors ml-2">Login</Link>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center gap-4">
-                        <ThemeToggle />
+                        {/* <ThemeToggle /> */}
                         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-600 dark:text-slate-300">
                             {isMenuOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
                         </button>

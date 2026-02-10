@@ -1,4 +1,3 @@
-// src/components/common/VerticalNavbar.tsx
 "use client";
 
 import React from 'react';
@@ -8,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { auth } from '@/lib/firebaseClient';
 import { signOut } from 'firebase/auth';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
+// import { ThemeToggle } from '@/components/common/ThemeToggle'; // Commented out
 import { 
     IconVideo, 
     IconFileText, 
@@ -86,10 +85,10 @@ export const VerticalNavbar = ({ isCollapsed, onToggle }: { isCollapsed: boolean
 
                 {/* Controls (Toggle + Menu Button) */}
                 <div className={`flex items-center gap-2 ${isCollapsed ? 'flex-col' : ''}`}>
-                    {/* Toggle Button */}
-                    <div className="text-slate-300 hover:text-white">
+                    {/* Toggle Button Removed */}
+                    {/* <div className="text-slate-300 hover:text-white">
                         <ThemeToggle /> 
-                    </div>
+                    </div> */}
 
                     {/* Collapse Button */}
                     <button onClick={onToggle} className="p-2 rounded-md hover:bg-slate-700/50 text-slate-300 hover:text-white">
