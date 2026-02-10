@@ -1,7 +1,6 @@
-// src/components/dashboard/ContributionCalendar.tsx
 "use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 
 type ContributionCalendarProps = {
   userId: string;
@@ -9,173 +8,313 @@ type ContributionCalendarProps = {
 
 type MonthLabel = {
   month: string;
-  weekIndex: number;
+  colIndex: number; // which column (week) this label sits above
 };
 
-// Updated color scheme for Dark Mode to pop against dark slate
+const CELL_SIZE = 13;   // px — width & height of each square
+const CELL_GAP = 4;     // px — gap between squares
+const CELL_STEP = CELL_SIZE + CELL_GAP; // 17px per cell
+
 const getColorClass = (count: number): string => {
-    if (count === 0) return 'bg-slate-100 dark:bg-slate-800';
-    if (count >= 1 && count <= 2) return 'bg-green-200 dark:bg-green-900/60';
-    if (count >= 3 && count <= 5) return 'bg-green-400 dark:bg-green-700';
-    if (count >= 6 && count <= 8) return 'bg-green-600 dark:bg-green-500';
-    return 'bg-green-700 dark:bg-green-400';
+  if (count === 0) return "bg-slate-100 dark:bg-slate-800";
+  if (count <= 2)  return "bg-green-200 dark:bg-green-900";
+  if (count <= 5)  return "bg-green-400 dark:bg-green-700";
+  if (count <= 8)  return "bg-green-600 dark:bg-green-500";
+  return "bg-green-700 dark:bg-green-400";
 };
+
+// ─── helpers ──────────────────────────────────────────────────────────────────
+
+/** Return "YYYY-MM-DD" for a Date without timezone shift */
+const toDateString = (d: Date): string => {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+/** Rewind a date to the previous Sunday (or keep it if already Sunday) */
+const prevSunday = (d: Date): Date => {
+  const copy = new Date(d);
+  copy.setDate(copy.getDate() - copy.getDay());
+  return copy;
+};
+
+/** Advance a date to the next Saturday (or keep it if already Saturday) */
+const nextSaturday = (d: Date): Date => {
+  const copy = new Date(d);
+  const diff = 6 - copy.getDay();
+  copy.setDate(copy.getDate() + diff);
+  return copy;
+};
+
+// ─── main component ────────────────────────────────────────────────────────────
 
 const ContributionCalendar = ({ userId }: ContributionCalendarProps) => {
   const currentYear = new Date().getFullYear();
-  const [displayYear, setDisplayYear] = useState<string | number>('last-year');
-  const [data, setData] = useState<{ [date: string]: number }>({});
+  const [displayYear, setDisplayYear] = useState<"last-year" | number>("last-year");
+  const [data, setData] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (userId) {
-      setLoading(true);
-      fetch(`/api/user/practice-history?userId=${userId}`)
-        .then(res => res.json())
-        .then(contributionData => {
-          setData(contributionData);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    }
+    if (!userId) return;
+    setLoading(true);
+    fetch(`/api/user/practice-history?userId=${userId}`)
+      .then((r) => r.json())
+      .then((d) => {
+        setData(d);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [userId]);
 
-  const { days, monthLabels } = useMemo(() => {
-    let startDate: Date;
-    const endDate = new Date();
+  // ── build grid data ──────────────────────────────────────────────────────────
+  const { weeks, monthLabels, totalContributions } = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    if (displayYear === 'last-year') {
-        startDate = new Date();
-        startDate.setFullYear(startDate.getFullYear() - 1);
-        startDate.setDate(startDate.getDate() + 1);
+    // Determine the [rangeStart, rangeEnd] window the user cares about
+    let rangeStart: Date;
+    let rangeEnd: Date;
+
+    if (displayYear === "last-year") {
+      rangeEnd = new Date(today);
+      rangeStart = new Date(today);
+      rangeStart.setFullYear(rangeStart.getFullYear() - 1);
+      rangeStart.setDate(rangeStart.getDate() + 1); // exactly 365 days
     } else {
-        startDate = new Date(displayYear as number, 0, 1);
+      rangeStart = new Date(displayYear, 0, 1);
+      rangeEnd = displayYear === currentYear ? today : new Date(displayYear, 11, 31);
     }
 
-    const gridStartDate = new Date(startDate);
-    gridStartDate.setDate(gridStartDate.getDate() - startDate.getDay());
+    // The grid starts on the Sunday on or before rangeStart
+    // and ends on the Saturday on or after rangeEnd
+    const gridStart = prevSunday(rangeStart);
+    const gridEnd   = nextSaturday(rangeEnd);
 
-    const days: Date[] = [];
-    for (let i = 0; i < 371; i++) { 
-        const date = new Date(gridStartDate);
-        date.setDate(date.getDate() + i);
-        days.push(date);
+    // Build weeks: each week is an array of 7 Date|null (null = outside range)
+    const weeksArray: (Date | null)[][] = [];
+    const cursor = new Date(gridStart);
+
+    while (cursor <= gridEnd) {
+      const week: (Date | null)[] = [];
+      for (let dow = 0; dow < 7; dow++) {
+        const day = new Date(cursor);
+        // Show cell only if within [rangeStart, rangeEnd]
+        week.push(day >= rangeStart && day <= rangeEnd ? day : null);
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      weeksArray.push(week);
     }
 
+    // Build month labels: place a label at the first week where a new month begins
+    // We only show a label if the first day of that month falls within that week
+    // AND there's at least ~3 weeks distance from the previous label (avoids overlap)
     const labels: MonthLabel[] = [];
-    let lastMonth = -1;
-    
-    days.forEach((day, index) => {
-      const dayMonth = day.getMonth();
-      if (dayMonth !== lastMonth && day >= startDate && (displayYear === 'last-year' ? day <= endDate : day.getFullYear() === displayYear)) {
-          const weekIndex = Math.floor(index / 7);
-          if (labels.length === 0 || (weekIndex - labels[labels.length - 1].weekIndex) > 2) {
-            labels.push({
-              month: day.toLocaleString('default', { month: 'short' }),
-              weekIndex: weekIndex,
-            });
-            lastMonth = dayMonth;
-          }
+    let lastLabelCol = -4;
+
+    weeksArray.forEach((week, colIndex) => {
+      // Find the first non-null day in this week
+      const firstReal = week.find((d) => d !== null);
+      if (!firstReal) return;
+
+      // If day-of-month is 1..7 it means a new month starts this week
+      if (firstReal.getDate() <= 7 && colIndex - lastLabelCol >= 3) {
+        labels.push({
+          month: firstReal.toLocaleString("default", { month: "short" }),
+          colIndex,
+        });
+        lastLabelCol = colIndex;
       }
     });
 
-    return { days, monthLabels: labels };
-  }, [displayYear]);
+    // Total contributions in range
+    let total = 0;
+    weeksArray.forEach((week) =>
+      week.forEach((day) => {
+        if (day) total += data[toDateString(day)] ?? 0;
+      })
+    );
 
+    return { weeks: weeksArray, monthLabels: labels, totalContributions: total };
+  }, [displayYear, data, currentYear]);
+
+  // ── derived layout values ────────────────────────────────────────────────────
+  const numCols     = weeks.length;
+  const LABEL_H     = 22; // px — height reserved for month labels row
+  const DAY_LABEL_W = 36; // px — width reserved for Mon/Wed/Fri labels column
+
+  // Total SVG / grid dimensions
+  const gridW = numCols * CELL_STEP - CELL_GAP;
+  const gridH = 7 * CELL_STEP - CELL_GAP;
+
+  // ── loading skeleton ─────────────────────────────────────────────────────────
   if (loading) {
     return (
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-slate-800 dark:text-white">Practice History</h2>
-            </div>
-            <div className="h-32 w-full bg-slate-100 dark:bg-slate-800 rounded animate-pulse"></div>
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">Practice History</h2>
         </div>
+        <div className="h-32 w-full bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+      </div>
     );
   }
 
+  // ── render ───────────────────────────────────────────────────────────────────
   return (
     <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-slate-800 dark:text-white">Practice History</h2>
-            <select
-                value={displayYear}
-                onChange={(e) => setDisplayYear(e.target.value === 'last-year' ? 'last-year' : Number(e.target.value))}
-                className="text-sm border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1"
-            >
-                <option value="last-year">Last 12 months</option>
-                {[currentYear, currentYear - 1, currentYear - 2].map(year => (
-                    <option key={year} value={year}>{year}</option>
-                ))}
-            </select>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-5">
+        <div>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">Practice History</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            {totalContributions.toLocaleString()} contributions
+          </p>
         </div>
+        <select
+          value={displayYear}
+          onChange={(e) =>
+            setDisplayYear(
+              e.target.value === "last-year" ? "last-year" : Number(e.target.value)
+            )
+          }
+          className="text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-lg px-2 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="last-year">Last 12 months</option>
+          {[currentYear, currentYear - 1, currentYear - 2].map((y) => (
+            <option key={y} value={y}>{y}</option>
+          ))}
+        </select>
+      </div>
 
-      <div className="flex gap-2">
-        <div className="flex flex-col gap-[2px] pt-5 text-xs text-slate-400 dark:text-slate-500 font-medium">
-            <div className="h-[11px]"></div>
-            <div className="h-[11px] flex items-center">Mon</div>
-            <div className="h-[11px]"></div>
-            <div className="h-[11px] flex items-center">Wed</div>
-            <div className="h-[11px]"></div>
-            <div className="h-[11px] flex items-center">Fri</div>
-            <div className="h-[11px]"></div>
-        </div>
-        
-        <div className="flex-1 overflow-x-auto no-scrollbar">
-          <div className="relative min-w-fit">
-            <div className="flex absolute -top-4 text-xs text-slate-500 dark:text-slate-400 font-medium">
-              {monthLabels.map(({ month, weekIndex }) => (
-                <div key={month + weekIndex} className="absolute" style={{ left: `${weekIndex * 13}px` }}>
-                  {month}
-                </div>
-              ))}
-            </div>
-            
-            <div className="grid grid-flow-col grid-rows-7 gap-[2px] mt-4">
-              {days.map((day, index) => {
-                const dateString = day.toISOString().split('T')[0];
-                const contributionCount = data[dateString] || 0;
-                let isVisible = true;
-                const today = new Date();
-                const oneYearAgo = new Date();
-                oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      {/* Calendar grid — using SVG-coordinate math via inline styles for pixel-perfect alignment */}
+      <div className="overflow-x-auto">
+        <div
+          className="relative inline-flex"
+          style={{ paddingLeft: DAY_LABEL_W, paddingTop: LABEL_H }}
+        >
+          {/* ── Month labels row ── */}
+          <div
+            className="absolute top-0 text-xs text-slate-500 dark:text-slate-400 font-medium select-none"
+            style={{ left: DAY_LABEL_W, height: LABEL_H }}
+          >
+            {monthLabels.map(({ month, colIndex }) => (
+              <span
+                key={`${month}-${colIndex}`}
+                className="absolute leading-none"
+                style={{
+                  left: colIndex * CELL_STEP,
+                  top: 0,
+                }}
+              >
+                {month}
+              </span>
+            ))}
+          </div>
 
-                if (displayYear === 'last-year') {
-                    if (day > today || day <= oneYearAgo) isVisible = false;
-                } else {
-                    if (day.getFullYear() !== (displayYear as number)) isVisible = false;
+          {/* ── Day-of-week labels column ── */}
+          <div
+            className="absolute left-0 text-xs text-slate-500 dark:text-slate-400 font-medium select-none"
+            style={{ top: LABEL_H, width: DAY_LABEL_W }}
+          >
+            {/* Sun=0 Mon=1 Tue=2 Wed=3 Thu=4 Fri=5 Sat=6 */}
+            {(["", "Mon", "", "Wed", "", "Fri", ""] as const).map((label, i) => (
+              <div
+                key={i}
+                className="absolute right-2 leading-none flex items-center"
+                style={{
+                  top: i * CELL_STEP + Math.floor(CELL_SIZE / 2) - 5, // vertically centre text in row
+                }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+
+          {/* ── Cells grid ── */}
+          <div
+            className="relative"
+            style={{ width: gridW, height: gridH }}
+          >
+            {weeks.map((week, colIndex) =>
+              week.map((day, rowIndex) => {
+                if (!day) {
+                  // Empty cell (outside range) — still occupies space
+                  return (
+                    <div
+                      key={`${colIndex}-${rowIndex}`}
+                      className="absolute"
+                      style={{
+                        left: colIndex * CELL_STEP,
+                        top:  rowIndex * CELL_STEP,
+                        width:  CELL_SIZE,
+                        height: CELL_SIZE,
+                      }}
+                    />
+                  );
                 }
 
-                const colorClass = isVisible ? getColorClass(contributionCount) : 'bg-transparent';
-                const tooltipText = contributionCount > 0 ? `${contributionCount} contributions` : 'No contributions';
+                const dateStr = toDateString(day);
+                const count = data[dateStr] ?? 0;
+                const colorClass = getColorClass(count);
+                const label = count > 0
+                  ? `${count} contribution${count === 1 ? "" : "s"}`
+                  : "No contributions";
+                const dateLabel = day.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                });
 
                 return (
-                  <div key={index} className="relative group">
-                    <div className={`w-[11px] h-[11px] rounded-[2px] ${colorClass} border border-transparent dark:border-slate-800/30`} />
-                    {isVisible && (
-                      <span className="absolute bottom-full mb-2 w-max px-2 py-1 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 left-1/2 -translate-x-1/2 whitespace-nowrap font-medium">
-                        {tooltipText} on {day.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    )}
+                  <div
+                    key={`${colIndex}-${rowIndex}`}
+                    className={`absolute rounded-[2px] group ${colorClass} hover:ring-1 hover:ring-slate-400 dark:hover:ring-slate-500 transition-all duration-75`}
+                    style={{
+                      left:   colIndex * CELL_STEP,
+                      top:    rowIndex * CELL_STEP,
+                      width:  CELL_SIZE,
+                      height: CELL_SIZE,
+                    }}
+                  >
+                    {/* Tooltip */}
+                    <span className="
+                      pointer-events-none absolute z-20 bottom-full mb-2 left-1/2 -translate-x-1/2
+                      whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium shadow-lg
+                      bg-slate-900 text-white dark:bg-white dark:text-slate-900
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-150
+                    ">
+                      {label} on {dateLabel}
+                    </span>
                   </div>
                 );
-              })}
-            </div>
+              })
+            )}
           </div>
         </div>
       </div>
-      
-      <div className="flex justify-between items-center mt-6 border-t border-slate-100 dark:border-slate-800 pt-4">
-        <div className="text-xs text-slate-500 dark:text-slate-400">
-           Consistency is key to cracking MCA exams.
-        </div>
-        <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
-            <span>Less</span>
-            <div className="w-[11px] h-[11px] rounded-[2px] bg-slate-100 dark:bg-slate-800"></div>
-            <div className="w-[11px] h-[11px] rounded-[2px] bg-green-200 dark:bg-green-900/60"></div>
-            <div className="w-[11px] h-[11px] rounded-[2px] bg-green-400 dark:bg-green-700"></div>
-            <div className="w-[11px] h-[11px] rounded-[2px] bg-green-600 dark:bg-green-500"></div>
-            <div className="w-[11px] h-[11px] rounded-[2px] bg-green-700 dark:bg-green-400"></div>
-            <span>More</span>
+
+      {/* Footer */}
+      <div className="flex flex-wrap justify-between items-center mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 gap-2">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Consistency is key to cracking MCA exams.
+        </p>
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span>Less</span>
+          {[
+            "bg-slate-100 dark:bg-slate-800",
+            "bg-green-200 dark:bg-green-900",
+            "bg-green-400 dark:bg-green-700",
+            "bg-green-600 dark:bg-green-500",
+            "bg-green-700 dark:bg-green-400",
+          ].map((cls, i) => (
+            <div
+              key={i}
+              className={`rounded-[2px] ${cls}`}
+              style={{ width: CELL_SIZE, height: CELL_SIZE }}
+            />
+          ))}
+          <span>More</span>
         </div>
       </div>
     </div>

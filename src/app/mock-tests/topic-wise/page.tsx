@@ -1,9 +1,10 @@
+// src/app/mock-tests/topic-wise/page.tsx
 import { db } from "@/lib/firebaseAdmin";
 import { TopicPracticeForm } from "@/components/mock-tests/custom/TopicPracticeForm";
-import { IconTarget } from "@/components/ui/Icons"; // Changed IconFocus to IconTarget (IconFocus might not exist in your icons file)
+import { IconTarget } from "@/components/ui/Icons";
 import Link from 'next/link';
 
-// 1. FORCE DYNAMIC RENDERING (Disable Cache)
+// 1. FORCE DYNAMIC RENDERING (Fixes the Caching Issue)
 export const dynamic = "force-dynamic";
 
 type SubjectsWithTopics = {
@@ -14,14 +15,19 @@ async function getSubjectsWithTopics(): Promise<SubjectsWithTopics> {
   try {
     const questionsSnapshot = await db.collection('questions').get();
     
-    // 2. Add Logging to verify it's working
     console.log(`[TopicWisePage] Fetched ${questionsSnapshot.size} questions from DB.`);
 
     const subjectsMap: SubjectsWithTopics = {};
 
     questionsSnapshot.forEach(doc => {
       const data = doc.data();
-      // Ensure we trim whitespace to avoid "Algebra" vs "Algebra " duplicates
+      
+      // 2. FILTERING: Skip if question is deprecated (e.g. Vectors)
+      if (data.deprecated === true) {
+        return; 
+      }
+
+      // Ensure we trim whitespace to avoid duplicates
       const subject = data.subject?.trim();
       const topic = data.topic?.trim();
 
@@ -29,13 +35,14 @@ async function getSubjectsWithTopics(): Promise<SubjectsWithTopics> {
         if (!subjectsMap[subject]) {
           subjectsMap[subject] = [];
         }
+        // Only add topic if not already in the list
         if (!subjectsMap[subject].includes(topic)) {
           subjectsMap[subject].push(topic);
         }
       }
     });
 
-    // Sort topics
+    // Sort topics alphabetically
     for (const subject in subjectsMap) {
       subjectsMap[subject].sort();
     }
