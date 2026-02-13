@@ -15,31 +15,49 @@ type Question = {
   subject?: string;
 };
 
+// --- ROBUST DATA SANITIZER ---
+// Recursively traverses any object and converts Firestore Timestamps to strings.
+// This prevents "Serialization Error" crashes no matter what fields are in the DB.
+function sanitizeFirestoreData(data: any): any {
+  if (data === null || data === undefined) return data;
+  
+  // 1. If it's a Firestore Timestamp (has toDate method), convert to ISO string
+  if (data && typeof data.toDate === 'function') {
+    return data.toDate().toISOString();
+  }
+  
+  // 2. If it's a Date object, convert to ISO string
+  if (data instanceof Date) {
+    return data.toISOString();
+  }
+
+  // 3. If it's an Array, recursively sanitize each item
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeFirestoreData(item));
+  }
+  
+  // 4. If it's an Object, recursively sanitize each key
+  if (typeof data === 'object') {
+    const sanitized: any = {};
+    for (const key in data) {
+      // Skip internal keys or functions
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        sanitized[key] = sanitizeFirestoreData(data[key]);
+      }
+    }
+    return sanitized;
+  }
+  
+  // 5. Primitives (string, number, boolean) pass through unchanged
+  return data;
+}
+
 function chunkArray<T>(array: T[], size: number): T[][] {
   const chunks = [];
   for (let i = 0; i < array.length; i += size) {
     chunks.push(array.slice(i, i + size));
   }
   return chunks;
-}
-
-// --- HELPER: SANITIZE DATA TO PREVENT CRASHES ---
-// Converts complex Firestore objects (Timestamps) into plain strings
-function sanitizeAttemptData(data: any) {
-    const sanitized = { ...data };
-    
-    // Safely convert Timestamps
-    if (sanitized.submittedAt?.toDate) {
-        sanitized.submittedAt = sanitized.submittedAt.toDate().toISOString();
-    } else if (!sanitized.submittedAt) {
-        sanitized.submittedAt = new Date().toISOString();
-    }
-    
-    // Remove other potential timestamp fields from attempt if they exist
-    delete sanitized.createdAt;
-    delete sanitized.startedAt;
-
-    return sanitized;
 }
 
 async function getResultsData(testId: string, attemptId: string) {
@@ -50,9 +68,12 @@ async function getResultsData(testId: string, attemptId: string) {
 
     if (!attemptDocSnap.exists) notFound();
     
-    const rawAttemptData = attemptDocSnap.data()!;
+    // FETCH & SANITIZE IMMEDIATELY
+    // This cleans nested objects, createdAt, updatedAt, etc.
+    const rawAttemptData = attemptDocSnap.data();
+    const sanitizedAttempt = sanitizeFirestoreData(rawAttemptData);
     
-    if (rawAttemptData.testId !== testId) notFound();
+    if (sanitizedAttempt.testId !== testId) notFound();
 
     // 2. Fetch Test
     const testDocRef = db.collection('mockTests').doc(testId);
@@ -73,8 +94,7 @@ async function getResultsData(testId: string, attemptId: string) {
         const querySnap = await questionsRef.where(FieldPath.documentId(), 'in', batch).get();
         querySnap.forEach(doc => {
             const data = doc.data();
-            // CRITICAL FIX: Manually pick fields. Do NOT use ...data()
-            // This prevents 'createdAt' timestamps from crashing the page.
+            // Manually pick fields to ensure clean data
             questionsMap.set(doc.id, { 
                 id: doc.id, 
                 question_text: data.question_text || "",
@@ -91,23 +111,34 @@ async function getResultsData(testId: string, attemptId: string) {
       .map(id => questionsMap.get(id))
       .filter((q): q is Question => Boolean(q));
 
-    // 4. Serialize Attempt
-    const serializableAttempt = {
+    // 4. Construct Final Serializable Attempt
+    const finalAttempt = {
       id: attemptDocSnap.id,
-      ...sanitizeAttemptData(rawAttemptData)
+      ...sanitizedAttempt
     };
 
-    return { attempt: serializableAttempt, questions: orderedQuestions };
+    return { attempt: finalAttempt, questions: orderedQuestions };
 
   } catch (error) {
     console.error("Error fetching results:", error);
-    notFound();
+    return null; // Handle error gracefully in UI
   }
 }
 
 export default async function ResultsPage({ params }: { params: Promise<{ testId: string; attemptId: string }> }) {
   const { testId, attemptId } = await params;
-  const { attempt, questions } = await getResultsData(testId, attemptId);
+  const result = await getResultsData(testId, attemptId);
+
+  if (!result) {
+      return (
+          <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-800">
+              <h1 className="text-2xl font-bold mb-2">Results Not Found</h1>
+              <p>Unable to load the requested test results.</p>
+          </div>
+      );
+  }
+
+  const { attempt, questions } = result;
 
   return (
     <div className="w-full min-h-screen bg-slate-50 dark:bg-slate-950">

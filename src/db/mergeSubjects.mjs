@@ -16,17 +16,23 @@ const db = getFirestore();
 
 // --- Define the subject merges ---
 const subjectMerges = [
+  // 1. Fix the capitalization issue (Main Fix)
   {
-    oldSubjects: ['Analytical Reasoning', 'Analytical Ability & Logical Reasoning'],
-    newSubject: 'Analytical Ability & Logical Reasoning'
+    oldSubjects: ['General english'], 
+    newSubject: 'General English'
+  },
+  // 2. Ensure consistency for other subjects (Optional but good practice)
+  {
+    oldSubjects: ['Analytical Reasoning', 'Analytical Ability & Logical Reasoning', 'logical reasoning', 'Logical reasoning'],
+    newSubject: 'Logical Reasoning' // Ensure this matches your test generator config exactly
   },
   {
-    oldSubjects: ['Computer Science', 'Computer Awareness'],
+    oldSubjects: ['Computer Science', 'Computer Awareness', 'computer awareness'],
     newSubject: 'Computer Awareness'
   },
   {
-    oldSubjects: ['English', 'General English'],
-    newSubject: 'General English'
+    oldSubjects: ['Mathematics', 'mathematics', 'Maths'],
+    newSubject: 'Mathematics'
   }
 ];
 
@@ -45,14 +51,28 @@ async function mergeSubjects() {
         continue;
       }
 
-      const batch = db.batch();
-      snapshot.docs.forEach(doc => {
-        console.log(`  - Updating doc ${doc.id} to "${merge.newSubject}"`);
-        batch.update(doc.ref, { subject: merge.newSubject });
-      });
+      // Firestore batch limit is 500 operations. We chunk if needed.
+      const BATCH_SIZE = 450;
+      const chunks = [];
+      const docs = snapshot.docs;
 
-      await batch.commit();
-      console.log(`Successfully merged ${snapshot.size} questions from "${oldSubject}" into "${merge.newSubject}".\n`);
+      for (let i = 0; i < docs.length; i += BATCH_SIZE) {
+          chunks.push(docs.slice(i, i + BATCH_SIZE));
+      }
+
+      for (const chunk of chunks) {
+          const batch = db.batch();
+          chunk.forEach(doc => {
+              // Only update if actually different to save writes
+              if (doc.data().subject !== merge.newSubject) {
+                  batch.update(doc.ref, { subject: merge.newSubject });
+              }
+          });
+          await batch.commit();
+          console.log(`  - Updated batch of ${chunk.length} questions to "${merge.newSubject}"`);
+      }
+      
+      console.log(`Successfully merged questions from "${oldSubject}" into "${merge.newSubject}".\n`);
     }
   }
 
