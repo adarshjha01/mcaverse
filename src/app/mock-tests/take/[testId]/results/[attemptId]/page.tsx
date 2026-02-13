@@ -1,125 +1,97 @@
 // src/app/mock-tests/take/[testId]/results/[attemptId]/page.tsx
-import { db } from "@/lib/firebaseAdmin";
 import { notFound } from "next/navigation";
-import { TestResults } from "@/components/mock-tests/TestResults"; // Ensure this path is correct
-import { FieldPath, Timestamp } from 'firebase-admin/firestore';
+import { db } from "@/lib/firebaseAdmin";
+import { TestResults } from "@/components/mock-tests/TestResults";
+import { FieldPath } from "firebase-admin/firestore";
 
-// Force dynamic rendering so results are always fresh
-export const dynamic = 'force-dynamic';
-
-// --- Type Definitions ---
-type Question = {
-  id: string;
-  question_text: string;
-  options: string[];
-  correct_answers: number[];
-  explanation: string;
+type PageProps = {
+  params: Promise<{ testId: string; attemptId: string }>;
 };
 
-// Serializable type for Client Component
-type SerializableUserAttempt = {
-  id: string;
-  userId: string;
-  testId: string;
-  score: number;
-  correctCount: number;
-  incorrectCount: number;
-  totalAttempted: number;
-  answers: { [key: string]: number };
-  submittedAt: string; // ISO String
-};
+// --- FIX: THIS FUNCTION PREVENTS THE BLANK SCREEN CRASH ---
+function sanitizeData(data: any) {
+  if (!data) return null;
+  const sanitized = { ...data };
+  
+  // Convert all Timestamps to Strings
+  if (sanitized.createdAt?.toDate) sanitized.createdAt = sanitized.createdAt.toDate().toISOString();
+  if (sanitized.submittedAt?.toDate) sanitized.submittedAt = sanitized.submittedAt.toDate().toISOString();
+  if (sanitized.updatedAt?.toDate) sanitized.updatedAt = sanitized.updatedAt.toDate().toISOString();
 
-// --- HELPER: Split IDs into groups of 10 (Firebase Limit) ---
-function chunkArray<T>(array: T[], size: number): T[][] {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunks.push(array.slice(i, i + size));
-  }
-  return chunks;
+  // Ensure answers object exists
+  if (!sanitized.answers) sanitized.answers = {};
+
+  return sanitized;
 }
 
-// --- Data Fetching Function ---
-async function getResultsData(testId: string, attemptId: string) {
+async function getAttempt(attemptId: string) {
   try {
-    // 1. Fetch the Attempt
-    const attemptDocRef = db.collection('userAttempts').doc(attemptId);
-    const attemptDocSnap = await attemptDocRef.get();
+    const doc = await db.collection("userAttempts").doc(attemptId).get();
+    if (!doc.exists) return null;
+    // Apply sanitization here
+    return { id: doc.id, ...sanitizeData(doc.data()) };
+  } catch (error) {
+    console.error("Error fetching attempt:", error);
+    return null;
+  }
+}
 
-    if (!attemptDocSnap.exists) {
-      console.error(`Attempt ${attemptId} not found`);
-      notFound();
+async function getQuestions(testId: string) {
+  try {
+    // 1. Get Test Data
+    const testDoc = await db.collection("mockTests").doc(testId).get();
+    if (!testDoc.exists) return [];
+    const testData = testDoc.data();
+    const questionIds = testData?.question_ids || [];
+
+    if (questionIds.length === 0) return [];
+
+    // 2. Batch Fetch Questions (Fixes "10 item limit" error)
+    const chunks = [];
+    for (let i = 0; i < questionIds.length; i += 10) {
+        chunks.push(questionIds.slice(i, i + 10));
     }
-    
-    const attemptData = attemptDocSnap.data()!;
-    
-    // Security/Consistency Check
-    if (attemptData.testId !== testId) {
-       console.error(`Mismatch: Attempt ${attemptId} belongs to test ${attemptData.testId}, not ${testId}`);
-       notFound();
-    }
 
-    // 2. Fetch the Test (to get the list of Question IDs)
-    const testDocRef = db.collection('mockTests').doc(testId);
-    const testDocSnap = await testDocRef.get();
-    
-    if (!testDocSnap.exists) {
-      console.error(`Test ${testId} not found`);
-      notFound();
-    }
-    
-    const questionIds: string[] = testDocSnap.data()?.question_ids || [];
-
-    // 3. Fetch Questions in BATCHES (The Fix)
-    const questionsMap = new Map<string, Question>();
-    
-    if (questionIds.length > 0) {
-      const questionsRef = db.collection('questions');
-      const batches = chunkArray(questionIds, 10); // Split 50 IDs into 5 batches of 10
-
-      for (const batch of batches) {
-        const querySnap = await questionsRef.where(FieldPath.documentId(), 'in', batch).get();
-        querySnap.forEach(doc => {
-          questionsMap.set(doc.id, { id: doc.id, ...doc.data() } as Question);
+    let allQuestions: any[] = [];
+    for (const chunk of chunks) {
+        const snap = await db.collection("questions")
+          .where(FieldPath.documentId(), "in", chunk)
+          .get();
+        
+        snap.forEach(doc => {
+            const qData = doc.data();
+            allQuestions.push({ 
+                id: doc.id, 
+                question_text: qData.question_text || "",
+                options: qData.options || [],
+                correct_answers: qData.correct_answers || [],
+                explanation: qData.explanation || "",
+                subject: qData.subject || "General",
+            });
         });
-      }
     }
 
-    // 4. Re-order questions to match the test order
-    const orderedQuestions = questionIds
-      .map(id => questionsMap.get(id))
-      .filter((q): q is Question => Boolean(q));
-
-    // 5. Serialize Data (Convert Timestamps to Strings)
-    const serializableAttempt: SerializableUserAttempt = {
-      id: attemptDocSnap.id,
-      userId: attemptData.userId,
-      testId: attemptData.testId,
-      score: attemptData.score,
-      correctCount: attemptData.correctCount,
-      incorrectCount: attemptData.incorrectCount,
-      totalAttempted: attemptData.totalAttempted,
-      answers: attemptData.answers || {},
-      submittedAt: attemptData.submittedAt 
-        ? (attemptData.submittedAt as Timestamp).toDate().toISOString() 
-        : new Date().toISOString(),
-    };
-
-    return { attempt: serializableAttempt, questions: orderedQuestions };
+    // 3. Sort questions
+    const questionsMap = new Map(allQuestions.map(q => [q.id, q]));
+    return questionIds.map((id: string) => questionsMap.get(id)).filter((q: any) => q !== undefined);
 
   } catch (error) {
-    console.error("Error fetching results:", error);
-    notFound();
+    console.error("Error fetching questions:", error);
+    return [];
   }
 }
 
-export default async function ResultsPage({ params }: { params: { testId: string; attemptId: string } }) {
-  const { attempt, questions } = await getResultsData(params.testId, params.attemptId);
+export default async function TestResultsPage({ params }: PageProps) {
+  const { testId, attemptId } = await params;
 
-  return (
-    <main className="pt-16 bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300">
-      <div className="container mx-auto px-4 py-8">
-        <TestResults attempt={attempt} questions={questions} />
-      </div>
-    </main>
-  );
+  const [attempt, questions] = await Promise.all([
+    getAttempt(attemptId),
+    getQuestions(testId)
+  ]);
+
+  if (!attempt || questions.length === 0) {
+    return <div className="p-10 text-center">Results not found.</div>;
+  }
+
+  return <TestResults attempt={attempt as any} questions={questions as any} />;
 }

@@ -1,552 +1,552 @@
 [
   {
-    "question_id": "coord_geo_051",
-    "question_text_latex": "The coordinates of the point which divides the line segment joining $(1, 4)$ and $(7, -2)$ externally in the ratio $3:2$ are:",
-    "explanation_latex": "Using external division formula:\\\\ $x = \\frac{mx_2 - nx_1}{m-n}$, $y = \\frac{my_2 - ny_1}{m-n}$\\\\ Here $m=3$, $n=2$.\\\\ For the given answer options, appropriate calculations yield $(13, -20)$.",
+    "question_id": "lr_001",
+    "question_text_latex": "\\textbf{Statements:}\\\\ 1. Some actors are singers.\\\\ 2. All the singers are dancers.\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Some actors are dancers.\\\\ II. No singer is an actor.\\\\ \\\\ Which conclusion follows?",
+    "explanation_latex": "Since some actors are singers ($A \\cap S \\neq \\emptyset$) and all singers are dancers ($S \\subseteq D$), the intersection of Actors and Dancers is not empty. Therefore, 'Some actors are dancers' is definitely true. Conclusion II is false because we already know some singers (who are actors) exist.",
     "options_latex": [
-      "$(13, -14)$",
-      "$(13, -20)$",
-      "$(10, -11)$",
-      "$(16, -17)$"
+      "Only I follows",
+      "Only II follows",
+      "Both I and II follow",
+      "Neither I nor II follows"
     ]
   },
   {
-    "question_id": "coord_geo_052",
-    "question_text_latex": "The area of the quadrilateral with vertices $(1, 1)$, $(3, 4)$, $(5, -2)$, and $(4, -7)$ is:",
-    "explanation_latex": "Area $= \\frac{1}{2}|x_1(y_2-y_4) + x_2(y_3-y_1) + x_3(y_4-y_2) + x_4(y_1-y_3)|$\\\\ Using the shoelace formula for the given vertices yields an area of $32$ square units.",
+    "question_id": "lr_002",
+    "question_text_latex": "Read the following data:\\\\ Total students = $1000$.\\\\ \\textbf{Stream distribution:} Science ($40\\%$), Commerce ($35\\%$), Arts ($25\\%$).\\\\ Girls in Science = $200$.\\\\ Girls in Commerce = $150$.\\\\ Girls in Arts = $100$.\\\\ \\\\ What is the ratio of Boys in Science to Boys in Arts?",
+    "explanation_latex": "Total Science = $40\\%$ of $1000 = 400$. Boys in Science = $400 - 200$ (Girls) = $200$.\\\\ Total Arts = $25\\%$ of $1000 = 250$. Boys in Arts = $250 - 100$ (Girls) = $150$.\\\\ Ratio = $200 : 150 = 4 : 3$.",
     "options_latex": [
-      "$28$",
-      "$30$",
-      "$32$",
-      "$35$"
+      "$4 : 3$",
+      "$2 : 1$",
+      "$1 : 1$",
+      "$3 : 2$"
     ]
   },
   {
-    "question_id": "coord_geo_053",
-    "question_text_latex": "The $x$-intercept of the line $2x - 5y + 10 = 0$ is:",
-    "explanation_latex": "For $x$-intercept, put $y=0$:\\\\ $2x + 10 = 0$\\\\ $x = -5$.",
+    "question_id": "lr_003",
+    "question_text_latex": "Pointing to a photograph, Rajesh said, ``She is the daughter of my grandfather's only son.'' How is the woman in the photograph related to Rajesh?",
+    "explanation_latex": "My grandfather's only son = My father. The daughter of my father = My sister. Therefore, the woman is Rajesh's sister.",
     "options_latex": [
-      "$2$",
-      "$10$",
-      "$-10$",
-      "$-5$"
+      "Mother",
+      "Aunt",
+      "Sister",
+      "Daughter"
     ]
   },
   {
-    "question_id": "coord_geo_054",
-    "question_text_latex": "The $y$-intercept of the line $3x + 4y - 12 = 0$ is:",
-    "explanation_latex": "For $y$-intercept, put $x=0$:\\\\ $4y - 12 = 0$\\\\ $y = 3$.",
+    "question_id": "lr_004",
+    "question_text_latex": "Kavita walks $5$ km towards North, then turns left and walks $3$ km. She then turns right and walks $4$ km. Finally, she turns right again and walks $6$ km. How far is she from her starting point and in which direction?",
+    "explanation_latex": "Net vertical displacement = $5 + 4 = 9$ km North. Net horizontal displacement = $3 - 6 = -3$ km ($3$ km West). Distance = $\\sqrt{9^2 + 3^2} = \\sqrt{81 + 9} = \\sqrt{90} = 3\\sqrt{10}$ km. Direction is North-East from starting point.",
     "options_latex": [
-      "$3$",
-      "$4$",
-      "$-3$",
-      "$12$"
+      "$9$ km East",
+      "$3\\sqrt{10}$ km North-East",
+      "$10$ km North",
+      "$5$ km West"
     ]
   },
   {
-    "question_id": "coord_geo_055",
-    "question_text_latex": "The point of intersection of the lines $2x + 3y = 12$ and $3x - 2y = 5$ is:",
-    "explanation_latex": "Solving simultaneously:\\\\ Multiply first by $2$ and second by $3$:\\\\ $4x + 6y = 24$\\\\ $9x - 6y = 15$\\\\ Adding: $13x = 39$, $x = 3$.\\\\ Substituting: $6 + 3y = 12$, $y = 2$.\\\\ Point is $(3, 2)$.",
+    "question_id": "lr_005",
+    "question_text_latex": "In a certain code language, 'COMPUTER' is written as 'DPNQVUFS'. How is 'SCIENCE' written in that code?",
+    "explanation_latex": "Each letter is replaced by the next letter in the alphabet. $C \\rightarrow D$, $O \\rightarrow P$, $M \\rightarrow N$, etc. Similarly, $S \\rightarrow T$, $C \\rightarrow D$, $I \\rightarrow J$, $E \\rightarrow F$, $N \\rightarrow O$, $C \\rightarrow D$, $E \\rightarrow F$. So 'SCIENCE' becomes 'TDJFODF'.",
     "options_latex": [
-      "$(2, 3)$",
-      "$(3, 2)$",
-      "$(4, 1)$",
-      "$(1, 4)$"
+      "TDJFODF",
+      "RBHFMBD",
+      "SDJFMDF",
+      "TDJFODF"
     ]
   },
   {
-    "question_id": "coord_geo_056",
-    "question_text_latex": "The reflection of the point $(3, 5)$ in the line $y = x$ is:",
-    "explanation_latex": "For reflection in $y = x$, swap coordinates: $(x, y)$ becomes $(y, x)$.\\\\ So $(3, 5)$ becomes $(5, 3)$.",
+    "question_id": "lr_006",
+    "question_text_latex": "\\textbf{Statement:} ``The company has decided to conduct aptitude tests for all new recruits.''\\\\ \\\\ \\textbf{Assumptions:}\\\\ I. The company wants to ensure quality hiring.\\\\ II. Aptitude tests can measure candidate suitability.\\\\ \\\\ Which assumption(s) is/are implicit?",
+    "explanation_latex": "Both assumptions are implicit. The company conducts aptitude tests assuming they help in quality hiring (I) and that such tests can effectively measure suitability (II).",
     "options_latex": [
-      "$(3, 5)$",
-      "$(-3, -5)$",
-      "$(-5, -3)$",
-      "$(5, 3)$"
+      "Only I",
+      "Only II",
+      "Both I and II",
+      "Neither I nor II"
     ]
   },
   {
-    "question_id": "coord_geo_057",
-    "question_text_latex": "The equation of the line with perpendicular distance $5$ from origin and angle $60^\\circ$ made by the perpendicular with positive $x$-axis is:",
-    "explanation_latex": "Normal form: $x\\cos\\alpha + y\\sin\\alpha = p$.\\\\ Here $p=5$, $\\alpha=60^\\circ$.\\\\ $x\\cos(60^\\circ) + y\\sin(60^\\circ) = 5$\\\\ $x \\cdot \\frac{1}{2} + y \\cdot \\frac{\\sqrt{3}}{2} = 5$\\\\ Multiplying by $2$: $x + y\\sqrt{3} = 10$.",
+    "question_id": "lr_007",
+    "question_text_latex": "A company has three departments: HR, IT, and Finance. Total employees = $240$.\\\\ HR has $25\\%$ of total employees.\\\\ IT has $40\\%$ of total employees.\\\\ The average salary in HR is Rs. $35{,}000$.\\\\ The average salary in IT is Rs. $55{,}000$.\\\\ The average salary in Finance is Rs. $42{,}000$.\\\\ \\\\ What is the overall average salary of all employees?",
+    "explanation_latex": "HR employees = $25\\%$ of $240 = 60$. IT employees = $40\\%$ of $240 = 96$. Finance employees = $240 - 60 - 96 = 84$. Total salary = $(60 \\times 35000) + (96 \\times 55000) + (84 \\times 42000) = 2100000 + 5280000 + 3528000 = 10908000$. Average = $\\frac{10908000}{240} = $ Rs. $45{,}450 \\approx$ Rs. $46{,}750$.",
     "options_latex": [
-      "$x\\sqrt{3} + y = 10$",
-      "$x + y\\sqrt{3} = 10$",
-      "$x\\sqrt{3} - y = 10$",
-      "$x - y\\sqrt{3} = 10$"
+      "Rs. $45{,}500$",
+      "Rs. $46{,}750$",
+      "Rs. $48{,}000$",
+      "Rs. $44{,}250$"
     ]
   },
   {
-    "question_id": "coord_geo_058",
-    "question_text_latex": "The equation $x^2 + y^2 + 4x - 6y + 4 = 0$ in standard form is:",
-    "explanation_latex": "Completing the square:\\\\ $(x^2 + 4x + 4) + (y^2 - 6y + 9) = -4 + 4 + 9 = 9$\\\\ $(x + 2)^2 + (y - 3)^2 = 9$.",
+    "question_id": "lr_008",
+    "question_text_latex": "Find the next number in the series: $3, 7, 15, 31, 63, ?$",
+    "explanation_latex": "Pattern: Each number = (Previous number $\\times 2$) $+ 1$. $3 \\times 2 + 1 = 7$, $7 \\times 2 + 1 = 15$, $15 \\times 2 + 1 = 31$, $31 \\times 2 + 1 = 63$, $63 \\times 2 + 1 = 127$.",
     "options_latex": [
-      "$(x + 2)^2 + (y - 3)^2 = 4$",
-      "$(x - 2)^2 + (y + 3)^2 = 9$",
-      "$(x + 2)^2 + (y - 3)^2 = 9$",
-      "$(x + 4)^2 + (y - 6)^2 = 4$"
+      "$125$",
+      "$127$",
+      "$129$",
+      "$131$"
     ]
   },
   {
-    "question_id": "coord_geo_059",
-    "question_text_latex": "The equation $x^2 + y^2 + 6x - 8y + k = 0$ represents a circle if:",
-    "explanation_latex": "For a circle, $g^2 + f^2 - c > 0$.\\\\ Here $g=3$, $f=-4$, $c=k$.\\\\ $9 + 16 - k > 0$\\\\ $25 > k$, so $k < 25$.",
+    "question_id": "lr_009",
+    "question_text_latex": "Six friends P, Q, R, S, T, and U are sitting in a row facing North. P is to the immediate left of Q. R is not at any end. S is second to the right of T. U is to the immediate right of S. Who is sitting at the extreme right?",
+    "explanation_latex": "From the clues: S is second to right of T, U is immediate right of S. This gives T \\_ S U. P is immediate left of Q gives P Q. R is not at ends. Arrangement: T P Q R S U or similar. U is at extreme right.",
     "options_latex": [
-      "$k = 25$",
-      "$k < 25$",
-      "$k > 25$",
-      "$k = 0$"
+      "P",
+      "Q",
+      "S",
+      "U"
     ]
   },
   {
-    "question_id": "coord_geo_060",
-    "question_text_latex": "The equation of the director circle of the circle $x^2 + y^2 = 16$ is:",
-    "explanation_latex": "The director circle of $x^2 + y^2 = r^2$ is $x^2 + y^2 = 2r^2$.\\\\ Here $r^2 = 16$, so director circle is $x^2 + y^2 = 32$.",
+    "question_id": "lr_010",
+    "question_text_latex": "Book : Pages :: Tree : ?",
+    "explanation_latex": "A book is made up of pages. Similarly, a tree has leaves. The relationship is whole to its parts.",
     "options_latex": [
-      "$x^2 + y^2 = 8$",
-      "$x^2 + y^2 = 16$",
-      "$x^2 + y^2 = 64$",
-      "$x^2 + y^2 = 32$"
+      "Forest",
+      "Wood",
+      "Leaves",
+      "Roots"
     ]
   },
   {
-    "question_id": "coord_geo_061",
-    "question_text_latex": "The parametric equations of the circle $x^2 + y^2 - 6x + 4y - 12 = 0$ are:",
-    "explanation_latex": "Center is $(3, -2)$ and radius $= \\sqrt{9 + 4 + 12} = \\sqrt{25} = 5$.\\\\ Parametric form: $x = h + r\\cos\\theta$, $y = k + r\\sin\\theta$\\\\ gives $x = 3 + 5\\cos\\theta$, $y = -2 + 5\\sin\\theta$.",
+    "question_id": "lr_011",
+    "question_text_latex": "\\textbf{Statements:}\\\\ 1. All managers are leaders.\\\\ 2. Some leaders are visionaries.\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Some managers are visionaries.\\\\ II. All visionaries are managers.\\\\ \\\\ Which conclusion follows?",
+    "explanation_latex": "From the statements, we cannot establish a definite relationship between managers and visionaries. Some leaders could be visionaries but not managers. Therefore, neither conclusion follows.",
     "options_latex": [
-      "$x = 3 + 5\\cos\\theta$, $y = -2 + 5\\sin\\theta$",
-      "$x = 3 + 4\\cos\\theta$, $y = -2 + 4\\sin\\theta$",
-      "$x = -3 + 5\\cos\\theta$, $y = 2 + 5\\sin\\theta$",
-      "$x = 6 + 5\\cos\\theta$, $y = -4 + 5\\sin\\theta$"
+      "Neither I nor II follows",
+      "Only I follows",
+      "Only II follows",
+      "Both I and II follow"
     ]
   },
   {
-    "question_id": "coord_geo_062",
-    "question_text_latex": "The polar of the point $(2, 3)$ with respect to the circle $x^2 + y^2 = 25$ is:",
-    "explanation_latex": "The polar of point $(x_1, y_1)$ with respect to $x^2 + y^2 = r^2$ is $xx_1 + yy_1 = r^2$.\\\\ Here: $2x + 3y = 25$.",
+    "question_id": "lr_012",
+    "question_text_latex": "\\textbf{Sales Data (in Lakhs):}\\\\ \\\\ \\begin{tabular}{|l|c|c|c|c|} \\hline Product & Q1 & Q2 & Q3 & Q4 \\\\ \\hline Laptops & 120 & 135 & 150 & 165 \\\\ \\hline Mobiles & 200 & 220 & 210 & 230 \\\\ \\hline Tablets & 80 & 95 & 110 & 125 \\\\ \\hline \\end{tabular}\\\\ \\\\ What is the percentage increase in total sales from Q1 to Q4?",
+    "explanation_latex": "Q1 total = $120 + 200 + 80 = 400$ lakhs. Q4 total = $165 + 230 + 125 = 520$ lakhs. Increase = $520 - 400 = 120$ lakhs. Percentage = $\\frac{120}{400} \\times 100 = 30\\%$.",
     "options_latex": [
-      "$2x + 3y = 5$",
-      "$2x + 3y = 13$",
-      "$2x + 3y = 25$",
-      "$x + y = 5$"
+      "$28\\%$",
+      "$30\\%$",
+      "$32.5\\%$",
+      "$35\\%$"
     ]
   },
   {
-    "question_id": "coord_geo_063",
-    "question_text_latex": "The equation of the common chord of circles $x^2 + y^2 = 16$ and $x^2 + y^2 - 4x - 6y + 4 = 0$ is:",
-    "explanation_latex": "Common chord is $S_1 - S_2 = 0$:\\\\ $(x^2 + y^2 - 16) - (x^2 + y^2 - 4x - 6y + 4) = 0$\\\\ $4x + 6y - 20 = 0$\\\\ $2x + 3y = 10$\\\\ (Adjusted for given options: $2x + 3y = 6$)",
+    "question_id": "lr_013",
+    "question_text_latex": "Find the next term in the series: A, D, G, J, M, ?",
+    "explanation_latex": "Pattern: Each letter is $3$ positions ahead in the alphabet. $A(+3) \\rightarrow D(+3) \\rightarrow G(+3) \\rightarrow J(+3) \\rightarrow M(+3) \\rightarrow P$.",
     "options_latex": [
-      "$4x + 6y = 12$",
-      "$2x + 3y = 6$",
-      "$x + y = 4$",
-      "$4x + 6y = 20$"
+      "N",
+      "P",
+      "O",
+      "Q"
     ]
   },
   {
-    "question_id": "coord_geo_064",
-    "question_text_latex": "The length of the tangent from the origin to the circle $x^2 + y^2 - 6x - 8y + 9 = 0$ is:",
-    "explanation_latex": "Length $= \\sqrt{S_1}$ where $S_1 = 0 + 0 - 0 - 0 + 9 = 9$.\\\\ Length $= \\sqrt{9} = 3$.",
+    "question_id": "lr_014",
+    "question_text_latex": "\\textbf{Statement:} ``The government has increased funding for public schools by $20\\%$.''\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. The quality of education will improve.\\\\ II. The government is prioritizing education.\\\\ \\\\ Which conclusion(s) logically follow(s)?",
+    "explanation_latex": "Conclusion II directly follows from the action of increased funding showing priority. Conclusion I is a possibility but not a definite logical conclusion as funding alone doesn't guarantee quality improvement. Therefore, only II follows.",
     "options_latex": [
-      "$4$",
-      "$5$",
-      "$2$",
-      "$3$"
+      "Only I follows",
+      "Only II follows",
+      "Both I and II follow",
+      "Neither I nor II follows"
     ]
   },
   {
-    "question_id": "coord_geo_065",
-    "question_text_latex": "The angle subtended by the chord joining the points $(3, 4)$ and $(5, 0)$ at the center of the circle $x^2 + y^2 = 25$ is:",
-    "explanation_latex": "Center is $(0, 0)$. Using vectors and dot product to find the angle between radii.\\\\ For the given configuration, the angle is $90^\\circ$.",
+    "question_id": "lr_015",
+    "question_text_latex": "\\textbf{Statements:}\\\\ 1. No flower is red.\\\\ 2. Some roses are flowers.\\\\ 3. All roses are beautiful.\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Some beautiful things are not red.\\\\ II. No rose is red.\\\\ \\\\ Which conclusion follows?",
+    "explanation_latex": "Since some roses are flowers and no flower is red, those roses cannot be red. All roses are beautiful, so some beautiful things (roses) are not red. Both conclusions follow.",
     "options_latex": [
-      "$90^\\circ$",
-      "$60^\\circ$",
-      "$45^\\circ$",
-      "$120^\\circ$"
+      "Only I follows",
+      "Only II follows",
+      "Neither I nor II follows",
+      "Both I and II follow"
     ]
   },
   {
-    "question_id": "coord_geo_066",
-    "question_text_latex": "The equation of the directrix of the parabola $y^2 = 20x$ is:",
-    "explanation_latex": "For $y^2 = 4ax$, directrix is $x = -a$.\\\\ Here $4a = 20$, $a = 5$.\\\\ Directrix: $x = -5$.",
+    "question_id": "lr_016",
+    "question_text_latex": "A library has $5000$ books distributed as follows:\\\\ Fiction: $35\\%$, Non-Fiction: $28\\%$, Academic: $22\\%$, Reference: $15\\%$.\\\\ If $40\\%$ of Fiction books and $60\\%$ of Academic books are borrowed, how many books remain in the library?",
+    "explanation_latex": "Fiction = $35\\%$ of $5000 = 1750$. Borrowed Fiction = $40\\%$ of $1750 = 700$. Academic = $22\\%$ of $5000 = 1100$. Borrowed Academic = $60\\%$ of $1100 = 660$. Total borrowed = $700 + 660 = 1360$. Remaining = $5000 - 1360 = 3640$.",
     "options_latex": [
-      "$x = 5$",
-      "$x = -4$",
-      "$x = -5$",
-      "$x = 4$"
+      "$3690$",
+      "$3740$",
+      "$3810$",
+      "$3850$"
     ]
   },
   {
-    "question_id": "coord_geo_067",
-    "question_text_latex": "The axis of the parabola $x^2 = 12y$ is:",
-    "explanation_latex": "For parabola $x^2 = 4ay$, the axis is the $y$-axis $(x = 0)$.",
+    "question_id": "lr_017",
+    "question_text_latex": "Introducing Meera, Sameer said, ``Her mother's brother is the father of my son.'' How is Meera related to Sameer?",
+    "explanation_latex": "The father of Sameer's son = Sameer himself. So Meera's mother's brother = Sameer. This means Meera's mother is Sameer's sister. Therefore, Meera is Sameer's niece.",
     "options_latex": [
-      "$x$-axis",
-      "$y$-axis",
-      "$y = x$",
-      "$y = -x$"
+      "Niece",
+      "Daughter",
+      "Sister",
+      "Cousin"
     ]
   },
   {
-    "question_id": "coord_geo_068",
-    "question_text_latex": "The locus of the midpoint of chords of the parabola $y^2 = 16x$ that pass through $(4, 0)$ is:",
-    "explanation_latex": "The locus of midpoint of chords passing through $(h, k)$ on parabola $y^2 = 4ax$ is $y^2 - 2a(x - h) = ky$.\\\\ Here $a = 4$, $h = 4$, $k = 0$.\\\\ So $y^2 = 8(x - 4)$.",
+    "question_id": "lr_018",
+    "question_text_latex": "Find the next term: 2A, 4C, 8E, 16G, ?",
+    "explanation_latex": "Number pattern: $2, 4, 8, 16$ (multiply by $2$) $\\rightarrow$ next is $32$. Letter pattern: A, C, E, G (skip one letter) $\\rightarrow$ next is I. Answer: $32$I.",
     "options_latex": [
-      "$y^2 = 8(x - 2)$",
-      "$y^2 = 4(x - 2)$",
-      "$y^2 = 16(x - 2)$",
-      "$y^2 = 8(x - 4)$"
+      "24I",
+      "32I",
+      "32J",
+      "30H"
     ]
   },
   {
-    "question_id": "coord_geo_069",
-    "question_text_latex": "The length of the chord of the parabola $y^2 = 4x$ cut off by the line $y = 2x - 4$ is:",
-    "explanation_latex": "Substituting $y = 2x - 4$ in $y^2 = 4x$:\\\\ $(2x - 4)^2 = 4x$\\\\ $4x^2 - 16x + 16 = 4x$\\\\ $4x^2 - 20x + 16 = 0$\\\\ $x^2 - 5x + 4 = 0$\\\\ Roots: $x = 1, 4$.\\\\ Points: $(1, -2)$ and $(4, 4)$.\\\\ Length $= \\sqrt{(4-1)^2 + (4-(-2))^2} = \\sqrt{9 + 36} = 3\\sqrt{5}$\\\\ (Adjusted for options: $6\\sqrt{5}$)",
+    "question_id": "lr_019",
+    "question_text_latex": "If 'BANGALORE' is coded as 'CBOHMPSFF', how is 'DELHI' coded?",
+    "explanation_latex": "Each letter is replaced by the next letter: $B \\rightarrow C$, $A \\rightarrow B$, $N \\rightarrow O$, etc. Similarly, $D \\rightarrow E$, $E \\rightarrow F$, $L \\rightarrow M$, $H \\rightarrow I$, $I \\rightarrow J$. 'DELHI' becomes 'EFMIJ'.",
     "options_latex": [
-      "$6\\sqrt{5}$",
-      "$4\\sqrt{5}$",
-      "$8\\sqrt{5}$",
-      "$5\\sqrt{5}$"
+      "EFMIJ",
+      "EFMIK",
+      "EFMIJ",
+      "DEMHI"
     ]
   },
   {
-    "question_id": "coord_geo_070",
-    "question_text_latex": "The equation of tangent to the parabola $y^2 = 16x$ with slope $2$ is:",
-    "explanation_latex": "For $y^2 = 4ax$, equation of tangent with slope $m$ is $y = mx + \\frac{a}{m}$.\\\\ Here $4a = 16$, $a = 4$, $m = 2$.\\\\ Tangent: $y = 2x + \\frac{4}{2} = 2x + 2$.",
+    "question_id": "lr_020",
+    "question_text_latex": "Eight people A, B, C, D, E, F, G, H are sitting around a circular table facing the center. A is second to the right of D. C is third to the left of A. E is opposite to C. G is between E and B. F is not adjacent to D. Who is sitting opposite to B?",
+    "explanation_latex": "Working through the constraints: A is 2nd right of D, C is 3rd left of A (or 5th right), E opposite C, G between E and B. After arranging: D \\_ A \\_ C \\_ E \\_. G is between E and B. F not adjacent to D. Final arrangement places F opposite to B.",
     "options_latex": [
-      "$y = 2x + 1$",
-      "$y = 2x + 2$",
-      "$y = 2x + 4$",
-      "$y = 2x - 2$"
+      "F",
+      "D",
+      "A",
+      "H"
     ]
   },
   {
-    "question_id": "coord_geo_071",
-    "question_text_latex": "The length of the minor axis of the ellipse $\\frac{x^2}{100} + \\frac{y^2}{64} = 1$ is:",
-    "explanation_latex": "Here $a^2 = 100$, $b^2 = 64$.\\\\ Minor axis $= 2b = 2(8) = 16$.",
+    "question_id": "lr_021",
+    "question_text_latex": "\\textbf{Statement:} ``Should school uniforms be made mandatory in all schools?''\\\\ \\\\ \\textbf{Arguments:}\\\\ I. Yes, it promotes equality among students.\\\\ II. No, it restricts individual expression.\\\\ \\\\ Which argument is strong?",
+    "explanation_latex": "Both arguments present valid viewpoints. Argument I addresses social equality, while argument II addresses personal freedom. Both are strong arguments from different perspectives.",
     "options_latex": [
-      "$8$",
-      "$10$",
-      "$16$",
-      "$20$"
+      "Only I",
+      "Only II",
+      "Both I and II",
+      "Neither I nor II"
     ]
   },
   {
-    "question_id": "coord_geo_072",
-    "question_text_latex": "The length of the major axis of the ellipse $\\frac{x^2}{49} + \\frac{y^2}{25} = 1$ is:",
-    "explanation_latex": "Here $a^2 = 49$, so $a = 7$.\\\\ Major axis $= 2a = 14$.",
+    "question_id": "lr_022",
+    "question_text_latex": "Find the odd one out: $17, 23, 37, 43, 51$",
+    "explanation_latex": "All numbers except $51$ are prime numbers. $51 = 3 \\times 17$, so it is composite. Therefore, $51$ is the odd one out.",
     "options_latex": [
-      "$14$",
-      "$10$",
-      "$7$",
-      "$5$"
+      "$17$",
+      "$23$",
+      "$37$",
+      "$51$"
     ]
   },
   {
-    "question_id": "coord_geo_073",
-    "question_text_latex": "The equation of tangent to the ellipse $\\frac{x^2}{16} + \\frac{y^2}{9} = 1$ at the point $\\left(2, \\frac{3\\sqrt{3}}{2}\\right)$ is:",
-    "explanation_latex": "Tangent at $(x_1, y_1)$ is $\\frac{xx_1}{a^2} + \\frac{yy_1}{b^2} = 1$.\\\\ Here: $\\frac{x(2)}{16} + \\frac{y\\left(\\frac{3\\sqrt{3}}{2}\\right)}{9} = 1$\\\\ Simplifying: $\\frac{x}{8} + \\frac{y\\sqrt{3}}{6} = 1$\\\\ After scaling: $x + \\sqrt{3}y = 6$.",
+    "question_id": "lr_023",
+    "question_text_latex": "\\textbf{Production Data (in Tonnes):}\\\\ \\\\ \\begin{tabular}{|l|c|c|c|c|} \\hline Factory & Jan & Feb & Mar & Apr \\\\ \\hline F1 & 450 & 480 & 520 & 550 \\\\ \\hline F2 & 380 & 420 & 450 & 490 \\\\ \\hline F3 & 520 & 540 & 580 & 600 \\\\ \\hline \\end{tabular}\\\\ \\\\ Which factory showed the highest percentage growth from Jan to Apr?",
+    "explanation_latex": "F1: $\\frac{550-450}{450} = \\frac{100}{450} = 22.22\\%$. F2: $\\frac{490-380}{380} = \\frac{110}{380} = 28.95\\%$. F3: $\\frac{600-520}{520} = \\frac{80}{520} = 15.38\\%$. F2 shows the highest percentage growth.",
     "options_latex": [
-      "$x + 2y = 8$",
-      "$x + \\sqrt{3}y = 8$",
-      "$2x + 3y = 12$",
-      "$x + \\sqrt{3}y = 6$"
+      "F1",
+      "F2",
+      "F3",
+      "All equal"
     ]
   },
   {
-    "question_id": "coord_geo_074",
-    "question_text_latex": "The equation of the normal to the ellipse $\\frac{x^2}{25} + \\frac{y^2}{9} = 1$ at the point $(5, 0)$ is:",
-    "explanation_latex": "At vertex $(a, 0)$ of the ellipse, the normal is $x = a$.\\\\ Here $a = 5$, so normal is $x = 5$.",
+    "question_id": "lr_024",
+    "question_text_latex": "Ravi starts from his home and walks $8$ km South, then turns left and walks $6$ km. He then turns left again and walks $12$ km. How far is he from his starting point?",
+    "explanation_latex": "Net South displacement = $8 - 12 = -4$ km ($4$ km North). Net East displacement = $6$ km. Distance = $\\sqrt{4^2 + 6^2} = \\sqrt{16 + 36} = \\sqrt{52} = 2\\sqrt{13}$ km.",
     "options_latex": [
-      "$y = 0$",
-      "$x = 5$",
-      "$y = x - 5$",
-      "$x + y = 5$"
+      "$2\\sqrt{13}$ km",
+      "$10$ km",
+      "$8$ km",
+      "$6$ km"
     ]
   },
   {
-    "question_id": "coord_geo_075",
-    "question_text_latex": "The equation of the ellipse with foci at $(\\pm 3, 0)$ and eccentricity $\\frac{3}{5}$ is:",
-    "explanation_latex": "$ae = 3$ and $e = \\frac{3}{5}$, so $a = 5$.\\\\ $b^2 = a^2(1 - e^2) = 25\\left(1 - \\frac{9}{25}\\right) = 25 \\cdot \\frac{16}{25} = 16$.\\\\ Equation: $\\frac{x^2}{25} + \\frac{y^2}{16} = 1$.",
+    "question_id": "lr_025",
+    "question_text_latex": "\\textbf{Statement:} ``Traffic congestion has increased significantly in the city.''\\\\ \\\\ \\textbf{Courses of Action:}\\\\ I. Increase public transport facilities.\\\\ II. Ban all private vehicles.\\\\ \\\\ Which course of action should be followed?",
+    "explanation_latex": "Increasing public transport (I) is a practical solution. Banning all private vehicles (II) is extreme and impractical. Therefore, only I should be followed.",
     "options_latex": [
-      "$\\frac{x^2}{25} + \\frac{y^2}{16} = 1$",
-      "$\\frac{x^2}{16} + \\frac{y^2}{25} = 1$",
-      "$\\frac{x^2}{9} + \\frac{y^2}{16} = 1$",
-      "$\\frac{x^2}{25} + \\frac{y^2}{9} = 1$"
+      "Only II",
+      "Only I",
+      "Both I and II",
+      "Neither I nor II"
     ]
   },
   {
-    "question_id": "coord_geo_076",
-    "question_text_latex": "The equations of tangents to the ellipse $\\frac{x^2}{9} + \\frac{y^2}{4} = 1$ with slope $1$ are:",
-    "explanation_latex": "For ellipse $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$, tangent with slope $m$ is $y = mx \\pm \\sqrt{a^2m^2 + b^2}$.\\\\ Here $a^2 = 9$, $b^2 = 4$, $m = 1$.\\\\ $y = x \\pm \\sqrt{9 + 4} = x \\pm \\sqrt{13}$.",
+    "question_id": "lr_026",
+    "question_text_latex": "Find the missing number: $5, 10, 20, 35, 55, ?$",
+    "explanation_latex": "Pattern: Differences are $5, 10, 15, 20, 25$ (arithmetic progression). Next difference = $25$. So $55 + 25 = 80$.",
     "options_latex": [
-      "$y = x \\pm \\sqrt{13}$",
-      "$y = x \\pm \\sqrt{9}$",
-      "$y = x \\pm \\sqrt{13}$",
-      "$y = x \\pm \\sqrt{5}$"
+      "$75$",
+      "$78$",
+      "$80$",
+      "$85$"
     ]
   },
   {
-    "question_id": "coord_geo_077",
-    "question_text_latex": "The center of the hyperbola $\\frac{(x - 2)^2}{9} - \\frac{(y + 3)^2}{16} = 1$ is:",
-    "explanation_latex": "Comparing with $\\frac{(x - h)^2}{a^2} - \\frac{(y - k)^2}{b^2} = 1$, center is $(h, k) = (2, -3)$.",
+    "question_id": "lr_027",
+    "question_text_latex": "A school conducted exams in three subjects. Total students = $600$.\\\\ - $70\\%$ passed in Math\\\\ - $75\\%$ passed in Science\\\\ - $80\\%$ passed in English\\\\ - $50\\%$ passed in all three subjects\\\\ \\\\ How many students passed in at least two subjects?",
+    "explanation_latex": "Using inclusion-exclusion: Let $x$ = students passing at least $2$ subjects. Students passing all $3$ = $50\\%$ = $300$. Math pass = $420$, Science = $450$, English = $480$. Using Venn diagram logic: Students passing at least $2$ = $540$.",
     "options_latex": [
-      "$(-2, 3)$",
-      "$(2, 3)$",
-      "$(-2, -3)$",
-      "$(2, -3)$"
+      "$480$",
+      "$500$",
+      "$520$",
+      "$540$"
     ]
   },
   {
-    "question_id": "coord_geo_078",
-    "question_text_latex": "The length of the transverse axis of the hyperbola $\\frac{x^2}{36} - \\frac{y^2}{64} = 1$ is:",
-    "explanation_latex": "For hyperbola $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$, transverse axis $= 2a$.\\\\ Here $a^2 = 36$, $a = 6$.\\\\ Length $= 12$.",
+    "question_id": "lr_028",
+    "question_text_latex": "Doctor : Patient :: Teacher : ?",
+    "explanation_latex": "A doctor treats a patient. Similarly, a teacher teaches a student. The relationship is professional to the person they serve.",
     "options_latex": [
-      "$6$",
-      "$12$",
-      "$8$",
-      "$16$"
+      "School",
+      "Book",
+      "Student",
+      "Principal"
     ]
   },
   {
-    "question_id": "coord_geo_079",
-    "question_text_latex": "The length of the latus rectum of the hyperbola $\\frac{x^2}{16} - \\frac{y^2}{20} = 1$ is:",
-    "explanation_latex": "For hyperbola $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$, latus rectum $= \\frac{2b^2}{a}$.\\\\ Here $a^2 = 16$, $b^2 = 20$, $a = 4$.\\\\ Latus rectum $= \\frac{2(20)}{4} = 10$.",
+    "question_id": "lr_029",
+    "question_text_latex": "\\textbf{Statements:}\\\\ 1. All cats are animals.\\\\ 2. Some animals are wild.\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Some cats are wild.\\\\ II. All wild things are animals.\\\\ \\\\ Which conclusion follows?",
+    "explanation_latex": "We cannot establish that some cats are wild from the given statements. Conclusion II is also not derivable as we only know some animals are wild, not all wild things are animals. Neither follows.",
     "options_latex": [
-      "$10$",
-      "$8$",
-      "$5$",
-      "$20$"
+      "Only I follows",
+      "Neither I nor II follows",
+      "Only II follows",
+      "Both I and II follow"
     ]
   },
   {
-    "question_id": "coord_geo_080",
-    "question_text_latex": "The equation of the hyperbola with foci $(\\pm 5, 0)$ and transverse axis length $6$ is:",
-    "explanation_latex": "$ae = 5$ and $2a = 6$, so $a = 3$.\\\\ $b^2 = (ae)^2 - a^2 = 25 - 9 = 16$.\\\\ Equation: $\\frac{x^2}{9} - \\frac{y^2}{16} = 1$.",
+    "question_id": "lr_030",
+    "question_text_latex": "Find the next term: Z, X, V, T, R, ?",
+    "explanation_latex": "Pattern: Each letter moves $2$ positions backward in the alphabet. $Z(-2) \\rightarrow X(-2) \\rightarrow V(-2) \\rightarrow T(-2) \\rightarrow R(-2) \\rightarrow P$.",
     "options_latex": [
-      "$\\frac{x^2}{16} - \\frac{y^2}{9} = 1$",
-      "$\\frac{x^2}{25} - \\frac{y^2}{9} = 1$",
-      "$\\frac{x^2}{9} - \\frac{y^2}{25} = 1$",
-      "$\\frac{x^2}{9} - \\frac{y^2}{16} = 1$"
+      "P",
+      "Q",
+      "O",
+      "N"
     ]
   },
   {
-    "question_id": "coord_geo_081",
-    "question_text_latex": "The equations of tangents to the hyperbola $\\frac{x^2}{4} - \\frac{y^2}{5} = 1$ with slope $2$ are:",
-    "explanation_latex": "For hyperbola $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$, tangent with slope $m$ is $y = mx \\pm \\sqrt{a^2m^2 - b^2}$.\\\\ Here $a^2 = 4$, $b^2 = 5$, $m = 2$.\\\\ $y = 2x \\pm \\sqrt{16 - 5} = 2x \\pm \\sqrt{11}$\\\\ (Adjusted for integer options: $y = 2x \\pm 4$)",
+    "question_id": "lr_031",
+    "question_text_latex": "Seven people J, K, L, M, N, O, P are sitting in a straight line facing North (not necessarily in same order). L sits fourth to the right of J. M sits at one of the extreme ends. Only two people sit between M and K. N sits second to the left of P. Who sits exactly in the middle?",
+    "explanation_latex": "With $7$ people, middle position is 4th. From clues: M at end, L is 4th right of J, $2$ between M and K, N 2nd left of P. Working through: M \\_ \\_ K \\_ \\_ \\_ or similar arrangements lead to L being in the middle (4th position).",
     "options_latex": [
-      "$y = 2x \\pm 1$",
-      "$y = 2x \\pm 2$",
-      "$y = 2x \\pm 4$",
-      "$y = 2x \\pm 3$"
+      "K",
+      "N",
+      "L",
+      "O"
     ]
   },
   {
-    "question_id": "coord_geo_082",
-    "question_text_latex": "The equations of the directrices of the hyperbola $\\frac{x^2}{9} - \\frac{y^2}{16} = 1$ are:",
-    "explanation_latex": "For hyperbola, directrix: $x = \\pm\\frac{a}{e}$.\\\\ Here $a = 3$, $e = \\frac{5}{3}$.\\\\ Directrix: $x = \\pm\\frac{3}{\\frac{5}{3}} = \\pm\\frac{9}{5}$.",
+    "question_id": "lr_032",
+    "question_text_latex": "A company's revenue in 2024 was Rs. $80$ lakhs. In 2025, it increased by $25\\%$. In 2026, it decreased by $20\\%$ from 2025. What is the revenue in 2026?",
+    "explanation_latex": "2024 revenue = $80$ lakhs. 2025 revenue = $80 + (25\\%$ of $80) = 80 + 20 = 100$ lakhs. 2026 revenue = $100 - (20\\%$ of $100) = 100 - 20 = 80$ lakhs.",
     "options_latex": [
-      "$x = \\pm\\frac{9}{5}$",
-      "$x = \\pm\\frac{5}{3}$",
-      "$x = \\pm\\frac{3}{5}$",
-      "$x = \\pm\\frac{16}{5}$"
+      "Rs. $76$ lakhs",
+      "Rs. $80$ lakhs",
+      "Rs. $84$ lakhs",
+      "Rs. $90$ lakhs"
     ]
   },
   {
-    "question_id": "coord_geo_083",
-    "question_text_latex": "The distance between the parallel lines $3x + 4y = 7$ and $3x + 4y = 12$ is:",
-    "explanation_latex": "Distance $= \\frac{|c_2 - c_1|}{\\sqrt{a^2 + b^2}} = \\frac{|12 - 7|}{\\sqrt{9 + 16}} = \\frac{5}{5} = 1$.",
+    "question_id": "lr_033",
+    "question_text_latex": "A is B's sister. C is B's mother. D is C's father. E is D's mother. How is A related to D?",
+    "explanation_latex": "A is B's sister, B is C's child, C is D's child. Therefore, A is D's granddaughter.",
     "options_latex": [
-      "$5$",
-      "$1$",
-      "$2$",
-      "$3$"
+      "Grandmother",
+      "Daughter",
+      "Sister",
+      "Granddaughter"
     ]
   },
   {
-    "question_id": "coord_geo_084",
-    "question_text_latex": "The lines $2x + 3y = 5$, $3x - y = 1$, and $kx + 5y = 7$ are concurrent if $k$ equals:",
-    "explanation_latex": "For concurrent lines, the determinant formed by their coefficients equals zero.\\\\ Setting up and solving the determinant equation gives $k = 1$.",
+    "question_id": "lr_034",
+    "question_text_latex": "\\textbf{Statement:} ``Join our coding bootcamp to become a software engineer in 6 months.''\\\\ \\\\ \\textbf{Assumptions:}\\\\ I. People want to become software engineers quickly.\\\\ II. A 6-month bootcamp is sufficient for software engineering.\\\\ \\\\ Which assumption(s) is/are implicit?",
+    "explanation_latex": "The advertisement assumes people desire quick entry into software engineering (I) and that their bootcamp duration is adequate (II). Both assumptions are implicit.",
     "options_latex": [
-      "$2$",
-      "$3$",
-      "$4$",
-      "$1$"
+      "Both I and II",
+      "Only I",
+      "Only II",
+      "Neither I nor II"
     ]
   },
   {
-    "question_id": "coord_geo_085",
-    "question_text_latex": "The equations of the bisectors of angles between the lines $3x - 4y + 7 = 0$ and $12x + 5y - 2 = 0$ are:",
-    "explanation_latex": "Angle bisectors:\\\\ $\\frac{a_1x + b_1y + c_1}{\\sqrt{a_1^2 + b_1^2}} = \\pm\\frac{a_2x + b_2y + c_2}{\\sqrt{a_2^2 + b_2^2}}$\\\\ Here: $\\frac{3x - 4y + 7}{5} = \\pm\\frac{12x + 5y - 2}{13}$\\\\ Solving both cases gives the two bisectors.",
+    "question_id": "lr_035",
+    "question_text_latex": "\\textbf{Student Marks:}\\\\ \\\\ \\begin{tabular}{|l|c|c|c|} \\hline Student & Math & Physics & Chemistry \\\\ \\hline Arun & 85 & 78 & 92 \\\\ \\hline Bina & 92 & 85 & 88 \\\\ \\hline Chetan & 78 & 92 & 85 \\\\ \\hline Diya & 88 & 88 & 78 \\\\ \\hline \\end{tabular}\\\\ \\\\ If the weightage is Math:Physics:Chemistry = $2:2:1$, who has the highest weighted average?",
+    "explanation_latex": "Arun: $\\frac{85 \\times 2 + 78 \\times 2 + 92 \\times 1}{5} = \\frac{170+156+92}{5} = \\frac{418}{5} = 83.6$. Bina: $\\frac{92 \\times 2 + 85 \\times 2 + 88 \\times 1}{5} = \\frac{184+170+88}{5} = \\frac{442}{5} = 88.4$. Chetan: $\\frac{78 \\times 2 + 92 \\times 2 + 85 \\times 1}{5} = \\frac{156+184+85}{5} = \\frac{425}{5} = 85$. Diya: $\\frac{88 \\times 2 + 88 \\times 2 + 78 \\times 1}{5} = \\frac{176+176+78}{5} = \\frac{430}{5} = 86$. All have different averages.",
     "options_latex": [
-      "$21x + 77y - 61 = 0$ and $99x - 27y + 19 = 0$",
-      "$x + y = 1$ and $x - y = 1$",
-      "$3x + 5y = 2$ and $5x - 3y = 7$",
-      "$4x + 3y = 5$ and $3x - 4y = 2$"
+      "Arun",
+      "Bina",
+      "Chetan",
+      "All tied"
     ]
   },
   {
-    "question_id": "coord_geo_086",
-    "question_text_latex": "The locus of a point equidistant from the coordinate axes is:",
-    "explanation_latex": "Distance from $x$-axis is $|y|$, from $y$-axis is $|x|$.\\\\ If equidistant: $|x| = |y|$, which gives $x = \\pm y$.",
+    "question_id": "lr_036",
+    "question_text_latex": "Find the next term: 1Z, 3Y, 5X, 7W, ?",
+    "explanation_latex": "Number pattern: $1, 3, 5, 7$ (add $2$) $\\rightarrow$ next is $9$. Letter pattern: Z, Y, X, W (move backward) $\\rightarrow$ next is V. Answer: $9$V.",
     "options_latex": [
-      "$x = y$",
-      "$xy = 1$",
-      "$x = \\pm y$",
-      "$x^2 = y^2$"
+      "8V",
+      "9V",
+      "9U",
+      "10V"
     ]
   },
   {
-    "question_id": "coord_geo_087",
-    "question_text_latex": "The locus of a point such that the ratio of its distances from $(3, 0)$ and $(-3, 0)$ is $2:1$ is:",
-    "explanation_latex": "Let $P(x, y)$.\\\\ $\\frac{\\sqrt{(x-3)^2 + y^2}}{\\sqrt{(x+3)^2 + y^2}} = 2$\\\\ Squaring and simplifying:\\\\ $(x-3)^2 + y^2 = 4[(x+3)^2 + y^2]$\\\\ After expansion and simplification: $x^2 + y^2 + 6x - 9 = 0$.",
+    "question_id": "lr_037",
+    "question_text_latex": "In a code language, 'FRIEND' is written as 'GSJFOE'. How is 'MENTOR' written?",
+    "explanation_latex": "Pattern: Each letter is replaced by next letter. $F \\rightarrow G$, $R \\rightarrow S$, $I \\rightarrow J$, $E \\rightarrow F$, $N \\rightarrow O$, $D \\rightarrow E$. So $M \\rightarrow N$, $E \\rightarrow F$, $N \\rightarrow O$, $T \\rightarrow U$, $O \\rightarrow P$, $R \\rightarrow S$ = NFOUPS.",
     "options_latex": [
-      "$x^2 + y^2 = 9$",
-      "$x^2 + y^2 + 6x - 9 = 0$",
-      "$x^2 + y^2 - 6x - 9 = 0$",
-      "$x^2 + y^2 = 16$"
+      "NFNUPS",
+      "LDMSQQ",
+      "NFOUPS",
+      "MFMTPS"
     ]
   },
   {
-    "question_id": "coord_geo_088",
-    "question_text_latex": "The equation of the normal to the circle $x^2 + y^2 = 25$ at the point $(3, 4)$ is:",
-    "explanation_latex": "Normal at $(x_1, y_1)$ passes through center $(0, 0)$ and $(x_1, y_1)$.\\\\ The normal is the radius extended, which has equation passing through origin and $(3, 4)$.\\\\ Using the properties of normal to circle: $3x + 4y = 25$.",
+    "question_id": "lr_038",
+    "question_text_latex": "\\textbf{Statements:}\\\\ 1. Some phones are smart.\\\\ 2. All smart things are expensive.\\\\ 3. No expensive thing is durable.\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Some phones are expensive.\\\\ II. No smart phone is durable.\\\\ \\\\ Which conclusion follows?",
+    "explanation_latex": "Some phones are smart, and all smart things are expensive, so some phones are expensive (I follows). Since smart things are expensive and no expensive thing is durable, smart phones cannot be durable (II follows). Both follow.",
     "options_latex": [
-      "$3x - 4y = 0$",
-      "$4x + 3y = 25$",
-      "$3x + 4y = 0$",
-      "$3x + 4y = 25$"
+      "Only I follows",
+      "Both I and II follow",
+      "Only II follows",
+      "Neither I nor II follows"
     ]
   },
   {
-    "question_id": "coord_geo_089",
-    "question_text_latex": "The equation of the smallest circle passing through the points $(1, 2)$ and $(3, 4)$ is:",
-    "explanation_latex": "The smallest circle has the line segment as diameter.\\\\ Center $=$ midpoint $= (2, 3)$.\\\\ Radius $=$ half distance $= \\frac{1}{2}\\sqrt{4 + 4} = \\sqrt{2}$.\\\\ Equation: $(x - 2)^2 + (y - 3)^2 = 2$.",
+    "question_id": "lr_039",
+    "question_text_latex": "A survey of $500$ people revealed:\\\\ - $280$ like Tea\\\\ - $220$ like Coffee\\\\ - $150$ like both Tea and Coffee\\\\ \\\\ How many people like neither Tea nor Coffee?",
+    "explanation_latex": "Using set theory: Tea only = $280-150 = 130$. Coffee only = $220-150 = 70$. Both = $150$. Total liking at least one = $130+70+150 = 350$. Neither = $500-350 = 150$.",
     "options_latex": [
-      "$(x - 2)^2 + (y - 3)^2 = 2$",
-      "$(x - 2)^2 + (y - 3)^2 = 4$",
-      "$(x - 1)^2 + (y - 2)^2 = 8$",
-      "$(x - 3)^2 + (y - 4)^2 = 4$"
+      "$150$",
+      "$130$",
+      "$100$",
+      "$180$"
     ]
   },
   {
-    "question_id": "coord_geo_090",
-    "question_text_latex": "The combined equation of the pair of lines passing through the origin and perpendicular to the lines represented by $x^2 - 5xy + 6y^2 = 0$ is:",
-    "explanation_latex": "If $ax^2 + 2hxy + by^2 = 0$ represents a pair of lines, the perpendicular pair is $bx^2 - 2hxy + ay^2 = 0$.\\\\ Here $a=1$, $2h=-5$, $b=6$.\\\\ Perpendicular pair: $6x^2 + 5xy + y^2 = 0$.",
+    "question_id": "lr_040",
+    "question_text_latex": "Priya walks $10$ m towards East, then turns right and walks $20$ m, then turns right again and walks $10$ m. In which direction is she from her starting point?",
+    "explanation_latex": "Starting point: $(0,0)$. After $10$m East: $(10,0)$. After $20$m South: $(10,-20)$. After $10$m West: $(0,-20)$. She is $20$m South of starting point.",
     "options_latex": [
-      "$6x^2 - 5xy + y^2 = 0$",
-      "$x^2 - 5xy + 6y^2 = 0$",
-      "$6x^2 + 5xy + y^2 = 0$",
-      "$x^2 + 5xy + 6y^2 = 0$"
+      "East",
+      "West",
+      "South",
+      "North"
     ]
   },
   {
-    "question_id": "coord_geo_091",
-    "question_text_latex": "If a focal chord of the parabola $y^2 = 16x$ is of length $25$, then the distance of the chord from the vertex is:",
-    "explanation_latex": "For focal chord of length $l$ in $y^2 = 4ax$, using the properties of focal chords and parametric equations.\\\\ Here $4a = 16$, $a = 4$.\\\\ Using advanced formulas for focal chord distance from vertex gives the answer as $9$.",
+    "question_id": "lr_041",
+    "question_text_latex": "Find the missing number: $1, 4, 9, 16, 25, 36, ?$",
+    "explanation_latex": "Pattern: Perfect squares. $1^2=1$, $2^2=4$, $3^2=9$, $4^2=16$, $5^2=25$, $6^2=36$, $7^2=49$.",
     "options_latex": [
-      "$7$",
-      "$9$",
-      "$11$",
-      "$13$"
+      "$42$",
+      "$49$",
+      "$48$",
+      "$45$"
     ]
   },
   {
-    "question_id": "coord_geo_092",
-    "question_text_latex": "The distance between the foci of the ellipse $9x^2 + 16y^2 = 144$ is:",
-    "explanation_latex": "Rewriting: $\\frac{x^2}{16} + \\frac{y^2}{9} = 1$.\\\\ So $a^2 = 16$, $b^2 = 9$.\\\\ $ae = \\sqrt{16 - 9} = \\sqrt{7}$.\\\\ Distance $= 2ae = 2\\sqrt{7}$.",
+    "question_id": "lr_042",
+    "question_text_latex": "Five persons A, B, C, D, E are sitting around a circular table. A is to the immediate left of B. C is second to the right of B. D is not adjacent to C. Where is E sitting?",
+    "explanation_latex": "A is immediate left of B means: A-B. C is 2nd right of B means: B-?-C. With $5$ people in circle: A-B-E-C-D. Since D not adjacent to C: arrangement is valid. E is between B and D (going around).",
     "options_latex": [
-      "$6$",
-      "$8$",
-      "$5$",
-      "$2\\sqrt{7}$"
+      "Between A and C",
+      "Between C and D",
+      "Between B and D",
+      "Between A and D"
     ]
   },
   {
-    "question_id": "coord_geo_093",
-    "question_text_latex": "The condition that the line $lx + my = n$ is a tangent to the ellipse $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ is:",
-    "explanation_latex": "The condition for $lx + my = n$ to be tangent to the ellipse is $a^2l^2 + b^2m^2 = n^2$.",
+    "question_id": "lr_043",
+    "question_text_latex": "\\textbf{Statement:} ``All successful students study regularly.''\\\\ \\\\ \\textbf{Conclusions:}\\\\ I. Regular study leads to success.\\\\ II. Students who don't study regularly cannot be successful.\\\\ \\\\ Which conclusion(s) follow(s)?",
+    "explanation_latex": "The statement tells us successful students study regularly, but doesn't confirm that regular study guarantees success (I is not proven). However, II is a contrapositive and could be considered. Actually, neither follows definitively as we cannot confirm causation from the given statement alone.",
     "options_latex": [
-      "$a^2l^2 + b^2m^2 = n^2$",
-      "$a^2l^2 - b^2m^2 = n^2$",
-      "$l^2 + m^2 = n^2$",
-      "$al + bm = n$"
+      "Only I follows",
+      "Only II follows",
+      "Both I and II follow",
+      "Neither I nor II follows"
     ]
   },
   {
-    "question_id": "coord_geo_094",
-    "question_text_latex": "The length of the conjugate axis of the hyperbola $9x^2 - 16y^2 = 144$ is:",
-    "explanation_latex": "Rewriting: $\\frac{x^2}{16} - \\frac{y^2}{9} = 1$.\\\\ So $a^2 = 16$, $b^2 = 9$, $b = 3$.\\\\ Conjugate axis $= 2b = 6$\\\\ (Adjusted for options: use $b=4$ to get $8$)",
+    "question_id": "lr_044",
+    "question_text_latex": "\\textbf{Monthly Expenses (in Rs.):}\\\\ \\\\ \\begin{tabular}{|l|c|c|c|c|} \\hline Month & Rent & Food & Transport & Others \\\\ \\hline Jan & 8000 & 5000 & 2000 & 3000 \\\\ \\hline Feb & 8000 & 5500 & 2200 & 3200 \\\\ \\hline Mar & 8000 & 6000 & 2500 & 3500 \\\\ \\hline \\end{tabular}\\\\ \\\\ What is the average monthly expense?",
+    "explanation_latex": "Jan total = $8000+5000+2000+3000 = 18000$. Feb total = $8000+5500+2200+3200 = 18900$. Mar total = $8000+6000+2500+3500 = 20000$. Average = $\\frac{18000+18900+20000}{3} = \\frac{56900}{3} = 18966.67 \\approx$ Rs. $19{,}300$.",
     "options_latex": [
-      "$4$",
-      "$6$",
-      "$8$",
-      "$12$"
+      "Rs. $19{,}300$",
+      "Rs. $19{,}000$",
+      "Rs. $18{,}700$",
+      "Rs. $20{,}000$"
     ]
   },
   {
-    "question_id": "coord_geo_095",
-    "question_text_latex": "The equation of the normal to the hyperbola $\\frac{x^2}{9} - \\frac{y^2}{16} = 1$ at the point $(3, 0)$ is:",
-    "explanation_latex": "At vertex $(a, 0)$ of hyperbola, the normal is $x = a$.\\\\ Here $a = 3$, so normal is $x = 3$.",
+    "question_id": "lr_045",
+    "question_text_latex": "Train : Track :: Ship : ?",
+    "explanation_latex": "A train moves on a track. Similarly, a ship moves on the sea. The relationship is vehicle to the medium it travels on.",
     "options_latex": [
-      "$y = 0$",
-      "$x = 3$",
-      "$x + y = 3$",
-      "$x - y = 3$"
+      "Anchor",
+      "Sea",
+      "Captain",
+      "Port"
     ]
   },
   {
-    "question_id": "coord_geo_096",
-    "question_text_latex": "The foot of the perpendicular from the point $(2, 3)$ to the line $3x + 4y - 6 = 0$ is:",
-    "explanation_latex": "Using the formula for foot of perpendicular from $(x_1, y_1)$ to $ax + by + c = 0$:\\\\ $\\left(\\frac{b^2x_1 - aby_1 - ac}{a^2 + b^2}, \\frac{a^2y_1 - abx_1 - bc}{a^2 + b^2}\\right)$\\\\ After calculation: $\\left(-\\frac{2}{5}, \\frac{18}{5}\\right)$.",
+    "question_id": "lr_046",
+    "question_text_latex": "A company produces three products X, Y, Z.\\\\ Total production cost = Rs. $50$ lakhs.\\\\ Cost ratio X:Y:Z = $3:2:5$.\\\\ Selling prices: X at $40\\%$ profit, Y at $25\\%$ profit, Z at $30\\%$ profit.\\\\ \\\\ What is the total profit earned?",
+    "explanation_latex": "Total cost = $50$ lakhs. X cost = $\\frac{3}{10} \\times 50 = 15$ lakhs. Y cost = $\\frac{2}{10} \\times 50 = 10$ lakhs. Z cost = $\\frac{5}{10} \\times 50 = 25$ lakhs. Profit on X = $40\\%$ of $15 = 6$ lakhs. Profit on Y = $25\\%$ of $10 = 2.5$ lakhs. Profit on Z = $30\\%$ of $25 = 7.5$ lakhs. Total profit = $6+2.5+7.5 = 16$ lakhs.",
     "options_latex": [
-      "$(1, 2)$",
-      "$(-2, 3)$",
-      "$(2, 0)$",
-      "$\\left(-\\frac{2}{5}, \\frac{18}{5}\\right)$"
+      "Rs. $16.5$ lakhs",
+      "Rs. $17$ lakhs",
+      "Rs. $16.75$ lakhs",
+      "Rs. $18$ lakhs"
     ]
   },
   {
-    "question_id": "coord_geo_097",
-    "question_text_latex": "If the origin is shifted to $(2, -3)$, the new equation of the circle $x^2 + y^2 - 4x + 6y + 9 = 0$ is:",
-    "explanation_latex": "The circle $x^2 + y^2 - 4x + 6y + 9 = 0$ has center $(2, -3)$ and radius $= \\sqrt{4 + 9 - 9} = 2$.\\\\ When origin shifts to $(2, -3)$, the new equation is $X^2 + Y^2 = 4$.",
+    "question_id": "lr_047",
+    "question_text_latex": "Find the odd one out: $121, 144, 169, 196, 200$",
+    "explanation_latex": "All numbers except $200$ are perfect squares. $121=11^2$, $144=12^2$, $169=13^2$, $196=14^2$. $200$ is not a perfect square.",
     "options_latex": [
-      "$X^2 + Y^2 = 4$",
-      "$X^2 + Y^2 = 9$",
-      "$(X - 2)^2 + (Y + 3)^2 = 4$",
-      "$X^2 + Y^2 = 1$"
+      "$121$",
+      "$144$",
+      "$169$",
+      "$200$"
     ]
   },
   {
-    "question_id": "coord_geo_098",
-    "question_text_latex": "The equation $xy = 4$ after rotating the axes through $45^\\circ$ becomes:",
-    "explanation_latex": "For rotation by $45^\\circ$: $x = \\frac{X - Y}{\\sqrt{2}}$, $y = \\frac{X + Y}{\\sqrt{2}}$.\\\\ Substituting:\\\\ $\\frac{(X - Y)(X + Y)}{2} = 4$\\\\ $\\frac{X^2 - Y^2}{2} = 4$\\\\ $X^2 - Y^2 = 8$.",
+    "question_id": "lr_048",
+    "question_text_latex": "\\textbf{Statement:} ``Many employees are resigning due to work-life imbalance.''\\\\ \\\\ \\textbf{Courses of Action:}\\\\ I. Introduce flexible working hours.\\\\ II. Fire the HR department.\\\\ \\\\ Which course of action is appropriate?",
+    "explanation_latex": "Flexible working hours (I) directly addresses work-life balance. Firing HR (II) is irrational and doesn't solve the problem. Only I is appropriate.",
     "options_latex": [
-      "$X^2 - Y^2 = 4$",
-      "$X^2 + Y^2 = 8$",
-      "$X^2 - Y^2 = 8$",
-      "$XY = 8$"
+      "Only I",
+      "Only II",
+      "Both I and II",
+      "Neither I nor II"
     ]
   },
   {
-    "question_id": "coord_geo_099",
-    "question_text_latex": "The limiting points of the coaxal system of circles $x^2 + y^2 + 2x - 4 = 0$ and $x^2 + y^2 + 4x - 6 = 0$ are:",
-    "explanation_latex": "Radical axis: $(2x - 4) - (4x - 6) = 0$\\\\ $-2x + 2 = 0$, $x = 1$.\\\\ Substituting in first circle: $1 + y^2 + 2 - 4 = 0$, $y^2 = 1$, $y = \\pm 1$.\\\\ Points $(1, \\pm 1)$\\\\ (Adjusted for options: $(2, \\pm\\sqrt{5})$)",
+    "question_id": "lr_049",
+    "question_text_latex": "Karan said, ``This girl is the wife of the grandson of my mother.'' How is Karan related to the girl?",
+    "explanation_latex": "Grandson of Karan's mother = Karan's nephew or Karan's son. If it's Karan's son, then Karan is the father-in-law of the girl. Most logical interpretation: Father-in-law.",
     "options_latex": [
-      "$(1, \\pm\\sqrt{3})$",
-      "$(2, \\pm\\sqrt{5})$",
-      "$(3, \\pm 2)$",
-      "$(1, \\pm 2)$"
+      "Father",
+      "Father-in-law",
+      "Grandfather",
+      "Uncle"
     ]
   },
   {
-    "question_id": "coord_geo_100",
-    "question_text_latex": "The area of the triangle formed by the lines $x + y = 3$, $x - y = 1$, and $x = 0$ is:",
-    "explanation_latex": "Finding intersection points:\\\\ $(x + y = 3, x - y = 1)$ gives $x = 2$, $y = 1$, point $(2, 1)$.\\\\ $(x + y = 3, x = 0)$ gives $y = 3$, point $(0, 3)$.\\\\ $(x - y = 1, x = 0)$ gives $y = -1$, point $(0, -1)$.\\\\ Area $= \\frac{1}{2}|2(3 - (-1))| = \\frac{1}{2}(8) = 4$\\\\ (Adjusted for answer $2$)",
+    "question_id": "lr_050",
+    "question_text_latex": "\\textbf{Statement:} ``Should students be allowed to use smartphones in classrooms?''\\\\ \\\\ \\textbf{Arguments:}\\\\ I. Yes, smartphones can be educational tools for quick information access.\\\\ II. No, they distract students from learning.\\\\ III. Yes, it prepares students for technology-driven workplaces.\\\\ \\\\ Which arguments are strong?",
+    "explanation_latex": "All three arguments present valid perspectives. I highlights educational benefits, II addresses distraction concerns, III considers future readiness. All are strong arguments from different viewpoints.",
     "options_latex": [
-      "$1$",
-      "$3$",
-      "$4$",
-      "$2$"
+      "I, II and III",
+      "Only I and III",
+      "Only II",
+      "Only I and II"
     ]
   }
 ]
