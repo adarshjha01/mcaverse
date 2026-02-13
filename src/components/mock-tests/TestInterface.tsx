@@ -141,10 +141,26 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ userId: user.uid, testId: test.id, answers }),
       });
+      
       if (!response.ok) throw new Error('Failed');
       const result = await response.json();
+
+      // --- CRITICAL FIX: SAFELY EXIT FULL SCREEN BEFORE NAVIGATING ---
+      if (document.fullscreenElement) {
+        try {
+          await document.exitFullscreen();
+          // Wait 200ms for browser animation to finish to prevent white screen crash
+          await new Promise(resolve => setTimeout(resolve, 200));
+        } catch (err) {
+          console.error("Error exiting fullscreen:", err);
+        }
+      }
+
       router.push(`/mock-tests/take/${test.id}/results/${result.attemptId}`);
-    } catch (e) { alert("Error submitting."); setIsSubmitting(false); }
+    } catch (e) { 
+        alert("Error submitting test. Please check your connection."); 
+        setIsSubmitting(false); 
+    }
   }, [user, test.id, answers, isSubmitting, router, timeLeft]);
 
   // --- RENDER ---
@@ -153,7 +169,6 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const seconds = timeLeft % 60;
 
   return (
-    // FIX 1: Use h-full and w-full to fill the ConditionalLayout's h-screen container perfectly.
     <div className="flex flex-col h-full w-full bg-slate-100 font-sans text-slate-900">
       
       {/* HEADER */}
@@ -195,20 +210,16 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
       </div>
 
       {/* MAIN CONTENT AREA */}
-      {/* FIX 2: min-h-0 is absolutely critical for scrolling to work inside Flexbox */}
       <div className="flex flex-1 overflow-hidden relative min-h-0 bg-white">
         
         {/* LEFT: QUESTION CONTAINER */}
-        {/* FIX 3: Removed m-2 to utilize full space edge-to-edge */}
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-white relative">
             
-            {/* Question Info Header */}
             <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center shrink-0">
                  <span className="font-bold text-slate-700 text-sm">Q No. {currentQuestionIndex + 1}</span>
                  <span className="text-xs text-slate-500 font-medium bg-slate-200 px-2 py-0.5 rounded">Single Choice</span>
             </div>
 
-            {/* SCROLLABLE QUESTION AREA */}
             <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-4">
                 <div className="text-base md:text-lg text-slate-900 leading-relaxed font-medium mb-6 select-none">
                     <LatexText text={currentQuestion.question_text} />
@@ -242,8 +253,6 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
                 </div>
             </div>
 
-            {/* FIXED FOOTER NAV */}
-            {/* FIX 4: This footer will now stick to the bottom properly because of flex-col layout */}
             <div className="h-16 bg-white border-t border-slate-200 px-4 flex items-center justify-between shrink-0 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
                 <div className="flex gap-2">
                     <button 

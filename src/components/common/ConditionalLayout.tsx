@@ -13,9 +13,6 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
     const pathname = usePathname(); 
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-    // --- LOGIC FIX ---
-    // 1. We are in "Test Mode" if the URL starts with /mock-tests/take/
-    // 2. BUT we are NOT in Test Mode if we are looking at /results/
     const isTestPage = pathname?.startsWith('/mock-tests/take/') && !pathname?.includes('/results');
 
     if (loading) {
@@ -26,7 +23,6 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
         );
     }
 
-    // --- FOCUS MODE (Only while answering questions) ---
     if (user && isTestPage) {
         return (
             <main className="h-screen w-screen overflow-hidden bg-slate-100 dark:bg-slate-950">
@@ -35,7 +31,6 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
         );
     }
 
-    // --- STANDARD LAYOUT (Dashboard, Results, etc.) ---
     if (user) {
         return (
             <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
@@ -58,7 +53,6 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
         );
     }
 
-    // --- LOGGED OUT LAYOUT ---
     return (
         <div className="flex flex-col min-h-screen">
             <HorizontalNavbar />
