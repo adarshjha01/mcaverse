@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { TestInterface } from "@/components/mock-tests/TestInterface";
 import { FieldPath } from 'firebase-admin/firestore';
 
-// Force dynamic to ensure fresh data fetch
 export const dynamic = 'force-dynamic';
 
 type Question = {
@@ -13,6 +12,13 @@ type Question = {
   options: string[];
   correct_answers: number[];
   explanation: string;
+  subject?: string;
+};
+
+type MockTestSection = {
+  name: string;
+  duration: number; // in minutes
+  questionCount: number;
 };
 
 type MockTest = {
@@ -20,9 +26,9 @@ type MockTest = {
   title: string;
   durationInMinutes: number;
   question_ids: string[];
+  sections?: MockTestSection[]; // <--- Added this field
 };
 
-// HELPER: Split array into chunks of 10 (Firebase Limit)
 function chunkArray<T>(array: T[], size: number): T[][] {
   const chunks = [];
   for (let i = 0; i < array.length; i += size) {
@@ -42,18 +48,21 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
     }
 
     const testData = testDocSnap.data()!;
+    
+    // 1. SANITIZE TEST DATA
     const serializableTest: MockTest = {
       id: testDocSnap.id,
       title: testData.title || "Untitled Test",
       durationInMinutes: testData.durationInMinutes || 15,
       question_ids: testData.question_ids || [],
+      sections: testData.sections || [], // <--- Pass sections to UI
     };
 
     if (serializableTest.question_ids.length === 0) {
       return { test: serializableTest, questions: [] };
     }
 
-    // --- FIX: FETCH IN BATCHES OF 10 ---
+    // 2. FETCH QUESTIONS IN BATCHES
     const questionsRef = db.collection('questions');
     const questionBatches = chunkArray(serializableTest.question_ids, 10);
     let allFetchedQuestions: Question[] = [];
@@ -61,15 +70,23 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
     for (const batch of questionBatches) {
       const querySnap = await questionsRef.where(FieldPath.documentId(), 'in', batch).get();
       
-      const batchQuestions = querySnap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      } as Question));
+      const batchQuestions = querySnap.docs.map(doc => {
+        const data = doc.data();
+        // 3. MANUAL SANITIZATION (Prevents timestamp crash)
+        return {
+          id: doc.id,
+          question_text: data.question_text || "",
+          options: data.options || [],
+          correct_answers: data.correct_answers || [],
+          explanation: data.explanation || "",
+          subject: data.subject || "General", // Ensure subject is passed
+        } as Question;
+      });
       
       allFetchedQuestions = [...allFetchedQuestions, ...batchQuestions];
     }
 
-    // Sort questions to match the original random order stored in the test
+    // 4. SORT QUESTIONS
     const orderedQuestions = serializableTest.question_ids
       .map(id => allFetchedQuestions.find(q => q.id === id))
       .filter((q): q is Question => Boolean(q));
@@ -82,14 +99,13 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
   }
 }
 
-export default async function MockTestPage({ params }: { params: { testId: string } }) {
-  const { test, questions } = await getTestDetails(params.testId);
+export default async function MockTestPage({ params }: { params: Promise<{ testId: string }> }) {
+  const { testId } = await params;
+  const { test, questions } = await getTestDetails(testId);
 
   return (
-    <main className="pt-16 bg-slate-50 dark:bg-slate-950 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        <TestInterface test={test} questions={questions} />
-      </div>
-    </main>
+    <div className="w-full h-full">
+      <TestInterface test={test} questions={questions} />
+    </div>
   );
 }
