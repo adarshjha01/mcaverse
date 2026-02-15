@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { TestInterface } from "@/components/mock-tests/TestInterface";
 import { FieldPath } from 'firebase-admin/firestore';
 
-// Force dynamic to ensure fresh data fetch
 export const dynamic = 'force-dynamic';
 
 type Question = {
@@ -13,6 +12,13 @@ type Question = {
   options: string[];
   correct_answers: number[];
   explanation: string;
+  subject?: string;
+};
+
+type MockTestSection = {
+  name: string;
+  duration: number; // in minutes
+  questionCount: number;
 };
 
 type MockTest = {
@@ -20,9 +26,9 @@ type MockTest = {
   title: string;
   durationInMinutes: number;
   question_ids: string[];
+  sections?: MockTestSection[]; // <--- Added this field
 };
 
-// HELPER: Split array into chunks of 10 (Firebase Limit)
 function chunkArray<T>(array: T[], size: number): T[][] {
   const chunks = [];
   for (let i = 0; i < array.length; i += size) {
@@ -43,12 +49,13 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
 
     const testData = testDocSnap.data()!;
     
-    // 1. SANITIZE TEST DATA (Manually pick fields, do NOT use ...testData)
+    // 1. SANITIZE TEST DATA
     const serializableTest: MockTest = {
       id: testDocSnap.id,
       title: testData.title || "Untitled Test",
       durationInMinutes: testData.durationInMinutes || 15,
       question_ids: testData.question_ids || [],
+      sections: testData.sections || [], // <--- Pass sections to UI
     };
 
     if (serializableTest.question_ids.length === 0) {
@@ -65,14 +72,14 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
       
       const batchQuestions = querySnap.docs.map(doc => {
         const data = doc.data();
-        // 3. CRITICAL FIX: MANUALLY PICK FIELDS. DO NOT USE ...data()
-        // This strips out 'createdAt', 'updatedAt', and other non-serializable objects.
+        // 3. MANUAL SANITIZATION (Prevents timestamp crash)
         return {
           id: doc.id,
-          question_text: data.question_text || "Question text missing",
+          question_text: data.question_text || "",
           options: data.options || [],
           correct_answers: data.correct_answers || [],
           explanation: data.explanation || "",
+          subject: data.subject || "General", // Ensure subject is passed
         } as Question;
       });
       
@@ -97,7 +104,6 @@ export default async function MockTestPage({ params }: { params: Promise<{ testI
   const { test, questions } = await getTestDetails(testId);
 
   return (
-    // FIX: Use simple div w-full h-full to allow Full Screen mode to work
     <div className="w-full h-full">
       <TestInterface test={test} questions={questions} />
     </div>
