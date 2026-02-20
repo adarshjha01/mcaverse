@@ -37,7 +37,7 @@ const IconMail = ({ className = "w-5 h-5" }) => (
 
 export const FounderProfile = () => {
   const socialLinks = [
-    { name: "YouTube", href: "https://www.youtube.com/@adarshjhanitkurukshetra", icon: <IconYouTube /> },
+    { name: "YouTube", href: "https://www.youtube.com/@adarshjhamcaverse", icon: <IconYouTube /> },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/adarsh-jha-972b71243/", icon: <IconLinkedIn /> },
     { name: "Twitter", href: "https://x.com/theadarshjha22", icon: <IconTwitter /> },
     { name: "Contact", href: "mailto:yt.adarshjha22@gmail.com", icon: <IconMail /> },

@@ -29,7 +29,7 @@ const socialLinks = [
     { 
         name: "YouTube Channel", 
         icon: <IconBrandYoutube className="w-6 h-6" />, 
-        href: "https://www.youtube.com/@adarshjhanitkurukshetra",
+        href: "https://www.youtube.com/@adarshjhamcaverse",
         color: "text-red-600 dark:text-red-500",
         bgColor: "bg-red-50 dark:bg-red-900/10",
         borderColor: "hover:border-red-200 dark:hover:border-red-900/50",
