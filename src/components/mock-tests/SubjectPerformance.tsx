@@ -78,7 +78,7 @@ export const SubjectPerformance = () => {
                             <li className="flex items-start gap-3"><span className="text-blue-500 mt-0.5 font-bold">→</span> <span>Use our topic-wise tests for targeted practice.</span></li>
                         </>
                     ) : (
-                         <li>Your insights will appear here once you've completed some tests.</li>
+                         <li>Your insights will appear here once you&apos;ve completed some tests.</li>
                     )}
                  </ul>
             </div>

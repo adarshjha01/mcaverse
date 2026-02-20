@@ -104,7 +104,7 @@ export const DailyPractice = () => {
                 <IconCheck className="w-8 h-8 text-white" />
             </div>
             <h2 className="text-2xl font-bold mb-2">Quest Complete!</h2>
-            <p className="mb-4 opacity-90">You've kept your streak alive.</p>
+            <p className="mb-4 opacity-90">You&apos;ve kept your streak alive.</p>
             <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm font-bold shadow-sm">
                 <IconFlame className="w-5 h-5 text-orange-300" />
                 {streak} Day Streak

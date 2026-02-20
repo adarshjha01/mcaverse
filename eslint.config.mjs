@@ -10,12 +10,15 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  {
-  "rules": {
-    "@typescript-eslint/no-explicit-any": "off"
-  }
-},
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      // This disables the "Unexpected any" errors
+      "@typescript-eslint/no-explicit-any": "off",
+      // This disables the strict rules around @ts-ignore and @ts-expect-error
+      "@typescript-eslint/ban-ts-comment": "off"
+    }
+  }
 ];
 
 export default eslintConfig;

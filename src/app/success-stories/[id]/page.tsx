@@ -16,9 +16,9 @@ type Story = {
   submittedAt: Date;
 };
 
-// Define a specific type for the page's props
+// Next.js 15 requires params to be a Promise
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 async function getStoryDetails(id: string): Promise<Story> {
@@ -34,10 +34,11 @@ async function getStoryDetails(id: string): Promise<Story> {
     };
 }
 
-// Use the new Props type here
 export default async function StoryDetailPage({ params }: Props) {
-  const story = await getStoryDetails(params.id);
-  // ... rest of the component is the same
+  // Await the params before accessing the id
+  const { id } = await params;
+  const story = await getStoryDetails(id);
+  
   return (
       <main className="pt-16">
         <div className="container mx-auto px-4 py-16">

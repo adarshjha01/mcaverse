@@ -57,7 +57,6 @@ async function handleDailyQuestSubmit(data: any) {
     const correctAnswerIndex = questionData?.correct_answers?.[0]; // Assuming [1] format
 
     // Loose equality check (==) covers string vs number issues
-    // eslint-disable-next-line eqeqeq
     const isCorrect = correctAnswerIndex == selectedOptionIndex;
 
     // 🛑 STEP 2 FIX: Fail Fast!

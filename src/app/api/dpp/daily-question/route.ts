@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         // 2. Filter for Validity (Must have correct_answers)
         const allQuestions = snapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
-            // @ts-ignore
+            // @ts-expect-error
             .filter(q => Array.isArray(q.correct_answers) && q.correct_answers.length > 0);
 
         if (allQuestions.length === 0) {

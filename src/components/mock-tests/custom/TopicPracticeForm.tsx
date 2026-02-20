@@ -158,7 +158,7 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
                     ))
                   ) : (
                     <div className="text-center py-12 text-slate-400">
-                      No topics found matching "{searchQuery}"
+                      No topics found matching &quot;{searchQuery}&quot;
                     </div>
                   )}
                 </div>

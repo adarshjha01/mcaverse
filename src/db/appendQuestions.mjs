@@ -1,4 +1,3 @@
-// src/db/appendQuestions.mjs
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { readFileSync, existsSync } from 'fs';
@@ -82,22 +81,24 @@ async function appendQuestions() {
             const key = String(q.question_id || q.question_text);
             const latexQ = latexMap.get(key);
 
-            // Merge Text
-            if (latexQ && latexQ.question_text) {
-                q.question_text = latexQ.question_text;
+            // Merge Question Text
+            if (latexQ && latexQ.question_text_latex) {
+                q.question_text = latexQ.question_text_latex;
             } else {
                 q.question_text = formatText(q.question_text);
             }
 
             // Merge Options
-            if (latexQ && latexQ.options) {
-                q.options = latexQ.options;
-            } else {
+            if (latexQ && latexQ.options_latex) {
+                q.options = latexQ.options_latex;
+            } else if (q.options && Array.isArray(q.options)) {
                 q.options = q.options.map(opt => formatText(opt));
             }
 
             // Merge Explanation
-            if (q.explanation) {
+            if (latexQ && latexQ.explanation_latex) {
+                q.explanation = latexQ.explanation_latex;
+            } else if (q.explanation) {
                 q.explanation = formatText(q.explanation);
             }
 
@@ -113,6 +114,7 @@ async function appendQuestions() {
         let total = 0;
 
         for (const q of finalData) {
+            // Ensure we have a valid ID. If missing, generate one.
             const docRef = q.question_id 
                 ? db.collection(COLLECTION_NAME).doc(String(q.question_id))
                 : db.collection(COLLECTION_NAME).doc();
