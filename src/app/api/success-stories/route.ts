@@ -1,45 +1,65 @@
 // src/app/api/success-stories/route.ts
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebaseAdmin';
-import { FieldValue } from 'firebase-admin/firestore';
-import { z } from 'zod';
+import { db } from "@/lib/firebaseAdmin";
+import { NextResponse } from "next/server";
+import { Timestamp } from "firebase-admin/firestore";
 
-// Define the same Zod schema for validation
-const StorySchema = z.object({
-  name: z.string().min(2, "Please enter your name."),
-  batch: z.string().min(4, "Please enter your batch year."),
-  company: z.string().min(2, "Please enter your company name."),
-  storyTitle: z.string().min(10, "Title must be at least 10 characters."),
-  storyContent: z.string().min(50, "Your story must be at least 50 characters."),
-  imageUrl: z.string().url("Invalid image URL.").optional(),
-});
+// Add this line below your imports!
+export const dynamic = 'force-dynamic';
 
-export async function POST(request: Request) {
-    const formData = await request.formData();
-    const validatedFields = StorySchema.safeParse(Object.fromEntries(formData));
-
-    if (!validatedFields.success) {
-        return NextResponse.json({ 
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: "Validation failed." 
-        }, { status: 400 });
-    }
-
+export async function POST(req: Request) {
     try {
-        const { name, batch, company, storyTitle, storyContent, imageUrl } = validatedFields.data;
-        await db.collection('success-stories').add({
+        const body = await req.json();
+        // Extract the data from our new Premium Form
+        const { name, title, quote, rating, userId, photoURL } = body;
+
+        if (!name || !title || !quote) {
+            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        }
+
+        const newStory = {
             name,
-            batch,
-            company,
-            title: storyTitle,
-            content: storyContent,
-            imageUrl: imageUrl || null,
-            submittedAt: FieldValue.serverTimestamp(),
-            approved: false,
-        });
-        return NextResponse.json({ success: true, message: "Thank you! Your story has been submitted for review." });
+            title, // e.g., "NIT Trichy '26"
+            content: quote, // Maps the form's 'quote' to the DB's 'content'
+            imageUrl: photoURL || null, // Maps the form's 'photoURL' to the DB's 'imageUrl'
+            batch: new Date().getFullYear().toString(), 
+            rating: rating || 5,
+            userId: userId || "anonymous",
+            likeCount: 0,
+            likes: [],
+            isApproved: true, // THE FIX: Auto-approves the story so it skips the review phase!
+            createdAt: Timestamp.now(),
+        };
+
+        const docRef = await db.collection("success-stories").add(newStory);
+
+        return NextResponse.json({ success: true, id: docRef.id });
     } catch (error) {
-        console.error("Error submitting story:", error);
-        return NextResponse.json({ message: "Failed to submit story. Please try again." }, { status: 500 });
+        console.error("Error adding success story:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}
+
+export async function GET() {
+    try {
+        // THE FIX: Simplified the query to avoid Firebase Composite Index blocks
+        const snapshot = await db.collection("success-stories")
+            .where("isApproved", "==", true)
+            .orderBy("createdAt", "desc") // Just order by newest
+            .limit(10) 
+            .get();
+
+        const stories = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt?.toDate()?.toISOString(),
+        }));
+
+        // THE FIX: Sort by highest rating in-memory instead!
+        stories.sort((a: any, b: any) => (b.rating || 5) - (a.rating || 5));
+
+        return NextResponse.json(stories);
+    } catch (error) {
+        console.error("Error fetching success stories:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
