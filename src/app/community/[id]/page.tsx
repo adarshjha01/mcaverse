@@ -54,14 +54,11 @@ async function getDiscussionDetails(
   return { post, replies };
 }
 
-// 1. Define Props Type correctly for Next.js 15
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-// 2. Async Component
 export default async function DiscussionDetailPage({ params }: PageProps) {
-  // 3. Await the params before using properties
   const { id } = await params;
   const { post, replies } = await getDiscussionDetails(id);
 
@@ -71,25 +68,14 @@ export default async function DiscussionDetailPage({ params }: PageProps) {
         <div className="max-w-3xl mx-auto">
           <Link
             href="/community"
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-800 mb-6 inline-block"
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-800 mb-6 inline-block transition-colors"
           >
             &larr; Back to all discussions
           </Link>
-          <div className="bg-white p-8 rounded-lg shadow-md border border-slate-200 mb-8">
-            <h1 className="text-3xl font-bold mb-3 text-slate-800">
-              {post.title}
-            </h1>
-            <p className="text-sm text-slate-500 mb-6">
-              Posted by {post.authorName} on{" "}
-              {post.createdAt.toLocaleDateString()}
-            </p>
-            <div className="prose max-w-none text-slate-700">
-              {post.content.split("\n").map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-          <ReplySection discussionId={post.id} initialReplies={replies} />
+          
+          {/* We now pass the entire post object into the ReplySection */}
+          <ReplySection post={post} initialReplies={replies} />
+          
         </div>
       </main>
     </div>
