@@ -1,4 +1,3 @@
-// src/components/common/ConditionalLayout.tsx
 "use client";
 
 import { useState } from "react";
@@ -33,18 +32,20 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
 
     if (user) {
         return (
-            <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+            // THE FIX: overflow-x-hidden guarantees no horizontal scrolling
+            <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 w-full overflow-x-hidden">
                 <VerticalNavbar 
                     isCollapsed={isSidebarCollapsed} 
                     onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
                 />
                 
+                {/* THE FIX: Removed the buggy max-w calculations and simplified the margin logic */}
                 <div 
-                    className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-                        isSidebarCollapsed ? 'ml-[80px]' : 'ml-[250px]' 
-                    } max-w-[calc(100vw-80px)] md:max-w-none`} 
+                    className={`flex-1 flex flex-col transition-all duration-300 ease-in-out w-full ${
+                        isSidebarCollapsed ? 'ml-20' : 'ml-64' 
+                    }`} 
                 >
-                    <main className="flex-grow p-6 pt-20 md:pt-6"> 
+                    <main className="flex-grow p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
                         {children}
                     </main>
                     <Footer />
@@ -54,9 +55,10 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
+        // THE FIX: Lock the unauthenticated layout too, just in case
+        <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
             <HorizontalNavbar />
-            <main className="flex-grow">
+            <main className="flex-grow w-full">
                 {children}
             </main>
             <Footer />
