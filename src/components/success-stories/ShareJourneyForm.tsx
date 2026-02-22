@@ -83,7 +83,7 @@ export const ShareJourneyForm = () => {
                                 <IconTrophy className="w-10 h-10 text-green-600 dark:text-green-400" />
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                                You're a Legend!
+                            You&apos;re a Legend!
                             </h3>
                             <p className="text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
                                 Thank you for sharing your journey. Your story is currently under review and will be featured soon.

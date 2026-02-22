@@ -109,7 +109,7 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                             >
                                 {/* Subtle Quote Mark Watermark */}
                                 <div className="absolute top-6 right-8 text-8xl font-serif leading-none text-slate-100 dark:text-slate-800/50 -z-10 select-none">
-                                    "
+                                    &quot;
                                 </div>
 
                                 <div className="flex flex-col sm:flex-row gap-6 relative z-10">
@@ -149,7 +149,7 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                                         </div>
                                         
                                         <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic text-lg mb-6">
-                                            "{story.content}"
+                                            &quot;{story.content}&quot;
                                         </p>
                                     </div>
                                 </div>

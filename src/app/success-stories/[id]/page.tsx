@@ -45,7 +45,7 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
                     
                     {/* Massive Quote Watermark */}
                     <div className="absolute top-8 right-12 text-9xl font-serif leading-none text-slate-100 dark:text-slate-800/50 -z-10 select-none">
-                        "
+                        &quot;
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-8 items-start relative z-10">
@@ -99,7 +99,7 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
 
                             <div className="prose prose-lg dark:prose-invert prose-slate max-w-none">
                                 <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed italic border-l-4 border-indigo-500 pl-6 py-2 bg-slate-50/50 dark:bg-slate-900/50 rounded-r-2xl shadow-sm">
-                                    "{data.content}"
+                                    &quot;{data.content}&quot;
                                 </p>
                             </div>
                         </div>

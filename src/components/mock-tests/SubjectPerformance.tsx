@@ -182,7 +182,7 @@ export const SubjectPerformance = () => {
                             )}
                         </>
                     ) : (
-                        <li className="flex items-start gap-3"><span className="text-indigo-500 font-bold">→</span> <span>Your AI insights will appear here once you've completed some tests.</span></li>
+                        <li className="flex items-start gap-3"><span className="text-indigo-500 font-bold">→</span> <span>Your AI insights will appear here once you&apos;ve completed some tests.</span></li>
                     )}
                  </ul>
             </div>

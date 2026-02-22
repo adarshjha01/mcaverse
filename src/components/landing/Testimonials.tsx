@@ -90,7 +90,7 @@ export const Testimonials = () => {
                     ))}
                   </div>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic text-lg mb-6 line-clamp-4">
-                    "{story.content}"
+                    &quot;{story.content}&quot;
                   </p>
               </div>
 
