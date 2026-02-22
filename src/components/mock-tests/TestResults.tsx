@@ -139,7 +139,7 @@ export const TestResults = ({ attempt, questions }: TestResultsProps) => {
                             
                             let styles = "border-slate-200 hover:bg-slate-50"; // Default
                             let icon = null;
-                            let label = String.fromCharCode(65 + index); // A, B, C, D
+                            const label = String.fromCharCode(65 + index); // A, B, C, D
 
                             if (isCorrect) {
                                 styles = "border-green-500 bg-green-50 ring-1 ring-green-500 shadow-sm";
