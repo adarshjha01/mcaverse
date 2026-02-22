@@ -1,56 +1,62 @@
-// src/components/mock-tests/PracticeSections.tsx
 import Link from "next/link";
 import React from "react";
-import { IconLibrary, IconFocus, IconFlame } from "@/components/ui/Icons"; // Add IconFlame
+import { IconLibrary, IconFocus, IconFlame } from "@/components/ui/Icons";
 
 const practiceTypes = [
-    {
-        id: "dpp",
-        title: "Daily Practice",
-        description: "Build a habit with daily problems and track your streak.",
-        icon: <IconFlame className="text-red-500" />,
-        buttonText: "Start Daily Practice",
-        href: "/dpp"
-    },
-    {
-        id: "topic-wise",
-        title: "Topic Wise Tests",
-        description: "Master individual topics and pinpoint your specific weak areas.",
-        icon: <IconFocus className="text-orange-500" />,
-        buttonText: "View Topics",
-        href: "/mock-tests/topic-wise"
-    },
-    {
-        id: "subject-wise",
-        title: "Subject Wise Tests",
-        description: "Strengthen your core subjects with dedicated practice tests.",
-        icon: <IconLibrary className="text-purple-500" />,
-        buttonText: "View Subjects",
-        href: "/mock-tests/subject-wise"
-    }
-    
+  {
+    id: "dpp",
+    title: "Daily Practice",
+    description: "Build a habit with daily problems and track your streak.",
+    icon: <IconFlame className="text-red-500" />,
+    buttonText: "Start Daily Practice",
+    href: "/dpp"
+  },
+  {
+    id: "topic-wise",
+    title: "Topic Wise Tests",
+    description: "Master individual topics and pinpoint your specific weak areas.",
+    icon: <IconFocus className="text-orange-500" />,
+    buttonText: "View Topics",
+    href: "/mock-tests/topic-wise"
+  },
+  {
+    id: "subject-wise",
+    title: "Subject Wise Tests",
+    description: "Strengthen your core subjects with dedicated practice tests.",
+    icon: <IconLibrary className="text-purple-500" />,
+    buttonText: "View Subjects",
+    href: "/mock-tests/subject-wise"
+  }
 ];
 
 export const PracticeSections = () => {
-    return (
-        <section className="bg-white pt-10 pb-20">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold mb-8 text-center">Customised Practice</h2>
-                <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    {practiceTypes.map(test => (
-                        <div key={test.title} className="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm text-center flex flex-col items-center hover:shadow-lg transition-shadow">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white mb-4 border">
-                                {test.icon}
-                            </div>
-                            <h2 className="text-xl font-bold text-slate-800">{test.title}</h2>
-                            <p className="text-slate-500 text-sm mb-6 flex-grow">{test.description}</p>
-                            <Link href={test.href} className="mt-auto w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors">
-                                {test.buttonText}
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+  return (
+    <section className="bg-white dark:bg-slate-900 pt-10 pb-20 transition-colors duration-300">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold mb-8 text-center text-slate-900 dark:text-slate-100">
+          Customised Practice
+        </h2>
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {practiceTypes.map(test => (
+            <div
+              key={test.title}
+              className="bg-slate-50 dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-center flex flex-col items-center hover:shadow-lg transition-shadow"
+            >
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white dark:bg-slate-700 mb-4 border border-slate-200 dark:border-slate-600">
+                {test.icon}
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">{test.title}</h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow">{test.description}</p>
+              <Link
+                href={test.href}
+                className="mt-auto w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                {test.buttonText}
+              </Link>
             </div>
-        </section>
-    );
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
