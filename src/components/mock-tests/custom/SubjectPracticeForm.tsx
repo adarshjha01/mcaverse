@@ -19,7 +19,12 @@ const SUBJECTS = [
   "General English"
 ];
 
-export const SubjectPracticeForm = () => {
+type SubjectPracticeFormProps = {
+  subjects: string[];
+};
+
+// 2. Add the type to your component and destructure 'subjects'
+export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
   const router = useRouter();
   const { user } = useAuth();
   

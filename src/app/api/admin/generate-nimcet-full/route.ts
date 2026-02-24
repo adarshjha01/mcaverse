@@ -30,7 +30,7 @@ export async function GET() {
   try {
     const questionsRef = db.collection('questions');
     let allQuestionIds: string[] = [];
-    let sectionsMetadata = [];
+    const sectionsMetadata: any[] = [];
 
     // --- FETCH QUESTIONS PER SECTION ---
     for (const section of TEST_CONFIG.sections) {

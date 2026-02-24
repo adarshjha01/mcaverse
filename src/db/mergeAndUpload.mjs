@@ -5,11 +5,11 @@ import { readFileSync, existsSync } from 'fs';
 
 // --- CONFIGURATION ---
 const SERVICE_ACCOUNT_PATH = './serviceAccountKey.json';
-const QUESTIONS_FILE = './src/db/questions.json';       // Source of NEW content
-const LATEX_FILE = './src/db/questions.latex.json';     // Source of EXISTING formatting
+const QUESTIONS_FILE = './src/db/questions.json';       
+const LATEX_FILE = './src/db/questions.latex.json';     
 const COLLECTION_NAME = 'questions';
 
-// --- LATEX RULES (For auto-formatting new explanations) ---
+// --- LATEX RULES (Fallback only) ---
 const REPLACEMENTS = [
     { regex: /\b(alpha)\b/gi, replace: "$\\alpha$" },
     { regex: /\b(beta)\b/gi, replace: "$\\beta$" },
@@ -80,7 +80,7 @@ async function mergeAndUpload() {
 
         if (existsSync(QUESTIONS_FILE)) {
             questions = JSON.parse(readFileSync(QUESTIONS_FILE, 'utf8'));
-            console.log(`📖 Loaded ${questions.length} questions from questions.json (Content Source)`);
+            console.log(`📖 Loaded ${questions.length} questions from questions.json`);
         } else {
             console.error("❌ Error: questions.json not found!");
             process.exit(1);
@@ -88,7 +88,7 @@ async function mergeAndUpload() {
 
         if (existsSync(LATEX_FILE)) {
             latexQuestions = JSON.parse(readFileSync(LATEX_FILE, 'utf8'));
-            console.log(`📖 Loaded ${latexQuestions.length} questions from questions.latex.json (Format Source)`);
+            console.log(`📖 Loaded ${latexQuestions.length} questions from questions.latex.json`);
         } else {
             console.log("⚠️  questions.latex.json not found. Will auto-format everything.");
         }
@@ -96,10 +96,8 @@ async function mergeAndUpload() {
         // 2. MERGE LOGIC
         console.log("🔄 Merging content with formatting...");
         
-        // Create a map of LaTeX questions for fast lookup by ID (or Question Text)
         const latexMap = new Map();
         latexQuestions.forEach(q => {
-            // Prefer ID if available, else use question text as key
             const key = q.question_id || q.question_text; 
             latexMap.set(String(key), q);
         });
@@ -108,23 +106,24 @@ async function mergeAndUpload() {
             const key = String(q.question_id || q.question_text);
             const latexQ = latexMap.get(key);
 
-            // A. Question Text: Use LaTeX version if exists (presumes manual fixes), else Auto-Format
-            if (latexQ && latexQ.question_text) {
-                q.question_text = latexQ.question_text;
+            // A. Question Text: CHECK FOR '_latex' SUFFIX
+            if (latexQ && latexQ.question_text_latex) {
+                q.question_text = latexQ.question_text_latex;
             } else {
                 q.question_text = formatText(q.question_text);
             }
 
-            // B. Options: Use LaTeX version if exists
-            if (latexQ && latexQ.options) {
-                q.options = latexQ.options;
+            // B. Options: CHECK FOR '_latex' SUFFIX
+            if (latexQ && latexQ.options_latex) {
+                q.options = latexQ.options_latex;
             } else {
                 q.options = q.options.map(opt => formatText(opt));
             }
 
-            // C. Explanation: ALWAYS use 'questions.json' (User Edits) + Auto-Format
-            // This ensures your new explanations are used, but we turn "alpha" into "$\alpha$"
-            if (q.explanation) {
+            // C. Explanation: CHECK FOR '_latex' SUFFIX
+            if (latexQ && latexQ.explanation_latex) {
+                q.explanation = latexQ.explanation_latex;
+            } else if (q.explanation) {
                 q.explanation = formatText(q.explanation);
             }
 
@@ -147,7 +146,7 @@ async function mergeAndUpload() {
                 ? db.collection(COLLECTION_NAME).doc(String(q.question_id))
                 : db.collection(COLLECTION_NAME).doc();
 
-            // Sanitize data (remove undefined)
+            // Sanitize data
             const cleanQ = JSON.parse(JSON.stringify(q)); 
             
             batch.set(docRef, cleanQ);
@@ -167,9 +166,6 @@ async function mergeAndUpload() {
         }
 
         console.log(`\n🎉 SUCCESS! Database updated with ${total} questions.`);
-        console.log("   - Preserved LaTeX formatting from file.");
-        console.log("   - Included NEW explanations from questions.json.");
-        console.log("   - Auto-formatted new explanations.");
 
     } catch (error) {
         console.error("❌ Error:", error);

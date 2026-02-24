@@ -121,3 +121,12 @@ export async function getCourseData(): Promise<Subject[]> {
         return [];
     }
 }
+
+// --- AI Chat Action ---
+export async function getAIResponse(prevState: any, formData: FormData) {
+    // Placeholder response until the real AI is integrated
+    return {
+        response: "I'm still learning! My developers are working hard to connect my brain. Check back soon! ⚡",
+        error: null // <-- Added this to fix the TypeScript error!
+    };
+}

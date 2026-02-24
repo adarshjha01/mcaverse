@@ -1,12 +1,11 @@
-// src/app/success-stories/page.tsx
-
 import { StoryList } from "@/components/success-stories/StoryList";
 import { ShareJourneyForm } from "@/components/success-stories/ShareJourneyForm";
 import { IconTrophy } from "@/components/ui/Icons";
 import { db } from "@/lib/firebaseAdmin";
-import { Timestamp } from "firebase-admin/firestore";
 
-// --- Updated Type Definition ---
+// THE FIX: Forces Next.js to fetch fresh data every time the page loads
+export const dynamic = 'force-dynamic';
+
 type Story = {
   id: string;
   name: string;
@@ -15,26 +14,39 @@ type Story = {
   content: string;
   imageUrl: string | null;
   likeCount: number;
-  likes: string[]; // Array of user IDs who liked the story
+  likes: string[]; 
+  rating: number; // Added rating to the type
+  userId: string;
 };
 
-// --- Updated Function to fetch stories ---
 async function getSuccessStories(): Promise<Story[]> {
     try {
         const storiesRef = db.collection('success-stories');
-        const q = storiesRef.where('approved', '==', true).orderBy('submittedAt', 'desc');
+        
+        // THE FIX: Remove the .orderBy() from the Firebase query to bypass the Index error
+        const q = storiesRef.where('isApproved', '==', true);
         const snapshot = await q.get();
-        return snapshot.docs.map(doc => {
+        
+        // THE FIX: Sort the documents in JavaScript memory instead!
+        const sortedDocs = snapshot.docs.sort((a, b) => {
+            const timeA = a.data().createdAt?.toMillis() || 0;
+            const timeB = b.data().createdAt?.toMillis() || 0;
+            return timeB - timeA; // Descending order (newest first)
+        });
+
+        return sortedDocs.map(doc => {
             const data = doc.data();
             return {
                 id: doc.id,
                 name: data.name,
-                batch: data.batch,
+                batch: data.batch || '',
                 title: data.title,
-                content: data.content.substring(0, 200) + '...',
+                content: data.content,
                 imageUrl: data.imageUrl || null,
                 likeCount: data.likeCount || 0,
                 likes: data.likes || [],
+                rating: data.rating || 5,
+                userId: data.userId || '', // <-- Add this mapping!
             };
         });
     } catch (error) {
@@ -47,21 +59,28 @@ export default async function SuccessStoriesPage() {
   const stories = await getSuccessStories();
 
   return (
-      <main className="pt-16">
-        <section className="py-16 text-center bg-slate-50 border-b border-slate-200">
-            <IconTrophy className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
-            <h1 className="text-4xl font-bold mb-2">Success Stories</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                Inspiring journeys of MCAverse students who have achieved their career goals.
-            </p>
+      <main className="pt-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+        <section className="py-16 text-center border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <div className="relative z-10">
+                <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-indigo-200 dark:border-indigo-800">
+                    <IconTrophy className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">Success Stories</h1>
+                <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4">
+                    Inspiring journeys of MCAverse students who have achieved their career goals.
+                </p>
+            </div>
         </section>
 
         <div className="container mx-auto px-4 py-16">
-            <div className="grid lg:grid-cols-3 gap-12">
+            <div className="grid lg:grid-cols-3 gap-12 items-start">
                 <div className="lg:col-span-2">
                     <StoryList stories={stories} />
                 </div>
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-1 sticky top-28">
                     <ShareJourneyForm />
                 </div>
             </div>

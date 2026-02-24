@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-// import { IconSun, IconMoon } from "@/components/ui/Icons";
+import { IconSun, IconMoon } from "@/components/ui/Icons";
 
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
@@ -16,14 +16,10 @@ export const ThemeToggle = () => {
     return <div className="w-9 h-9" />;
   }
 
-  // FORCE DISABLE: Render nothing for now
-  return null;
-
-  /*
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors"
+      className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center"
       aria-label="Toggle Theme"
       title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
@@ -34,5 +30,4 @@ export const ThemeToggle = () => {
       )}
     </button>
   );
-  */
 };
