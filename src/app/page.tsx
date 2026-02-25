@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/Hero";
 import { Features } from "@/components/landing/Features";
 import { QuickAccess } from "@/components/landing/QuickAccess";
 import { Testimonials } from "@/components/landing/Testimonials"; 
+import { Analytics } from "@vercel/analytics/next"
 
 export default function LandingPage() {
     return (
