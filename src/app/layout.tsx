@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { ConditionalLayout } from "@/components/common/ConditionalLayout";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
