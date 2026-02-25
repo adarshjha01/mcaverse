@@ -32,6 +32,7 @@ export default function RootLayout({
             </ConditionalLayout>
           </AuthProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
