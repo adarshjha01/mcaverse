@@ -27,16 +27,21 @@ export const RecentTestResults = () => {
             setLoading(true);
             console.log("Frontend: Fetching results for userId:", user.uid);
 
-            fetch(`/api/mock-tests/recent-attempts?userId=${user.uid}`)
-                .then(res => res.json())
-                .then(data => {
+            const fetchResults = async () => {
+                try {
+                    const token = await user.getIdToken();
+                    const res = await fetch(`/api/mock-tests/recent-attempts?userId=${user.uid}`, {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                    });
+                    const data = await res.json();
                     setResults(data);
-                    setLoading(false);
-                })
-                .catch(err => {
+                } catch (err) {
                     console.error("Failed to fetch recent results:", err);
+                } finally {
                     setLoading(false);
-                });
+                }
+            };
+            fetchResults();
         } else {
             setLoading(false);
             setResults([]);

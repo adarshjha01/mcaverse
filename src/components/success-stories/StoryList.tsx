@@ -46,9 +46,10 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
 
         // Call the API route
         try {
+            const token = await user.getIdToken();
             await fetch('/api/stories/like', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ storyId, userId: user.uid }),
             });
         } catch (error) {
@@ -64,7 +65,11 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
         setOptimisticStories(current => current.filter(s => s.id !== storyId));
 
         try {
-            await fetch(`/api/success-stories/${storyId}`, { method: 'DELETE' });
+            const token = await user!.getIdToken();
+            await fetch(`/api/success-stories/${storyId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
         } catch (error) {
             console.error("Failed to delete story:", error);
             alert("Failed to delete story. Please try again.");

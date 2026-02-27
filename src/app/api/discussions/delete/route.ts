@@ -10,7 +10,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { discussionId } = await request.json(); // We don't need userId from body anymore
+    let body;
+    try {
+        body = await request.json();
+    } catch {
+        return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+
+    const { discussionId } = body;
     if (!discussionId) {
         return NextResponse.json({ error: 'Missing discussion ID' }, { status: 400 });
     }

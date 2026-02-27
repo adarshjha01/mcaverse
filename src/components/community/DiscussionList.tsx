@@ -12,7 +12,7 @@ type Discussion = {
   title: string;
   authorId: string;
   authorName: string;
-  createdAt: Date;
+  createdAt: string | Date;
   replyCount: number;
   voteCount: number;
   upvotes: string[];
@@ -55,6 +55,9 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
     const handleVoteOptimistic = async (discussionId: string, voteType: 'up' | 'down') => {
         if (!user) return;
         
+        // Save previous state for rollback
+        const previousDiscussions = discussions;
+
         // Optimistic UI Update
         setDiscussions(currentDiscussions => 
             currentDiscussions.map(d => {
@@ -103,12 +106,16 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
             });
         } catch (error) {
             console.error("Failed to submit vote", error);
-            // In a real app, you might revert the optimistic update here
+            // Revert optimistic update on failure
+            setDiscussions(previousDiscussions);
         }
     };
 
     const handleDeletePost = async (discussionId: string) => {
         if (!user || !window.confirm("Are you sure you want to delete this post?")) return;
+
+        // Save previous state for rollback
+        const previousDiscussions = discussions;
 
         // Optimistic UI Update
         setDiscussions(current => current.filter(d => d.id !== discussionId));
@@ -126,6 +133,8 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
             });
         } catch (error) {
             console.error("Failed to delete post", error);
+            // Revert optimistic update on failure
+            setDiscussions(previousDiscussions);
             alert("Failed to delete post.");
         }
     };
@@ -149,7 +158,7 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
                                 </Link>
                                 <div className="flex justify-between items-center mt-1">
                                     <p className="text-sm text-slate-500">
-                                        Posted by {post.authorName} • {post.createdAt.toLocaleDateString()}
+                                        Posted by {post.authorName} • {new Date(post.createdAt).toLocaleDateString()}
                                     </p>
                                     <div className="flex items-center gap-2 text-slate-500 text-sm">
                                         <IconMessageCircle className="w-5 h-5" />

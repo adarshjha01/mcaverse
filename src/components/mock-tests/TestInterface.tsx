@@ -1,7 +1,7 @@
 // src/components/mock-tests/TestInterface.tsx
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { LatexText } from '@/components/ui/LatexText';
@@ -49,7 +49,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const sections = useMemo(() => {
     if (test.sections && test.sections.length > 0) return test.sections;
     return [{ name: "General Section", duration: test.durationInMinutes, questionCount: questions.length }];
-  }, [test]);
+  }, [test, questions.length]);
 
   // --- STATE ---
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
@@ -63,6 +63,10 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Refs for stable access in timer callback
+  const timeLeftRef = useRef(timeLeft);
+  timeLeftRef.current = timeLeft;
 
   // --- DERIVED HELPERS ---
   const currentSection = sections[currentSectionIndex];
@@ -94,10 +98,11 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   // --- TIMER LOGIC (SECTION BASED) ---
   useEffect(() => {
     if (timeLeft === 0) {
-      handleSectionSubmit();
+      handleSectionSubmitRef.current();
     }
     const timer = setInterval(() => setTimeLeft(prev => (prev > 0 ? prev - 1 : 0)), 1000);
     return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft]);
 
   // --- FULL SCREEN ---
@@ -174,7 +179,7 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   // --- FINAL SUBMIT (WITH FULL SCREEN FIX) ---
   const handleSubmitTest = useCallback(async () => {
     if (!user || isSubmitting) return;
-    if (timeLeft > 0 && !window.confirm("Finish Test and Submit?")) return;
+    if (timeLeftRef.current > 0 && !window.confirm("Finish Test and Submit?")) return;
     
     setIsSubmitting(true);
     
@@ -204,7 +209,11 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
         alert("Error submitting. Please check connection."); 
         setIsSubmitting(false); 
     }
-  }, [user, test.id, answers, isSubmitting, router, timeLeft]);
+  }, [user, test.id, answers, isSubmitting, router]);
+
+  // Keep a ref to handleSectionSubmit for the timer
+  const handleSectionSubmitRef = useRef(handleSectionSubmit);
+  handleSectionSubmitRef.current = handleSectionSubmit;
 
   // --- RENDER ---
   const currentQuestion = questions[currentQuestionIndex];
@@ -283,6 +292,13 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-4">
+                {/* THE NEW QA DEBUG BADGE */}
+                {currentQuestion?.id && (
+                  <div className="text-[10px] text-gray-400 font-mono mb-2 uppercase tracking-wider">
+                    [ID: {currentQuestion.id}]
+                  </div>
+                )}
+                
                 <div className="text-base md:text-lg text-slate-900 leading-relaxed font-medium mb-6 select-none">
                     <LatexText text={currentQuestion?.question_text || "Loading..."} />
                 </div>

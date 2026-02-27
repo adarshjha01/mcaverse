@@ -2,18 +2,28 @@
 import { db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 import { Timestamp } from "firebase-admin/firestore";
+import { verifyAuth } from '@/lib/auth-admin';
 
 // Add this line below your imports!
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
     try {
+        const requesterUid = await verifyAuth();
+        if (!requesterUid) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const body = await req.json();
         // Extract the data from our new Premium Form
         const { name, title, quote, rating, userId, photoURL } = body;
 
         if (!name || !title || !quote) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        }
+
+        if (userId && userId !== requesterUid) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
         const newStory = {
@@ -23,10 +33,10 @@ export async function POST(req: Request) {
             imageUrl: photoURL || null, // Maps the form's 'photoURL' to the DB's 'imageUrl'
             batch: new Date().getFullYear().toString(), 
             rating: rating || 5,
-            userId: userId || "anonymous",
+            userId: requesterUid,
             likeCount: 0,
             likes: [],
-            isApproved: true, // THE FIX: Auto-approves the story so it skips the review phase!
+            isApproved: false, // Require moderation before showing publicly
             createdAt: Timestamp.now(),
         };
 

@@ -99,7 +99,7 @@ export const DppDashboard = ({ initialData }: { initialData: DppPageData }) => {
 
   const handleDppToggle = (subjectName: string, topicName: string, dppTitle: string) => {
       setData(prevData => {
-          const newData = { ...prevData };
+          const newData = structuredClone(prevData);
           const subject = newData.subjects.find(s => s.name === subjectName);
           const topic = subject?.topics.find(t => t.name === topicName);
           const dpp = topic?.dpps.find(d => d.title === dppTitle);

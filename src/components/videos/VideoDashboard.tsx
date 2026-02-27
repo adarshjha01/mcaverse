@@ -64,13 +64,20 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
 
     useEffect(() => {
         if (user) {
-            fetch(`/api/video-progress?userId=${user.uid}`)
-                .then(res => res.json())
-                .then((progress) => {
+            const fetchProgress = async () => {
+                try {
+                    const token = await user.getIdToken();
+                    const res = await fetch(`/api/video-progress?userId=${user.uid}`, {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                    });
+                    const progress = await res.json();
                     setCompletedLectures(new Set(progress.completed || []));
                     setRevisionLectures(new Set(progress.revision || []));
-                })
-                .catch(err => console.error("Error fetching progress:", err));
+                } catch (err) {
+                    console.error("Error fetching progress:", err);
+                }
+            };
+            fetchProgress();
         } else {
             setCompletedLectures(new Set());
             setRevisionLectures(new Set());
@@ -94,9 +101,10 @@ export const VideoDashboard = ({ initialCourseData }: { initialCourseData: Subje
     const updateVideoProgressAPI = async (lectureId: string, type: 'completed' | 'revision', isAdding: boolean) => {
         if (!user) return;
         try {
+            const token = await user.getIdToken();
             await fetch('/api/video-progress', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ userId: user.uid, lectureId, type, isAdding }),
             });
         } catch (error) {

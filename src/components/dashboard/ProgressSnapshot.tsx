@@ -47,13 +47,21 @@ export const ProgressSnapshot = ({ initialCourseData }: { initialCourseData: Sub
     useEffect(() => {
         if (user) {
             setLoading(true);
-            fetch(`/api/video-progress?userId=${user.uid}`)
-                .then(res => res.json())
-                .then((progress: Progress) => {
+            const fetchProgress = async () => {
+                try {
+                    const token = await user.getIdToken();
+                    const res = await fetch(`/api/video-progress?userId=${user.uid}`, {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                    });
+                    const progress: Progress = await res.json();
                     if (progress && progress.completed) {
                         setCompletedLectures(new Set(progress.completed));
                     }
-                }).finally(() => setLoading(false));
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchProgress();
         } else if (!user) {
             setLoading(false);
         }

@@ -11,9 +11,15 @@ export const StreakTracker = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`/api/user/streak?userId=${user.uid}`)
-                .then(res => res.json())
-                .then(data => setStreak(data.currentStreak || 0));
+            const fetchStreak = async () => {
+                const token = await user.getIdToken();
+                const res = await fetch(`/api/user/streak?userId=${user.uid}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+                const data = await res.json();
+                setStreak(data.currentStreak || 0);
+            };
+            fetchStreak();
         }
     }, [user]);
 

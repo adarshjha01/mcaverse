@@ -31,7 +31,7 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
 
   // --- NEW STATE FOR MODAL & CONFIG ---
   const [selectedTopicForConfig, setSelectedTopicForConfig] = useState<string | null>(null);
-  const [configSettings, setConfigSettings] = useState({ numQuestions: 15, duration: 20 });
+  const [configSettings, setConfigSettings] = useState({ numQuestions: 10, duration: 15 });
 
   const topics = data[selectedSubject] || [];
 
@@ -47,7 +47,7 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
     }
     setSelectedTopicForConfig(topic);
     // Reset defaults
-    setConfigSettings({ numQuestions: 15, duration: 20 });
+    setConfigSettings({ numQuestions: 10, duration: 15 });
   };
 
 
@@ -56,10 +56,11 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
 
     setIsLoading(true);
     try {
+      const token = await user.getIdToken();
       // 1. Request the test with CUSTOM settings
       const response = await fetch('/api/mock-tests/create-custom', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({
           subject: selectedSubject,
           topic: selectedTopicForConfig,

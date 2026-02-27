@@ -50,10 +50,11 @@ export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
 
     setIsLoading(true);
     try {
+      const token = await user.getIdToken();
       // 1. Request the test with CUSTOM settings
       const response = await fetch('/api/mock-tests/create-custom', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({
           subject: selectedSubjectForConfig,
           // No topic needed for Subject Wise
@@ -86,7 +87,7 @@ export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
         <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Select a Subject</h2>
         
         <div className="grid gap-4 md:grid-cols-2">
-            {SUBJECTS.map((subject) => (
+            {subjects.map((subject) => (
               <div 
                 key={subject}
                 // UPDATED: onClick now opens modal

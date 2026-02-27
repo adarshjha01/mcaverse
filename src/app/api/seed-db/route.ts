@@ -1,8 +1,13 @@
 // src/app/api/seed-db/route.ts
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
+import { verifyAuth } from '@/lib/auth-admin';
 
-export async function GET() {
+export async function POST() {
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     // This is your initial curriculum structure.
     // Replace the empty strings "" with actual Playlist IDs when you have them.
     const curriculum = [
@@ -54,6 +59,7 @@ export async function GET() {
         await batch.commit();
         return NextResponse.json({ message: "Database seeded successfully!" });
     } catch (error) {
-        return NextResponse.json({ error: error }, { status: 500 });
+        console.error("Seed DB error:", error);
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
     }
 }

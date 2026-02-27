@@ -25,28 +25,31 @@ export const SubjectPerformance = () => {
         if (user) {
             setLoading(true);
             
-            // Fetch BOTH APIs at the exact same time
-            Promise.all([
-                fetch(`/api/user/subject-performance?userId=${user.uid}`).then(res => res.json()),
-                fetch(`/api/mock-tests/history?userId=${user.uid}`).then(res => res.json())
-            ])
-            .then(([subjectData, historyData]) => {
-                // Safely set subject data
-                if (Array.isArray(subjectData)) setSubjects(subjectData);
-                else setSubjects([]);
+            const fetchData = async () => {
+                try {
+                    const token = await user.getIdToken();
+                    const headers = { 'Authorization': `Bearer ${token}` };
+                    // Fetch BOTH APIs at the exact same time
+                    const [subjectData, historyData] = await Promise.all([
+                        fetch(`/api/user/subject-performance?userId=${user.uid}`, { headers }).then(res => res.json()),
+                        fetch(`/api/mock-tests/history?userId=${user.uid}`, { headers }).then(res => res.json())
+                    ]);
+                    // Safely set subject data
+                    if (Array.isArray(subjectData)) setSubjects(subjectData);
+                    else setSubjects([]);
 
-                // Safely set history data
-                if (Array.isArray(historyData)) setAttempts(historyData);
-                else setAttempts([]);
-                
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Failed to fetch performance data:", err);
-                setSubjects([]);
-                setAttempts([]);
-                setLoading(false);
-            });
+                    // Safely set history data
+                    if (Array.isArray(historyData)) setAttempts(historyData);
+                    else setAttempts([]);
+                } catch (err) {
+                    console.error("Failed to fetch performance data:", err);
+                    setSubjects([]);
+                    setAttempts([]);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchData();
         } else {
             setLoading(false);
         }

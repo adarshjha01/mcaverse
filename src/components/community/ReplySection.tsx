@@ -14,8 +14,8 @@ import {
   CommentReplies,
 } from "@/components/ruixen/comment-thread";
 
-type Post = { id: string; title: string; content: string; authorName: string; createdAt: Date };
-type Reply = { id: string; content: string; authorId: string; authorName: string; createdAt: Date };
+type Post = { id: string; title: string; content: string; authorName: string; createdAt: string | Date };
+type Reply = { id: string; content: string; authorId: string; authorName: string; createdAt: string | Date };
 
 export const ReplySection = ({
   post,
@@ -109,7 +109,7 @@ export const ReplySection = ({
               <div className="flex items-center gap-2 mb-4">
                 <p className="text-sm font-semibold text-slate-700">{post.authorName}</p>
                 <span className="text-xs text-slate-500">
-                  {post.createdAt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                 </span>
               </div>
               <CommentBody className="text-slate-700 text-base leading-relaxed whitespace-pre-line mb-4">
@@ -138,7 +138,7 @@ export const ReplySection = ({
                           <div className="flex items-center gap-2">
                             <p className="text-sm font-semibold text-slate-800">{reply.authorName}</p>
                             <span className="text-xs text-slate-500">
-                              {reply.createdAt.toLocaleDateString()}
+                              {new Date(reply.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                           <CommentBody className="mt-2 text-slate-700">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { useAuth } from '@/components/auth/AuthProvider';
 
 type ContributionCalendarProps = {
   userId: string;
@@ -51,22 +52,31 @@ const nextSaturday = (d: Date): Date => {
 // ─── main component ────────────────────────────────────────────────────────────
 
 const ContributionCalendar = ({ userId }: ContributionCalendarProps) => {
+  const { user } = useAuth();
   const currentYear = new Date().getFullYear();
   const [displayYear, setDisplayYear] = useState<"last-year" | number>("last-year");
   const [data, setData] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !user) return;
     setLoading(true);
-    fetch(`/api/user/practice-history?userId=${userId}`)
-      .then((r) => r.json())
-      .then((d) => {
+    const fetchHistory = async () => {
+      try {
+        const token = await user.getIdToken();
+        const res = await fetch(`/api/user/practice-history?userId=${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        const d = await res.json();
         setData(d);
+      } catch {
+        // ignore
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [userId]);
+      }
+    };
+    fetchHistory();
+  }, [userId, user]);
 
   // ── build grid data ──────────────────────────────────────────────────────────
   const { weeks, monthLabels, totalContributions } = useMemo(() => {

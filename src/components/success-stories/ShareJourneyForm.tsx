@@ -26,10 +26,11 @@ export const ShareJourneyForm = () => {
         setLoading(true);
 
         try {
+            const token = await user?.getIdToken();
             // Assuming you have this standard API route set up
             const res = await fetch("/api/success-stories", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
                 body: JSON.stringify({
                     ...formData,
                     userId: user?.uid || "anonymous",

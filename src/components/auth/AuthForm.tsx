@@ -49,13 +49,14 @@ export const AuthForm = () => {
                 return; // Stay on this view to show message
             }
         } catch (err) {
-            if (err instanceof Error) {
+            if (err instanceof FirebaseError) {
+                 if (err.code === 'auth/email-already-in-use') setError('Email already registered.');
+                 else if (err.code === 'auth/invalid-credential') setError('Invalid email or password.');
+                 else setError(err.message);
+            } else if (err instanceof Error) {
                  setError(err.message);
             } else {
-                 const firebaseError = err as FirebaseError;
-                 if (firebaseError.code === 'auth/email-already-in-use') setError('Email already registered.');
-                 else if (firebaseError.code === 'auth/invalid-credential') setError('Invalid email or password.');
-                 else setError('An error occurred. Please try again.');
+                 setError('An error occurred. Please try again.');
             }
         } finally {
             setLoading(false);

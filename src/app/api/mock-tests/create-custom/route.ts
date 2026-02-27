@@ -2,6 +2,17 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { z } from 'zod';
+import { verifyAuth } from '@/lib/auth-admin';
+
+// Fisher-Yates shuffle for uniform randomness
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 const CustomTestSchema = z.object({
   subject: z.string(),
@@ -12,7 +23,18 @@ const CustomTestSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  const requesterUid = await verifyAuth();
+  if (!requesterUid) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
   const validation = CustomTestSchema.safeParse(body);
 
   if (!validation.success) {
@@ -21,6 +43,9 @@ export async function POST(request: Request) {
 
   const { subject, topic, numQuestions, duration, userId } = validation.data;
 
+    if (userId !== requesterUid) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
   try {
     let query: FirebaseFirestore.Query = db.collection('questions').where('subject', '==', subject);
     if (topic) {
@@ -39,8 +64,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Only found ${allQuestionIds.length} questions. Please select a smaller number.` }, { status: 400 });
     }
 
-    const selectedQuestionIds = allQuestionIds
-      .sort(() => 0.5 - Math.random())
+    const selectedQuestionIds = shuffleArray(allQuestionIds)
       .slice(0, numQuestions);
 
     const testTitle = topic ? `Custom: ${subject} - ${topic}` : `Custom: ${subject}`;

@@ -19,7 +19,13 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = await request.json();
+    let data;
+    try {
+        data = await request.json();
+    } catch {
+        return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+
     const validatedFields = ReplySchema.safeParse(data);
 
     if (!validatedFields.success) {
@@ -36,6 +42,11 @@ export async function POST(request: Request) {
     const discussionRef = db.collection('discussions').doc(discussionId);
 
     try {
+        const discussionDoc = await discussionRef.get();
+        if (!discussionDoc.exists) {
+            return NextResponse.json({ error: 'Discussion not found.' }, { status: 404 });
+        }
+
         await discussionRef.collection('replies').add({
             content: replyContent,
             authorId,
