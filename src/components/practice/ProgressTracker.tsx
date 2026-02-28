@@ -14,17 +14,25 @@ const badges = [
 ];
 
 const WeeklyProgressChart = ({ data }: { data: number[] }) => {
-  const max = Math.max(...data) || 5; // Avoid division by zero
+  const max = Math.max(...data, 1);
+  const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   return (
-    <div className="flex justify-between items-end h-24 mt-4 px-2">
+    <div className="flex items-end justify-between gap-2 h-28 mt-4 px-1">
       {data.map((value, index) => (
-        <div key={index} className="w-1/7 text-center flex flex-col items-center justify-end h-full">
-          <div 
-            className="bg-blue-500 dark:bg-blue-600 rounded-t-sm w-full max-w-[20px] transition-all duration-500" 
-            style={{ height: `${(value / max) * 100}%` }}
+        <div key={index} className="flex-1 flex flex-col items-center justify-end h-full gap-1.5">
+          <span className="text-[10px] font-medium text-slate-600 dark:text-slate-400 tabular-nums">
+            {value > 0 ? value : ''}
+          </span>
+          <div
+            className={`w-full max-w-[24px] rounded-t transition-all duration-500 ${
+              value > 0
+                ? 'bg-indigo-500 dark:bg-indigo-400'
+                : 'bg-slate-200 dark:bg-slate-700'
+            }`}
+            style={{ height: `${Math.max((value / max) * 100, value > 0 ? 12 : 4)}%` }}
             title={`${value} DPPs`}
-          ></div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium">{['S', 'M', 'T', 'W', 'T', 'F', 'S'][index]}</p>
+          />
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{dayLabels[index]}</p>
         </div>
       ))}
     </div>

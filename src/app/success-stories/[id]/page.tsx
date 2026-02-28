@@ -32,23 +32,23 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
     const rating = data.rating || 5;
 
     return (
-        <main className="pt-32 pb-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">
+        <main className="pt-24 sm:pt-32 pb-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">
             {/* Background Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
             <div className="container mx-auto px-4 max-w-4xl relative z-10">
-                <Link href="/success-stories" className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors mb-8">
+                <Link href="/success-stories" className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors mb-8 bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40">
                     <span className="text-xl leading-none">&larr;</span> Back to all stories
                 </Link>
 
-                <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl relative">
+                <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl relative">
                     
                     {/* Massive Quote Watermark */}
-                    <div className="absolute top-8 right-12 text-9xl font-serif leading-none text-slate-100 dark:text-slate-800/50 -z-10 select-none">
+                    <div className="absolute top-6 right-8 sm:top-8 sm:right-12 text-7xl sm:text-9xl font-serif leading-none text-slate-100 dark:text-slate-800/50 select-none pointer-events-none">
                         &quot;
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-8 items-start relative z-10">
+                    <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-start relative z-10">
                         {/* Profile & Rating Section */}
                         <div className="flex-shrink-0 flex flex-col items-center mx-auto md:mx-0 text-center">
                             {data.imageUrl ? (
@@ -57,10 +57,10 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
                                     alt={data.name || "Student"} 
                                     width={120} 
                                     height={120} 
-                                    className="rounded-full ring-4 ring-indigo-50 dark:ring-indigo-900/30 object-cover w-32 h-32 mb-4" 
+                                    className="rounded-full ring-4 ring-indigo-50 dark:ring-indigo-900/30 object-cover w-24 h-24 sm:w-32 sm:h-32 mb-4" 
                                 />
                             ) : (
-                                <div className="w-32 h-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 border-4 border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-4xl mb-4">
+                                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 border-4 border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-3xl sm:text-4xl mb-4">
                                     {data.name?.charAt(0) || "S"}
                                 </div>
                             )}
@@ -81,7 +81,7 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
 
                         {/* Story Content Section */}
                         <div className="flex-grow text-center md:text-left">
-                            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">
                                 {data.name}
                             </h1>
                             
@@ -98,7 +98,7 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
                             </div>
 
                             <div className="prose prose-lg dark:prose-invert prose-slate max-w-none">
-                                <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed italic border-l-4 border-indigo-500 pl-6 py-2 bg-slate-50/50 dark:bg-slate-900/50 rounded-r-2xl shadow-sm">
+                                <p className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed italic border-l-4 border-indigo-500 pl-4 sm:pl-6 py-2 bg-slate-50/50 dark:bg-slate-900/50 rounded-r-2xl shadow-sm">
                                     &quot;{data.content}&quot;
                                 </p>
                             </div>

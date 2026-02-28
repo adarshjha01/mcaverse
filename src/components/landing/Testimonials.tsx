@@ -29,12 +29,13 @@ export const Testimonials = () => {
   useEffect(() => {
     // Fetch the live, auto-approved stories from our newly updated API
     const fetchStories = async () => {
-      const res = await fetch("/api/success-stories", { cache: "no-store" });
       try {
-        const res = await fetch("/api/success-stories");
+        const res = await fetch("/api/success-stories", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          setStories(data.length > 0 ? data : fallbackTestimonials);
+          // Only feature stories with rating above 4 stars
+          const featured = data.filter((s: Story) => (s.rating || 0) >= 4);
+          setStories(featured.length > 0 ? featured : fallbackTestimonials);
         } else {
           setStories(fallbackTestimonials);
         }
@@ -78,10 +79,9 @@ export const Testimonials = () => {
           className="flex gap-6 w-max px-6"
         >
           {marqueeItems.map((story, i) => (
-            <div key={`${story.id}-${i}`} className="w-[400px] bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
+            <div key={`${story.id}-${i}`} className="w-[85vw] sm:w-[400px] bg-white dark:bg-slate-900 p-5 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
               
               <div>
-                  {/* Dynamic 5-Star Rating based on DB data */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_, starIdx) => (
                         <svg key={starIdx} className={`w-5 h-5 ${starIdx < (story.rating || 5) ? "fill-amber-500 text-amber-500" : "fill-slate-200 text-slate-200 dark:fill-slate-800"}`} viewBox="0 0 24 24">

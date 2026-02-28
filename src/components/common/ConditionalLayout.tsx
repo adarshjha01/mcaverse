@@ -32,20 +32,27 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
 
     if (user) {
         return (
-            // THE FIX: overflow-x-hidden guarantees no horizontal scrolling
-            <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 w-full overflow-x-hidden">
-                <VerticalNavbar 
-                    isCollapsed={isSidebarCollapsed} 
-                    onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
-                />
+            <div className="flex flex-col md:flex-row min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 w-full overflow-x-hidden">
+                {/* Mobile: HorizontalNavbar (hidden on md+) */}
+                <div className="md:hidden">
+                    <HorizontalNavbar />
+                </div>
+
+                {/* Desktop: VerticalNavbar (hidden below md) */}
+                <div className="hidden md:block">
+                    <VerticalNavbar 
+                        isCollapsed={isSidebarCollapsed} 
+                        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+                    />
+                </div>
                 
-                {/* THE FIX: Removed the buggy max-w calculations and simplified the margin logic */}
+                {/* Content: no margin on mobile (horizontal nav), sidebar margin on md+ */}
                 <div 
                     className={`flex-1 flex flex-col transition-all duration-300 ease-in-out w-full ${
-                        isSidebarCollapsed ? 'ml-20' : 'ml-64' 
+                        isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64' 
                     }`} 
                 >
-                    <main className="flex-grow p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
+                    <main className="flex-grow p-4 sm:p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
                         {children}
                     </main>
                     <Footer />

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IconSun, IconMoon } from "@/components/ui/Icons";
 
 export const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,12 +18,12 @@ export const ThemeToggle = () => {
 
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors flex items-center justify-center"
       aria-label="Toggle Theme"
-      title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      title={resolvedTheme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
-      {theme === "dark" ? (
+      {resolvedTheme === "dark" ? (
         <IconSun className="w-5 h-5" />
       ) : (
         <IconMoon className="w-5 h-5" />

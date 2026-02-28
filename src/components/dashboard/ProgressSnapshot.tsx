@@ -53,10 +53,17 @@ export const ProgressSnapshot = ({ initialCourseData }: { initialCourseData: Sub
                     const res = await fetch(`/api/video-progress?userId=${user.uid}`, {
                         headers: { 'Authorization': `Bearer ${token}` },
                     });
-                    const progress: Progress = await res.json();
+                    if (!res.ok) {
+                        console.error(`Video progress fetch failed: ${res.status}`);
+                        return;
+                    }
+                    const text = await res.text();
+                    const progress: Progress = text ? JSON.parse(text) : { completed: [] };
                     if (progress && progress.completed) {
                         setCompletedLectures(new Set(progress.completed));
                     }
+                } catch (err) {
+                    console.error('Failed to load video progress:', err);
                 } finally {
                     setLoading(false);
                 }

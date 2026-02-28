@@ -4,6 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { IconFlame, IconCheck } from '@/components/ui/Icons';
+import { LatexText } from '@/components/ui/LatexText';
+import Link from 'next/link';
 import confetti from 'canvas-confetti';
 
 type DailyQuestion = {
@@ -143,9 +145,9 @@ export const DailyPractice = () => {
 
             {question ? (
                 <div className="p-6 sm:p-8">
-                    <p className="text-slate-800 dark:text-slate-200 font-medium text-lg mb-8 leading-relaxed">
-                        {question.question_text}
-                    </p>
+                    <div className="text-slate-800 dark:text-slate-200 font-medium text-lg mb-8 leading-relaxed">
+                        <LatexText text={question.question_text} />
+                    </div>
 
                     <div className="space-y-3 mb-8">
                         {question.options.map((option, idx) => {
@@ -167,7 +169,7 @@ export const DailyPractice = () => {
                                     }`}>
                                         {String.fromCharCode(65 + idx)}
                                     </span>
-                                    <span className="leading-relaxed">{option}</span>
+                                    <span className="leading-relaxed"><LatexText text={option} /></span>
                                 </button>
                             );
                         })}
@@ -183,14 +185,29 @@ export const DailyPractice = () => {
                         </div>
                     )}
 
-                    <button
-                        onClick={handleSubmit}
-                        disabled={selectedOption === null || isSubmitting}
-                        className="w-full relative overflow-hidden group bg-indigo-600 dark:bg-indigo-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-all"
-                    >
-                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                        {isSubmitting ? 'Verifying...' : (user ? 'Submit Answer' : 'Login to Submit')}
-                    </button>
+                    {user ? (
+                        <button
+                            onClick={handleSubmit}
+                            disabled={selectedOption === null || isSubmitting}
+                            className="w-full relative overflow-hidden group bg-indigo-600 dark:bg-indigo-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-all"
+                        >
+                            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                            {isSubmitting ? 'Verifying...' : 'Submit Answer'}
+                        </button>
+                    ) : (
+                        <div className="space-y-3">
+                            <Link
+                                href="/login"
+                                className="w-full block text-center relative overflow-hidden group bg-indigo-600 dark:bg-indigo-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                            >
+                                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                                Login to Submit
+                            </Link>
+                            <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+                                Sign in to save your streak and appear on the leaderboard
+                            </p>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="p-12 text-center text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/50">

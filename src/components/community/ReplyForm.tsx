@@ -61,26 +61,26 @@ export const ReplyForm = ({ discussionId }: { discussionId: string }) => {
 
   if (!user) {
     return (
-      <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 text-center">
-        <p className="text-slate-600 mb-2">You must be logged in to leave a reply.</p>
+      <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
+        <p className="text-slate-600 dark:text-slate-400 mb-2">You must be logged in to leave a reply.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md border border-slate-200">
-        <h3 className="text-xl font-bold mb-4">Leave a Reply</h3>
+    <div className="bg-white dark:bg-slate-900 p-8 rounded-lg shadow-md border border-slate-200 dark:border-slate-800">
+        <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-white">Leave a Reply</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
             
             <div>
-                <label htmlFor="replyContent" className="block text-sm font-medium text-slate-700">Your Reply</label>
+                <label htmlFor="replyContent" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Your Reply</label>
                 <textarea 
                     id="replyContent" 
                     name="replyContent" 
                     rows={5} 
                     required 
                     placeholder="Type your reply here..."
-                    className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:ring-opacity-50"
                 ></textarea>
             </div>
             

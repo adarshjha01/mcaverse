@@ -1,5 +1,4 @@
-import { StoryList } from "@/components/success-stories/StoryList";
-import { ShareJourneyForm } from "@/components/success-stories/ShareJourneyForm";
+import { SuccessStoriesClient } from "@/components/success-stories/SuccessStoriesClient";
 import { IconTrophy } from "@/components/ui/Icons";
 import { db } from "@/lib/firebaseAdmin";
 
@@ -62,7 +61,7 @@ export default async function SuccessStoriesPage() {
       <main className="pt-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <section className="py-16 text-center border-b border-slate-200 dark:border-slate-800 relative overflow-hidden">
             {/* Background Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
             
             <div className="relative z-10">
                 <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-indigo-200 dark:border-indigo-800">
@@ -76,14 +75,7 @@ export default async function SuccessStoriesPage() {
         </section>
 
         <div className="container mx-auto px-4 py-16">
-            <div className="grid lg:grid-cols-3 gap-12 items-start">
-                <div className="lg:col-span-2">
-                    <StoryList stories={stories} />
-                </div>
-                <div className="lg:col-span-1 sticky top-28">
-                    <ShareJourneyForm />
-                </div>
-            </div>
+            <SuccessStoriesClient initialStories={stories} />
         </div>
       </main>
   );

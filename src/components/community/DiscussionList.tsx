@@ -36,12 +36,12 @@ const VoteButtons = ({ discussion, onVote }: { discussion: Discussion; onVote: (
     };
 
     return (
-        <div className="flex items-center p-2 bg-slate-100 rounded-md">
-            <button onClick={() => handleVote('up')} disabled={!user || isPending} className={`p-1 rounded ${hasUpvoted ? 'text-indigo-600' : 'text-slate-500 hover:text-indigo-600'}`}>
+        <div className="flex items-center p-2 bg-slate-100 dark:bg-slate-800 rounded-md">
+            <button onClick={() => handleVote('up')} disabled={!user || isPending} className={`p-1 rounded ${hasUpvoted ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400'}`}>
                 <IconArrowUp />
             </button>
-            <span className="font-bold text-sm mx-2 w-4 text-center">{discussion.voteCount}</span>
-            <button onClick={() => handleVote('down')} disabled={!user || isPending} className={`p-1 rounded ${hasDownvoted ? 'text-red-600' : 'text-slate-500 hover:text-red-600'}`}>
+            <span className="font-bold text-sm mx-2 w-4 text-center text-slate-800 dark:text-slate-200">{discussion.voteCount}</span>
+            <button onClick={() => handleVote('down')} disabled={!user || isPending} className={`p-1 rounded ${hasDownvoted ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400'}`}>
                 <IconArrowDown />
             </button>
         </div>
@@ -142,32 +142,44 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
     return (
         <div>
             <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-bold">Discussions</h2>
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Discussions</h2>
                 <Link href="/community/new" className="bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                     New Post
                 </Link>
             </div>
-            <div className="bg-white rounded-lg shadow-md border border-slate-200">
-                <ul className="divide-y divide-slate-200">
+            {discussions.length === 0 ? (
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center">
+                    <IconMessageCircle className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
+                    <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-1">No discussions yet</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Be the first to start a conversation!</p>
+                    <Link href="/community/new" className="inline-block bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                        Start a Discussion
+                    </Link>
+                </div>
+            ) : (
+            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-800">
+                <ul className="divide-y divide-slate-200 dark:divide-slate-800">
                     {discussions.map(post => (
-                        <li key={post.id} className="p-4 flex gap-4 items-center">
-                            <VoteButtons discussion={post} onVote={(voteType) => handleVoteOptimistic(post.id, voteType)} />
-                            <div className="flex-grow">
+                        <li key={post.id} className="p-4 flex gap-3 sm:gap-4 items-start sm:items-center">
+                            <div className="flex-shrink-0">
+                                <VoteButtons discussion={post} onVote={(voteType) => handleVoteOptimistic(post.id, voteType)} />
+                            </div>
+                            <div className="flex-grow min-w-0">
                                 <Link href={`/community/${post.id}`} className="block">
-                                    <h3 className="text-lg font-semibold text-slate-800 hover:text-indigo-600">{post.title}</h3>
+                                    <h3 className="text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors truncate">{post.title}</h3>
                                 </Link>
-                                <div className="flex justify-between items-center mt-1">
-                                    <p className="text-sm text-slate-500">
+                                <div className="flex flex-wrap justify-between items-center mt-1 gap-1">
+                                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                                         Posted by {post.authorName} • {new Date(post.createdAt).toLocaleDateString()}
                                     </p>
-                                    <div className="flex items-center gap-2 text-slate-500 text-sm">
-                                        <IconMessageCircle className="w-5 h-5" />
+                                    <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs sm:text-sm">
+                                        <IconMessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                                         <span>{post.replyCount}</span>
                                     </div>
                                 </div>
                             </div>
                             {user && user.uid === post.authorId && (
-                                <button onClick={() => handleDeletePost(post.id)} className="text-slate-400 hover:text-red-600 p-1 rounded-full flex-shrink-0">
+                                <button onClick={() => handleDeletePost(post.id)} className="text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 p-1 rounded-full flex-shrink-0 transition-colors">
                                     <IconTrash />
                                 </button>
                             )}
@@ -175,6 +187,7 @@ export const DiscussionList = ({ initialDiscussions }: { initialDiscussions: Dis
                     ))}
                 </ul>
             </div>
+            )}
         </div>
     );
 };

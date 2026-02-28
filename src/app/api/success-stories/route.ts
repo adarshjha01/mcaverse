@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
         const body = await req.json();
         // Extract the data from our new Premium Form
-        const { name, title, quote, rating, userId, photoURL } = body;
+        const { name, title, quote, rating, userId, photoURL, batch } = body;
 
         if (!name || !title || !quote) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -26,23 +26,27 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
+        const storyRating = rating || 5;
+        // Auto-approve stories with rating 4 or above as success stories/testimonials
+        const isAutoApproved = storyRating >= 4;
+
         const newStory = {
             name,
             title, // e.g., "NIT Trichy '26"
             content: quote, // Maps the form's 'quote' to the DB's 'content'
             imageUrl: photoURL || null, // Maps the form's 'photoURL' to the DB's 'imageUrl'
-            batch: new Date().getFullYear().toString(), 
-            rating: rating || 5,
+            batch: batch || new Date().getFullYear().toString(), 
+            rating: storyRating,
             userId: requesterUid,
             likeCount: 0,
             likes: [],
-            isApproved: false, // Require moderation before showing publicly
+            isApproved: isAutoApproved, // Auto-approve 4+ star ratings
             createdAt: Timestamp.now(),
         };
 
         const docRef = await db.collection("success-stories").add(newStory);
 
-        return NextResponse.json({ success: true, id: docRef.id });
+        return NextResponse.json({ success: true, id: docRef.id, isApproved: isAutoApproved });
     } catch (error) {
         console.error("Error adding success story:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

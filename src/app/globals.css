@@ -144,6 +144,11 @@
   }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* 4. The Global Auto-Inversion Fix */
 /* Catches hardcoded standard colors and automatically maps them to dark-mode equivalents */
 .dark {

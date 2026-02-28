@@ -99,20 +99,20 @@ export const ReplySection = ({
       {/* 1. We pass defaultValue={[post.id]} to force the thread OPEN by default */}
       <CommentThread type="multiple" defaultValue={[post.id]} className="w-full">
         
-        <Comment value={post.id} className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+        <Comment value={post.id} className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
           
           {/* Main Post Content */}
           <CommentHeader>
             <CommentAvatar name={post.authorName} color="bg-indigo-600" />
             <div className="w-full">
-              <h1 className="text-2xl font-bold text-slate-800 mb-2">{post.title}</h1>
+              <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">{post.title}</h1>
               <div className="flex items-center gap-2 mb-4">
-                <p className="text-sm font-semibold text-slate-700">{post.authorName}</p>
-                <span className="text-xs text-slate-500">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{post.authorName}</p>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
                   {new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                 </span>
               </div>
-              <CommentBody className="text-slate-700 text-base leading-relaxed whitespace-pre-line mb-4">
+              <CommentBody className="text-slate-700 dark:text-slate-300 text-base leading-relaxed whitespace-pre-line mb-4">
                 {post.content}
               </CommentBody>
             </div>
@@ -120,13 +120,13 @@ export const ReplySection = ({
 
           {/* 2. The Toggle Button (Crucial for the animation and showing replies!) */}
           <div className="ml-12 mt-2">
-            <CommentToggle className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+            <CommentToggle className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
               {replies.length} {replies.length === 1 ? "Reply" : "Replies"}
             </CommentToggle>
           </div>
 
           {/* 3. The Nested Replies */}
-          <CommentReplies className="pl-6 sm:pl-12 mt-4 pt-4 border-t border-slate-100">
+          <CommentReplies className="pl-6 sm:pl-12 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
             {replies.length > 0 ? (
               replies.map((reply) => (
                 <Comment key={reply.id} value={reply.id} className="mb-6 group">
@@ -136,12 +136,12 @@ export const ReplySection = ({
                         <CommentAvatar name={reply.authorName} color="bg-emerald-500" />
                         <div className="w-full">
                           <div className="flex items-center gap-2">
-                            <p className="text-sm font-semibold text-slate-800">{reply.authorName}</p>
-                            <span className="text-xs text-slate-500">
+                            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{reply.authorName}</p>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">
                               {new Date(reply.createdAt).toLocaleDateString()}
                             </span>
                           </div>
-                          <CommentBody className="mt-2 text-slate-700">
+                          <CommentBody className="mt-2 text-slate-700 dark:text-slate-300">
                             {reply.content}
                           </CommentBody>
                         </div>
@@ -151,7 +151,7 @@ export const ReplySection = ({
                       {user && user.uid === reply.authorId && (
                         <button 
                           onClick={() => handleDeleteReply(reply.id)} 
-                          className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-600 p-2 rounded-full flex-shrink-0"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 p-2 rounded-full flex-shrink-0"
                           title="Delete Reply"
                         >
                           <IconTrash />
@@ -162,7 +162,7 @@ export const ReplySection = ({
                 </Comment>
               ))
             ) : (
-              <p className="text-slate-500 italic text-sm mt-2">No replies yet. Be the first to help out!</p>
+              <p className="text-slate-500 dark:text-slate-400 italic text-sm mt-2">No replies yet. Be the first to help out!</p>
             )}
           </CommentReplies>
         </Comment>
@@ -171,15 +171,15 @@ export const ReplySection = ({
       {/* 4. The Reply Form */}
       <div className="mt-8">
         {user ? (
-          <form onSubmit={handleSubmitReply} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <h3 className="text-lg font-semibold mb-4 text-slate-800">Leave a Reply</h3>
+          <form onSubmit={handleSubmitReply} className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h3 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">Leave a Reply</h3>
             <textarea
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               rows={4}
               placeholder="Write your comment..."
               required
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none text-slate-800 placeholder-slate-400 transition-all"
+              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all"
             />
             <div className="flex justify-end mt-4">
               <button
@@ -192,9 +192,9 @@ export const ReplySection = ({
             </div>
           </form>
         ) : (
-          <div className="text-center p-8 bg-white rounded-2xl border border-slate-200 shadow-sm">
-            <p className="font-medium text-slate-700">
-              Please <Link href="/login" className="text-indigo-600 font-semibold hover:underline">log in</Link> to post a reply.
+          <div className="text-center p-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <p className="font-medium text-slate-700 dark:text-slate-300">
+              Please <Link href="/login" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">log in</Link> to post a reply.
             </p>
           </div>
         )}
