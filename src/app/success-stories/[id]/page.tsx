@@ -10,18 +10,16 @@ export const dynamic = 'force-dynamic';
 export default async function SuccessStoryPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     
-    // Fetch the specific story from Firebase
     const docRef = db.collection("success-stories").doc(id);
     const doc = await docRef.get();
     
-    // If the story was deleted or doesn't exist, throw a 404
     if (!doc.exists) {
         notFound();
     }
 
     const data = doc.data()!;
     
-    // THE FIX: Safely parse the date! Check for createdAt, then submittedAt, then use a fallback string.
+    // Safely parse the date
     let formattedDate = "Recently";
     if (data.createdAt && typeof data.createdAt.toDate === 'function') {
         formattedDate = data.createdAt.toDate().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -30,79 +28,98 @@ export default async function SuccessStoryPage({ params }: { params: Promise<{ i
     }
 
     const rating = data.rating || 5;
+    const initials = (data.name || 'S').split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
 
     return (
-        <main className="pt-24 sm:pt-32 pb-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden">
-            {/* Background Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
+            {/* Hero accent bar */}
+            <div className="h-1.5 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500" />
 
-            <div className="container mx-auto px-4 max-w-4xl relative z-10">
-                <Link href="/success-stories" className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors mb-8 bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40">
-                    <span className="text-xl leading-none">&larr;</span> Back to all stories
-                </Link>
-
-                <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl relative">
+            <div className="pt-20 sm:pt-24 pb-20 sm:pb-28">
+                <div className="container mx-auto px-4 max-w-3xl">
                     
-                    {/* Massive Quote Watermark */}
-                    <div className="absolute top-6 right-8 sm:top-8 sm:right-12 text-7xl sm:text-9xl font-serif leading-none text-slate-100 dark:text-slate-800/50 select-none pointer-events-none">
-                        &quot;
-                    </div>
+                    {/* Back link */}
+                    <Link 
+                        href="/success-stories" 
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-10 group"
+                    >
+                        <span className="group-hover:-translate-x-0.5 transition-transform">&larr;</span> All Stories
+                    </Link>
 
-                    <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-start relative z-10">
-                        {/* Profile & Rating Section */}
-                        <div className="flex-shrink-0 flex flex-col items-center mx-auto md:mx-0 text-center">
-                            {data.imageUrl ? (
-                                <Image 
-                                    src={data.imageUrl} 
-                                    alt={data.name || "Student"} 
-                                    width={120} 
-                                    height={120} 
-                                    className="rounded-full ring-4 ring-indigo-50 dark:ring-indigo-900/30 object-cover w-24 h-24 sm:w-32 sm:h-32 mb-4" 
-                                />
-                            ) : (
-                                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 border-4 border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-3xl sm:text-4xl mb-4">
-                                    {data.name?.charAt(0) || "S"}
-                                </div>
-                            )}
-                            
-                            {/* Stars Display */}
-                            <div className="flex gap-1 justify-center mb-3">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className={`w-5 h-5 ${i < rating ? "fill-amber-500 text-amber-500" : "fill-slate-200 text-slate-200 dark:fill-slate-800"}`} viewBox="0 0 24 24">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                    </svg>
-                                ))}
+                    {/* Profile card */}
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 mb-10">
+                        {data.imageUrl ? (
+                            <Image 
+                                src={data.imageUrl} 
+                                alt={data.name || "Student"} 
+                                width={96} 
+                                height={96} 
+                                className="rounded-2xl ring-2 ring-slate-200 dark:ring-slate-800 object-cover w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0" 
+                            />
+                        ) : (
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200 dark:border-amber-800/40 flex items-center justify-center text-amber-700 dark:text-amber-400 font-bold text-2xl sm:text-3xl flex-shrink-0">
+                                {initials}
                             </div>
-                            
-                            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-                                Published {formattedDate}
-                            </p>
-                        </div>
-
-                        {/* Story Content Section */}
-                        <div className="flex-grow text-center md:text-left">
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">
+                        )}
+                        
+                        <div className="text-center sm:text-left">
+                            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
                                 {data.name}
                             </h1>
                             
-                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-8">
-                                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 font-bold border border-indigo-100 dark:border-indigo-800/50">
-                                    <IconTrophy className="w-4 h-4" />
+                            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 font-bold text-sm border border-amber-200/60 dark:border-amber-800/30">
+                                    <IconTrophy className="w-3.5 h-3.5" />
                                     {data.title || "Achiever"}
                                 </span>
                                 {data.batch && (
-                                    <span className="text-slate-600 dark:text-slate-400 font-medium bg-slate-100 dark:bg-slate-800/50 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+                                    <span className="text-slate-500 dark:text-slate-400 font-medium text-sm bg-slate-100 dark:bg-slate-800/50 px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700">
                                         Batch of {data.batch}
                                     </span>
                                 )}
                             </div>
 
-                            <div className="prose prose-lg dark:prose-invert prose-slate max-w-none">
-                                <p className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed italic border-l-4 border-indigo-500 pl-4 sm:pl-6 py-2 bg-slate-50/50 dark:bg-slate-900/50 rounded-r-2xl shadow-sm">
-                                    &quot;{data.content}&quot;
-                                </p>
+                            <div className="flex items-center gap-2 justify-center sm:justify-start">
+                                <div className="flex gap-0.5">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className={`w-4 h-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200 dark:fill-slate-700 dark:text-slate-700"}`} viewBox="0 0 24 24">
+                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <span className="text-xs text-slate-400 dark:text-slate-500">&middot;</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{formattedDate}</span>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-slate-200 dark:bg-slate-800 mb-10" />
+
+                    {/* Story content */}
+                    <article className="relative">
+                        {/* Opening quote mark */}
+                        <span className="absolute -top-6 -left-2 sm:-left-4 text-6xl sm:text-8xl font-serif text-slate-200 dark:text-slate-800 select-none pointer-events-none leading-none">&ldquo;</span>
+                        
+                        <blockquote className="relative z-10 pl-4 sm:pl-6">
+                            <p className="text-lg sm:text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed sm:leading-relaxed font-medium whitespace-pre-line">
+                                {data.content}
+                            </p>
+                        </blockquote>
+
+                        {/* Closing quote mark */}
+                        <span className="block text-right text-6xl sm:text-8xl font-serif text-slate-200 dark:text-slate-800 select-none pointer-events-none leading-none -mt-6">&rdquo;</span>
+                    </article>
+
+                    {/* Footer CTA */}
+                    <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Inspired by this story?</p>
+                        <Link 
+                            href="/success-stories" 
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors shadow-sm"
+                        >
+                            Read More Stories &rarr;
+                        </Link>
                     </div>
                 </div>
             </div>

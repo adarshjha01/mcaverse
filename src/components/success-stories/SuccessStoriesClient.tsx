@@ -26,7 +26,7 @@ export const SuccessStoriesClient = ({ initialStories }: { initialStories: Story
     };
 
     return (
-        <div className="grid lg:grid-cols-3 gap-12 items-start">
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
             {/* On mobile: Form shows FIRST so users don't have to scroll past all stories */}
             <div className="lg:col-span-1 lg:order-2 lg:sticky lg:top-24">
                 <ShareJourneyForm onStoryAdded={handleStoryAdded} />

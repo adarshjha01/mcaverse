@@ -101,8 +101,8 @@ export const SubjectPerformance = () => {
     
     return (
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-24 transition-colors">
-            <h2 className="text-xl font-bold mb-2 text-slate-800 dark:text-white text-center">Overall Accuracy</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-6">Your win-rate across all mock tests</p>
+            <h2 className="text-lg font-bold mb-1 text-slate-800 dark:text-white text-center">Overall Accuracy</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 text-center mb-6">Your performance across all mock tests</p>
 
             <div className="h-[220px] w-full mb-8 relative flex items-center justify-center">
                 {hasHistoryData ? (

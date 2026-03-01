@@ -32,14 +32,14 @@ export const RoadToNIT = () => {
   const mahRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
-        <h3 className="text-center text-xs sm:text-sm font-bold tracking-widest text-slate-400 uppercase mb-4 sm:mb-8">
+    <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
+        <h3 className="text-center text-[10px] sm:text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3 sm:mb-6">
             The Bridge to Your Dream Placement
         </h3>
 
         {/* 3. The Main Container — responsive height */}
         <div
-          className="relative flex h-[280px] sm:h-[350px] md:h-[400px] w-full items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 p-4 sm:p-6 md:p-8 shadow-sm backdrop-blur-sm"
+          className="relative flex h-[260px] sm:h-[320px] md:h-[380px] w-full items-center justify-center overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 p-3 sm:p-5 md:p-8 backdrop-blur-sm"
           ref={containerRef}
         >
           <div className="flex h-full w-full flex-row items-stretch justify-between gap-2 sm:gap-6 md:gap-10">
@@ -65,7 +65,7 @@ export const RoadToNIT = () => {
                     alt="MCAverse Engine" 
                     width={90} 
                     height={90} 
-                    className="rounded-full animate-pulse w-12 h-12 sm:w-16 sm:h-16 md:w-[90px] md:h-[90px]" 
+                    className="rounded-full w-12 h-12 sm:w-16 sm:h-16 md:w-[90px] md:h-[90px]" 
                 />
               </Circle>
               <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">

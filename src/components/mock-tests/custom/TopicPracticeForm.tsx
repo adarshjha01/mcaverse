@@ -229,7 +229,7 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
                     <button 
                         onClick={handleStartTest}
                         disabled={isLoading}
-                        className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-200/50 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+                        className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-200/50 dark:shadow-none transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]"
                     >
                         {isLoading ? (
                              <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
