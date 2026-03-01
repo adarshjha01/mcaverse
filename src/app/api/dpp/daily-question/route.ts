@@ -1,47 +1,57 @@
 // src/app/api/dpp/daily-question/route.ts
 //
-// OPTIMIZED: Uses serial numbers to fetch today's question in just 2 Firestore reads:
-//   1. Read metadata/dppStats → get totalEligibleCount
-//   2. Query questions where dppSerialNumber == (daySeed % totalCount) → 1 doc
-// Previously this read the ENTIRE questions collection (hundreds/thousands of reads).
+// SIMPLE ID-BASED LOGIC — Minimal Firestore reads:
+//   - Questions are stored with IDs: M01, M02, M03, …
+//   - Each day maps to the next ID (Day 1 → M01, Day 2 → M02, …).
+//   - Only 1 Firestore read for the question (direct doc fetch by ID).
+//   - +2 reads for logged-in users (user doc + dailySolves doc).
 //
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
+// Anchor date: Day 1 of DPP. M01 is served on this date.
+// Adjust this to the date your first question (M01) goes live.
+const DPP_START_DATE = '2025-06-01';
+
+const TOTAL_QUESTIONS = 500;
+
+function getTodayQuestionId(): { questionId: string; dayNumber: number } {
+    const start = new Date(DPP_START_DATE + 'T00:00:00Z');
+    const now = new Date();
+    // Use UTC so the day flips at the same instant for all users
+    const startDay = Math.floor(start.getTime() / (1000 * 60 * 60 * 24));
+    const todayDay = Math.floor(now.getTime() / (1000 * 60 * 60 * 24));
+    const rawDay = Math.max(1, todayDay - startDay + 1); // 1-indexed
+
+    // Wrap around using mod so it cycles M01→M500→M01…
+    const dayNumber = ((rawDay - 1) % TOTAL_QUESTIONS) + 1;
+
+    // Format: M01, M02, … M500
+    const questionId = `M${String(dayNumber).padStart(2, '0')}`;
+    return { questionId, dayNumber };
+}
+
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get('userId');
 
-        // --- READ 1: Get question count from metadata ---
-        const statsDoc = await db.collection('metadata').doc('dppStats').get();
-        if (!statsDoc.exists) {
-            return NextResponse.json({ error: "DPP not seeded. Run seedDailyQuestions script." }, { status: 500 });
-        }
-        const totalCount = statsDoc.data()!.totalEligibleCount as number;
-        if (totalCount === 0) {
-            return NextResponse.json({ error: "No questions available." }, { status: 404 });
-        }
+        const { questionId, dayNumber } = getTodayQuestionId();
 
-        // Deterministic daily index based on date
-        const today = new Date();
-        const seed = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
-        const dailyIndex = seed % totalCount;
+        // --- READ 1: Fetch the question directly by document ID ---
+        const questionDoc = await db.collection('questions').doc(questionId).get();
 
-        // --- READ 2: Fetch the single question by serial number ---
-        const questionSnap = await db.collection('questions')
-            .where('dppSerialNumber', '==', dailyIndex)
-            .limit(1)
-            .get();
-
-        if (questionSnap.empty) {
-            return NextResponse.json({ error: "Daily question not found for today's index." }, { status: 404 });
+        if (!questionDoc.exists) {
+            return NextResponse.json({
+                error: `Today's question (${questionId}) has not been uploaded yet.`,
+                questionId,
+                dayNumber,
+            }, { status: 404 });
         }
 
-        const doc = questionSnap.docs[0];
-        const questionData = { id: doc.id, ...doc.data() } as {
+        const questionData = { id: questionDoc.id, ...questionDoc.data() } as {
             id: string;
             correct_answers?: number[];
             dppSerialNumber?: number;
@@ -54,9 +64,10 @@ export async function GET(request: Request) {
         let attempts = 0;
 
         if (userId) {
-            // --- READ 3-4 (only for logged-in users): user doc + dailySolves doc ---
-            const userRef = db.collection('users').doc(userId);
+            // --- READ 2-3 (only for logged-in users): user doc + dailySolves doc ---
+            const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
+            const userRef = db.collection('users').doc(userId);
 
             const [userSnap, solveSnap] = await Promise.all([
                 userRef.get(),
@@ -67,7 +78,6 @@ export async function GET(request: Request) {
                 const solveData = solveSnap.data()!;
                 wasCorrect = solveData.isCorrect || false;
                 attempts = solveData.attempts || 0;
-                // Only mark as "solved" (locked) if the user got it correct
                 hasSolved = wasCorrect;
             }
             userStreak = userSnap.data()?.streakCount || 0;
@@ -78,6 +88,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json({
             question: safeQuestion,
+            questionId,
+            dayNumber,
             hasSolved,
             wasCorrect,
             streak: userStreak,

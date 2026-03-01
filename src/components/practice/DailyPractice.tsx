@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { IconFlame, IconCheck, IconX } from '@/components/ui/Icons';
 import { LatexText } from '@/components/ui/LatexText';
+import { ReportBugModal, ReportBugButton } from '@/components/mock-tests/ReportBugModal';
 import Link from 'next/link';
 import confetti from 'canvas-confetti';
 
@@ -23,12 +24,14 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
     const [wasCorrect, setWasCorrect] = useState(false);
     const [streak, setStreak] = useState(0);
     const [attempts, setAttempts] = useState(0);
+    const [dayNumber, setDayNumber] = useState(0);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [wrongOptions, setWrongOptions] = useState<Set<number>>(new Set());
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | 'retry', message: string } | null>(null);
     const [loading, setLoading] = useState(true);
     const [shakeOption, setShakeOption] = useState<number | null>(null);
+    const [reportBugOpen, setReportBugOpen] = useState(false);
 
     const fetchDaily = useCallback(async () => {
         const userIdParam = user ? `?userId=${user.uid}` : '';
@@ -46,6 +49,7 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
                 setWasCorrect(data.wasCorrect);
                 setStreak(data.streak);
                 setAttempts(data.attempts || 0);
+                setDayNumber(data.dayNumber || 0);
             }
         } catch (err) {
             console.error("Failed to load Daily Quest", err);
@@ -172,15 +176,29 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
     // Main question UI
     return (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-colors">
+            {/* Report Bug Modal */}
+            {question && user && (
+                <ReportBugModal
+                    isOpen={reportBugOpen}
+                    onClose={() => setReportBugOpen(false)}
+                    questionId={question.id}
+                    questionNumber={dayNumber}
+                    testId="dpp"
+                    getToken={() => user.getIdToken()}
+                />
+            )}
+
             {/* Header bar */}
             <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-700 dark:to-indigo-800 px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                     <span className="text-xl">⚔️</span>
                     <div>
                         <h2 className="font-bold text-white text-base">Daily Quest</h2>
-                        {question?.subject && (
-                            <p className="text-indigo-200 text-xs mt-0.5">{question.subject}{question.difficulty ? ` • ${question.difficulty}` : ''}</p>
-                        )}
+                        <p className="text-indigo-200 text-xs mt-0.5">
+                            {question?.id || '—'}
+                            {question?.subject ? ` • ${question.subject}` : ''}
+                            {question?.difficulty ? ` • ${question.difficulty}` : ''}
+                        </p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -200,6 +218,16 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
 
             {question ? (
                 <div className="p-6 sm:p-8">
+                    {/* Question ID + Report */}
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            {question.id} — Day {dayNumber}
+                        </span>
+                        {user && (
+                            <ReportBugButton onClick={() => setReportBugOpen(true)} />
+                        )}
+                    </div>
+
                     {/* Question text */}
                     <div className="text-slate-800 dark:text-slate-200 font-medium text-lg mb-8 leading-relaxed">
                         <LatexText text={question.question_text} />

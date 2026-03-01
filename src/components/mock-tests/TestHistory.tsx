@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import Link from 'next/link';
-import { IconBarChart, IconRefreshCw } from '@/components/ui/Icons';
+import { IconBarChart, IconRefreshCw, IconClock } from '@/components/ui/Icons';
 
 type TestResult = {
     id: string;
@@ -45,43 +45,117 @@ export const TestHistory = () => {
     }, [user]);
 
     if (loading) {
-        return <div className="text-center">Loading test history...</div>;
+        return (
+            <div className="space-y-4">
+                {[1, 2, 3].map(i => (
+                    <div key={i} className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 animate-pulse">
+                        <div className="flex justify-between mb-4">
+                            <div className="space-y-2">
+                                <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-48" />
+                                <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-32" />
+                            </div>
+                            <div className="h-10 w-16 bg-slate-200 dark:bg-slate-700 rounded-lg" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-3 mb-4">
+                            {[1, 2, 3].map(j => <div key={j} className="h-16 bg-slate-100 dark:bg-slate-800 rounded-xl" />)}
+                        </div>
+                        <div className="flex gap-3">
+                            <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded-xl flex-1" />
+                            <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded-xl flex-1" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4">
             {results.length > 0 ? (
-                results.map(result => (
-                    <div key={result.id} className="bg-white p-6 rounded-lg border border-slate-200 shadow-md">
-                        <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 className="text-xl font-bold">{result.title}</h3>
-                                <p className="text-sm text-slate-500">
-                                    {new Date(result.submittedAt).toLocaleDateString()}
-                                </p>
+                results.map((result, index) => {
+                    const accuracy = result.totalAttempted > 0
+                        ? Math.round((result.correctCount / result.totalAttempted) * 100)
+                        : 0;
+                    
+                    return (
+                        <div key={result.id} className="group bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all duration-300">
+                            {/* Header */}
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+                                <div className="flex items-start gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm shrink-0 border border-indigo-100 dark:border-indigo-800">
+                                        #{index + 1}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{result.title}</h3>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <IconClock className="w-3.5 h-3.5 text-slate-400" />
+                                            <p className="text-xs text-slate-500 dark:text-slate-400">
+                                                {new Date(result.submittedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="text-right bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-100 dark:border-slate-700">
+                                        <p className="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400">{result.score}</p>
+                                        <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Score</p>
+                                    </div>
+                                    <div className="text-right bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-100 dark:border-slate-700">
+                                        <p className={`text-xl sm:text-2xl font-bold ${accuracy >= 70 ? 'text-emerald-600 dark:text-emerald-400' : accuracy >= 40 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500 dark:text-red-400'}`}>{accuracy}%</p>
+                                        <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Accuracy</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="text-right">
-                                <p className="text-3xl font-bold text-green-600">{result.score}</p>
-                                <p className="text-sm text-slate-500">Score</p>
+                            
+                            {/* Stats */}
+                            <div className="grid grid-cols-3 gap-3 mb-5">
+                                <div className="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl text-center border border-slate-100 dark:border-slate-700/50">
+                                    <p className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200">{result.totalAttempted}</p>
+                                    <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Attempted</p>
+                                </div>
+                                <div className="bg-emerald-50 dark:bg-emerald-900/10 p-3 rounded-xl text-center border border-emerald-100 dark:border-emerald-800/30">
+                                    <p className="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">{result.correctCount}</p>
+                                    <p className="text-[10px] sm:text-xs text-emerald-600/80 dark:text-emerald-400/80 mt-0.5 font-medium">Correct</p>
+                                </div>
+                                <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-xl text-center border border-red-100 dark:border-red-800/30">
+                                    <p className="text-lg sm:text-xl font-bold text-red-500 dark:text-red-400">{result.incorrectCount}</p>
+                                    <p className="text-[10px] sm:text-xs text-red-500/80 dark:text-red-400/80 mt-0.5 font-medium">Incorrect</p>
+                                </div>
+                            </div>
+                            
+                            {/* Accuracy bar */}
+                            <div className="mb-5">
+                                <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full transition-all duration-700 ease-out ${accuracy >= 70 ? 'bg-emerald-500' : accuracy >= 40 ? 'bg-amber-500' : 'bg-red-500'}`}
+                                        style={{ width: `${accuracy}%` }}
+                                    />
+                                </div>
+                            </div>
+                            
+                            {/* Actions */}
+                            <div className="flex gap-3">
+                                <Link href={`/mock-tests/take/${result.testId}/results/${result.id}`} className="flex-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700 shadow-sm text-sm">
+                                    <IconBarChart className="w-4 h-4" /> Analysis
+                                </Link>
+                                <Link href={`/mock-tests/take/${result.testId}`} className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm text-sm">
+                                    <IconRefreshCw className="w-4 h-4" /> Retake
+                                </Link>
                             </div>
                         </div>
-                        <div className="grid grid-cols-3 text-center mb-4">
-                            <div><p className="text-2xl font-semibold">{result.totalAttempted}</p><p className="text-xs text-slate-500">Attempted</p></div>
-                            <div><p className="text-2xl font-semibold text-green-600">{result.correctCount}</p><p className="text-xs text-slate-500">Correct</p></div>
-                            <div><p className="text-2xl font-semibold text-red-500">{result.incorrectCount}</p><p className="text-xs text-slate-500">Incorrect</p></div>
-                        </div>
-                        <div className="flex gap-4">
-                            <Link href={`/mock-tests/take/${result.testId}/results/${result.id}`} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 border border-slate-300">
-                                <IconBarChart /> Detailed Analysis
-                            </Link>
-                            <Link href={`/mock-tests/take/${result.testId}`} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 border border-slate-300">
-                                <IconRefreshCw /> Retake Test
-                            </Link>
-                        </div>
-                    </div>
-                ))
+                    );
+                })
             ) : (
-                <p className="text-slate-500 text-center">You have not attempted any tests yet.</p>
+                <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                        <IconClock className="w-7 h-7 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">No Tests Attempted Yet</h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mb-4 max-w-sm mx-auto">Your test history will appear here once you complete a mock test.</p>
+                    <Link href="/mock-tests" className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition-colors shadow-sm">
+                        Start a Mock Test
+                    </Link>
+                </div>
             )}
         </div>
     );

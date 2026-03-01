@@ -9,52 +9,57 @@ export const JourneyTimeline = () => {
     ];
 
     return (
-        <section className="py-12 sm:py-16 lg:py-20 transition-colors duration-300">
+        <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
             <div className="container mx-auto px-4">
-                <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10 sm:mb-16 text-slate-900 dark:text-slate-100">Journey Timeline</h2>
+                <div className="text-center mb-10 sm:mb-14">
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mb-2">The Journey</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">From self-study to building MCAverse</p>
+                </div>
 
-                {/* Mobile: simple vertical timeline */}
-                <div className="md:hidden relative max-w-md mx-auto">
-                    <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700"></div>
-                    <div className="space-y-6">
+                {/* Unified timeline — works on all screens */}
+                <div className="relative max-w-2xl mx-auto">
+                    {/* Vertical line */}
+                    <div className="absolute left-[22px] sm:left-1/2 sm:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-300 via-cyan-300 to-emerald-300 dark:from-teal-800 dark:via-cyan-800 dark:to-emerald-800" />
+
+                    <div className="space-y-8 sm:space-y-10">
                         {timelineEvents.map((event, index) => (
-                            <div key={index} className="relative flex items-start gap-4 pl-12">
-                                <div className="absolute left-0 top-0 z-10 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 rounded-full h-10 w-10 flex items-center justify-center shadow-lg text-sm font-bold">
-                                    {event.year.slice(-2)}
+                            <div key={index} className="relative flex items-start sm:items-center">
+                                {/* Desktop: alternating layout */}
+                                <div className={`hidden sm:flex w-full items-center ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                                    {/* Content side */}
+                                    <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+                                        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-teal-300 dark:hover:border-teal-800/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                            <p className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider mb-1">{event.year}</p>
+                                            <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{event.title}</h3>
+                                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{event.desc}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Center dot with year */}
+                                    <div className="flex-shrink-0 z-10 w-12 h-12 rounded-full bg-teal-500 dark:bg-teal-600 text-white font-bold text-[11px] flex items-center justify-center shadow-md border-4 border-white dark:border-slate-950">
+                                        {event.year}
+                                    </div>
+
+                                    {/* Spacer side */}
+                                    <div className="w-5/12" />
                                 </div>
-                                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-1">
-                                    <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1">{event.year}</p>
-                                    <h3 className="font-bold text-base text-slate-900 dark:text-slate-100 mb-1">{event.title}</h3>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400">{event.desc}</p>
+
+                                {/* Mobile layout */}
+                                <div className="flex sm:hidden items-start gap-4 pl-14 w-full">
+                                    {/* Dot with year */}
+                                    <div className="absolute left-0 top-0 z-10 w-12 h-12 rounded-full bg-teal-500 dark:bg-teal-600 text-white font-bold text-[11px] flex items-center justify-center shadow-md border-4 border-white dark:border-slate-950">
+                                        {event.year}
+                                    </div>
+                                    {/* Card */}
+                                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex-1 hover:border-teal-300 dark:hover:border-teal-800/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                        <p className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider mb-1">{event.year}</p>
+                                        <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1">{event.title}</h3>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{event.desc}</p>
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                </div>
-
-                {/* Desktop: alternating zigzag timeline */}
-                <div className="hidden md:block relative max-w-2xl mx-auto">
-                    <div className="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
-                    
-                    {timelineEvents.map((event, index) => (
-                        <div key={index} className="relative mb-10 flex justify-between items-center w-full">
-                            {/* Content — alternates side */}
-                            <div className={`w-5/12 ${index % 2 !== 0 ? 'order-3 text-left pl-8' : 'text-right pr-8'}`}>
-                                <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100">{event.title}</h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{event.desc}</p>
-                            </div>
-                            
-                            {/* Dot and Year */}
-                            <div className="z-10 flex items-center order-2">
-                                <div className="bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 rounded-full h-20 w-20 lg:h-24 lg:w-24 flex flex-col items-center justify-center shadow-xl">
-                                    <span className="font-bold text-lg lg:text-xl">{event.year}</span>
-                                </div>
-                            </div>
-                            
-                            {/* Spacer for the other side */}
-                            <div className={`w-5/12 ${index % 2 !== 0 ? '' : 'order-3'}`}></div>
-                        </div>
-                    ))}
                 </div>
             </div>
         </section>

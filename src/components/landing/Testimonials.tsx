@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
-// The shape of our live database stories
 type Story = {
   id: string;
   name: string;
@@ -15,7 +14,6 @@ type Story = {
   imageUrl?: string | null;
 };
 
-// Fallback data just in case the database is empty
 const fallbackTestimonials: Story[] = [
   { id: "1", content: "The mock tests are exactly like the real NIMCET exam.", name: "Rahul S.", title: "NIT Trichy '26", rating: 5 },
   { id: "2", content: "The accuracy dashboard helped me realize I was rushing logic.", name: "Priya P.", title: "AIR 142", rating: 5 },
@@ -27,84 +25,82 @@ export const Testimonials = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch the live, auto-approved stories from our newly updated API
     const fetchStories = async () => {
       try {
         const res = await fetch("/api/success-stories", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          // Only feature stories with rating above 4 stars
           const featured = data.filter((s: Story) => (s.rating || 0) >= 4);
           setStories(featured.length > 0 ? featured : fallbackTestimonials);
         } else {
           setStories(fallbackTestimonials);
         }
-      } catch (error) {
-        console.error("Failed to fetch live stories", error);
+      } catch {
         setStories(fallbackTestimonials);
       } finally {
         setLoading(false);
       }
     };
-
     fetchStories();
   }, []);
 
-  // Duplicate the array to make the infinite CSS marquee loop seamlessly
   const marqueeItems = [...stories, ...stories];
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950 border-y border-slate-100 dark:border-slate-900 overflow-hidden">
-      <div className="container mx-auto px-4 text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Student Success Stories</h2>
-        
-        {/* The "Share Experience" CTA */}
+    <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-slate-950 overflow-hidden transition-colors duration-300">
+      <div className="container mx-auto px-4 text-center mb-10 sm:mb-14">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-3">Student Success Stories</h2>
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xl mx-auto mb-6">
+          Real stories from students who cracked top MCA entrances with MCAverse.
+        </p>
         <Link 
           href="/success-stories" 
-          className="group relative inline-flex items-center gap-2 px-8 py-3 bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 rounded-full text-indigo-600 dark:text-indigo-400 font-bold hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-indigo-600 dark:text-indigo-400 text-sm font-semibold hover:border-indigo-300 dark:hover:border-indigo-800/50 hover:shadow-md transition-all duration-200 active:scale-[0.97]"
         >
-          Share your journey & get featured
-          <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+          Share your journey &amp; get featured
+          <span>&rarr;</span>
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+        <div className="flex gap-4 px-6 overflow-hidden">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="w-[80vw] sm:w-[340px] flex-shrink-0 bg-slate-100 dark:bg-slate-900 rounded-2xl h-48 animate-pulse" />
+          ))}
         </div>
       ) : (
         <motion.div 
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-          className="flex gap-6 w-max px-6"
+          className="flex gap-4 w-max px-4"
         >
           {marqueeItems.map((story, i) => (
-            <div key={`${story.id}-${i}`} className="w-[85vw] sm:w-[400px] bg-white dark:bg-slate-900 p-5 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
+            <div key={`${story.id}-${i}`} className="w-[80vw] sm:w-[340px] bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-indigo-200 dark:hover:border-indigo-800/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
               
               <div>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, starIdx) => (
-                        <svg key={starIdx} className={`w-5 h-5 ${starIdx < (story.rating || 5) ? "fill-amber-500 text-amber-500" : "fill-slate-200 text-slate-200 dark:fill-slate-800"}`} viewBox="0 0 24 24">
-                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                    ))}
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic text-lg mb-6 line-clamp-4">
-                    &quot;{story.content}&quot;
-                  </p>
+                <div className="flex gap-0.5 mb-3">
+                  {[...Array(5)].map((_, starIdx) => (
+                    <svg key={starIdx} className={`w-4 h-4 ${starIdx < (story.rating || 5) ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200 dark:fill-slate-800"}`} viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed italic mb-4 line-clamp-3">
+                  &quot;{story.content}&quot;
+                </p>
               </div>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 {story.imageUrl ? (
-                    <Image src={story.imageUrl} alt={story.name} width={48} height={48} className="rounded-full w-12 h-12 object-cover border-2 border-indigo-100 dark:border-indigo-900" />
+                  <Image src={story.imageUrl} alt={story.name} width={40} height={40} className="rounded-full w-10 h-10 object-cover border-2 border-indigo-100 dark:border-indigo-900" />
                 ) : (
-                    <div className="h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold border-2 border-indigo-200 dark:border-indigo-800">
-                        {story.name.charAt(0)}
-                    </div>
+                  <div className="h-10 w-10 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-sm font-bold border border-indigo-200/50 dark:border-indigo-800/30">
+                    {story.name.charAt(0)}
+                  </div>
                 )}
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white">{story.name}</h4>
-                  <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">{story.title}</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">{story.name}</h4>
+                  <p className="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium">{story.title}</p>
                 </div>
               </div>
 

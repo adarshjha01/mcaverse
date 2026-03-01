@@ -29,7 +29,7 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
     
     const [formData, setFormData] = useState({
         name: user?.displayName || "",
-        title: "", // e.g., "NIT Trichy '26" or "AIR 142"
+        title: "",
         quote: "",
         rating: 5,
         batch: "",
@@ -44,7 +44,6 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
 
         try {
             const token = await user?.getIdToken();
-            // Assuming you have this standard API route set up
             const res = await fetch("/api/success-stories", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
@@ -58,7 +57,6 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
             if (res.ok) {
                 const data = await res.json();
                 setSuccess(true);
-                // Optimistically add the story to the list if it was auto-approved (rating >= 4)
                 if (data.isApproved && onStoryAdded) {
                     onStoryAdded({
                         id: data.id,
@@ -85,23 +83,19 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
     };
 
     return (
-        <div className="w-full max-w-2xl mx-auto relative">
-            
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 blur-3xl rounded-[3rem] -z-10"></div>
-
+        <div className="w-full max-w-2xl mx-auto">
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm"
             >
-                <div className="mb-8 text-center">
-                    <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
-                        Share Your Success
+                <div className="mb-6">
+                    <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-1">
+                        Share Your Story
                     </h2>
-                    <p className="text-slate-600 dark:text-slate-400">
-                        Inspire the next generation of MCA aspirants by sharing your journey.
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Inspire the next generation of MCA aspirants.
                     </p>
                 </div>
 
@@ -109,27 +103,29 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
                     {success ? (
                         <motion.div 
                             key="success"
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="flex flex-col items-center justify-center py-12 text-center"
+                            className="flex flex-col items-center justify-center py-10 text-center"
                         >
-                            <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
-                                <IconTrophy className="w-10 h-10 text-green-600 dark:text-green-400" />
+                            <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center mb-5 border border-emerald-200/50 dark:border-emerald-800/30">
+                                <svg className="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                            You&apos;re a Legend!
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                Story Submitted!
                             </h3>
-                            <p className="text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
                                 {formData.rating >= 4 
-                                    ? "Thank you for sharing your journey! Your story has been published and will be featured on our Success Stories page and testimonials."
-                                    : "Thank you for your feedback! Your response has been recorded and is under review."
+                                    ? "Your story has been published! It will appear on the page shortly."
+                                    : "Thank you for your feedback. Your response is under review."
                                 }
                             </p>
                             <button 
-                                onClick={() => setSuccess(false)}
-                                className="mt-8 text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
+                                onClick={() => { setSuccess(false); setFormData({ name: user?.displayName || "", title: "", quote: "", rating: 5, batch: "" }); }}
+                                className="mt-6 text-sm text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
                             >
-                                Submit another response
+                                Submit another
                             </button>
                         </motion.div>
                     ) : (
@@ -137,98 +133,97 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
                             key="form"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
+                            exit={{ opacity: 0 }}
                             onSubmit={handleSubmit} 
-                            className="space-y-6"
+                            className="space-y-5"
                         >
-                            {/* Interactive 5-Star Rating */}
-                            <div className="flex flex-col items-center mb-8">
-                                <label className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">
+                            {/* Star Rating */}
+                            <div className="flex flex-col items-center py-2">
+                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
                                     Rate your experience
                                 </label>
-
-                                <div className="flex gap-2">
+                                <div className="flex gap-1.5">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <button
                                             key={star}
                                             type="button"
                                             onClick={() => setFormData({ ...formData, rating: star })}
-                                            className={`transition-all hover:scale-110 ${formData.rating >= star ? "text-amber-500" : "text-slate-300 dark:text-slate-700"}`}
+                                            className={`transition-all hover:scale-110 active:scale-95 ${formData.rating >= star ? "text-amber-400" : "text-slate-200 dark:text-slate-700"}`}
                                         >
-                                            <svg className="w-10 h-10 fill-current" viewBox="0 0 24 24">
+                                            <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
                                                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                             </svg>
                                         </button>
                                     ))}
                                 </div>
-                                <p className="text-sm font-semibold mt-1 text-slate-500 dark:text-slate-400">
+                                <p className="text-xs font-medium mt-1 text-slate-400 dark:text-slate-500">
                                     {ratingLabels[formData.rating]}
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Name Input */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {/* Name */}
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Full Name</label>
                                     <div className="relative group">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <IconUserCircle className="w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                            <IconUserCircle className="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                         </div>
                                         <input
                                             type="text"
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                             placeholder="Rahul Sharma"
                                         />
                                     </div>
                                 </div>
 
-                                {/* Title/College Input */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Placement / Rank</label>
+                                {/* Title */}
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Placement / Rank</label>
                                     <div className="relative group">
-                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <IconTrophy className="w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                            <IconTrophy className="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                         </div>
                                         <input
                                             type="text"
                                             required
                                             value={formData.title}
                                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                             placeholder="NIT Trichy '26 or AIR 142"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Graduation Year */}
-                                <div className="space-y-2 md:col-span-2">
-                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Graduation Year</label>
+                                <div className="space-y-1.5 sm:col-span-2">
+                                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Graduation Year</label>
                                     <input
                                         type="number"
                                         min="2000"
                                         max="2040"
                                         value={formData.batch}
                                         onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
-                                        className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100"
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                         placeholder="e.g. 2026"
                                     />
                                 </div>
                             </div>
 
-                            {/* Story Textarea */}
-                            <div className="space-y-2">
+                            {/* Story */}
+                            <div className="space-y-1.5">
                                 <div className="flex items-center justify-between">
-                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Your Journey</label>
-                                    <span className={`text-xs font-medium ${formData.quote.length > maxChars ? 'text-red-500' : formData.quote.length > maxChars * 0.8 ? 'text-amber-500' : 'text-slate-400 dark:text-slate-500'}`}>
+                                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Your Journey</label>
+                                    <span className={`text-[10px] font-medium tabular-nums ${formData.quote.length > maxChars ? 'text-red-500' : formData.quote.length > maxChars * 0.8 ? 'text-amber-500 dark:text-amber-400' : 'text-slate-400 dark:text-slate-500'}`}>
                                         {formData.quote.length}/{maxChars}
                                     </span>
                                 </div>
                                 <div className="relative group">
-                                    <div className="absolute top-3 left-0 pl-4 pointer-events-none">
-                                        <IconFileText className="w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                                    <div className="absolute top-3 left-0 pl-3.5 pointer-events-none">
+                                        <IconFileText className="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                                     </div>
                                     <textarea
                                         required
@@ -236,20 +231,24 @@ export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Stor
                                         maxLength={maxChars}
                                         value={formData.quote}
                                         onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
-                                        className="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100 resize-none"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100 resize-none placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                         placeholder="How did MCAverse help you achieve your goals?"
                                     />
                                 </div>
                             </div>
 
-                            {/* Submit Button */}
+                            {/* Submit */}
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full relative overflow-hidden group bg-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-[0_0_20px_-5px_rgba(99,102,241,0.5)] hover:shadow-[0_0_25px_-5px_rgba(99,102,241,0.7)] transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0"
+                                className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm py-3.5 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] shadow-sm"
                             >
-                                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                                {loading ? "Submitting..." : "Publish My Story"}
+                                {loading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+                                        Submitting...
+                                    </span>
+                                ) : "Publish My Story"}
                             </button>
                         </motion.form>
                     )}
