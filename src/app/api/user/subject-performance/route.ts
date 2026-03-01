@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { FieldPath } from 'firebase-admin/firestore';
+import { verifyAuth } from '@/lib/auth-admin';
 
 // Define a type for our question lookup map
 type QuestionData = {
@@ -10,11 +11,20 @@ type QuestionData = {
 };
 
 export async function GET(request: Request) {
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
     if (!userId) {
         return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+
+    if (userId !== requesterUid) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     try {
@@ -41,22 +51,27 @@ export async function GET(request: Request) {
             return NextResponse.json([]);
         }
 
-        // 3. Fetch all relevant questions in a single batch
-        const questionsSnapshot = await db.collection('questions')
-            .where(FieldPath.documentId(), 'in', Array.from(allQuestionIds))
-            .get();
-        
-        // 4. Create a lookup map for question data
+        // 3. Fetch all relevant questions in batches (Firestore 'in' limit is 30)
+        const questionIdArray = Array.from(allQuestionIds);
         const questionDataMap = new Map<string, QuestionData>();
-        questionsSnapshot.forEach(doc => {
-            const data = doc.data();
-            if (data.subject && data.correct_answers && data.correct_answers.length > 0) {
-                questionDataMap.set(doc.id, {
-                    subject: data.subject,
-                    correctAnswer: data.correct_answers[0],
-                });
-            }
-        });
+
+        // Batch in chunks of 30
+        for (let i = 0; i < questionIdArray.length; i += 30) {
+            const batch = questionIdArray.slice(i, i + 30);
+            const questionsSnapshot = await db.collection('questions')
+                .where(FieldPath.documentId(), 'in', batch)
+                .get();
+            
+            questionsSnapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.subject && data.correct_answers && data.correct_answers.length > 0) {
+                    questionDataMap.set(doc.id, {
+                        subject: data.subject,
+                        correctAnswer: data.correct_answers[0],
+                    });
+                }
+            });
+        }
         
         // 5. Calculate stats
         const subjectStats: { [subject: string]: { correct: number; total: number; } } = {};

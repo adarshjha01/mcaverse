@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { IconHeart } from '@/components/ui/Icons';
 
@@ -16,12 +16,18 @@ type Story = {
   imageUrl: string | null;
   likeCount: number;
   likes: string[];
-  userId: string; // <-- NEW: Added to track ownership for the delete button
+  rating: number; // Star rating (1-5)
+  userId: string; // Track ownership for the delete button
 };
 
 export const StoryList = ({ stories }: { stories: Story[] }) => {
     const { user } = useAuth();
     const [optimisticStories, setOptimisticStories] = useState(stories);
+
+    // Sync when parent passes updated stories (e.g. after a new story is added)
+    useEffect(() => {
+        setOptimisticStories(stories);
+    }, [stories]);
 
     const handleLike = async (storyId: string) => {
         if (!user) {
@@ -46,9 +52,10 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
 
         // Call the API route
         try {
+            const token = await user.getIdToken();
             await fetch('/api/stories/like', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ storyId, userId: user.uid }),
             });
         } catch (error) {
@@ -64,7 +71,11 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
         setOptimisticStories(current => current.filter(s => s.id !== storyId));
 
         try {
-            await fetch(`/api/success-stories/${storyId}`, { method: 'DELETE' });
+            const token = await user!.getIdToken();
+            await fetch(`/api/success-stories/${storyId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
         } catch (error) {
             console.error("Failed to delete story:", error);
             alert("Failed to delete story. Please try again.");
@@ -146,9 +157,17 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                                                     </span>
                                                 )}
                                             </div>
+                                            {/* Star Rating Display */}
+                                            <div className="flex gap-0.5 mt-2">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <svg key={i} className={`w-4 h-4 ${i < (story.rating || 5) ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200 dark:fill-slate-700 dark:text-slate-700"}`} viewBox="0 0 24 24">
+                                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                                    </svg>
+                                                ))}
+                                            </div>
                                         </div>
                                         
-                                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic text-lg mb-6">
+                                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic text-lg mb-6 line-clamp-3">
                                             &quot;{story.content}&quot;
                                         </p>
                                     </div>
@@ -158,7 +177,7 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                                 <div className="flex justify-between items-center mt-2 pt-6 border-t border-slate-100 dark:border-slate-800/50 relative z-10">
                                     <Link 
                                         href={`/success-stories/${story.id}`} 
-                                        className="text-sm font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors flex items-center gap-1"
+                                        className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40"
                                     >
                                         Read Full Story <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
                                     </Link>
@@ -193,7 +212,7 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                                             />
                                         </button>
                                         <span className={`text-sm font-bold ${isLikedByCurrentUser ? 'text-red-600 dark:text-red-400' : 'text-slate-600 dark:text-slate-400'}`}>
-                                            {story.likeCount}
+                                            {story.likeCount > 0 ? story.likeCount : ''}
                                         </span>
                                     </div>
                                 </div>
@@ -202,8 +221,12 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                     })
                 ) : (
                     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 text-center">
-                        <p className="text-slate-500 dark:text-slate-400 text-lg">
-                            No success stories have been shared yet. Be the first to inspire others!
+                        <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <IconHeart className="w-8 h-8 text-indigo-400 dark:text-indigo-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">No stories yet</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-base max-w-sm mx-auto">
+                            Be the first to inspire the MCAverse community by sharing your success story!
                         </p>
                     </div>
                 )}

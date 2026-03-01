@@ -34,6 +34,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const pathnameRef = React.useRef(pathname);
+  pathnameRef.current = pathname;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -62,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(currentUser);
         
         // Redirect logic: Only redirect if fully verified
-        if (pathname === '/login') {
+        if (pathnameRef.current === '/login') {
           router.push('/');
         }
       } else {
@@ -71,7 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
     return () => unsubscribe();
-  }, [router, pathname]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const signUp = async (email: string, password: string) => {
     if (!email.endsWith('@gmail.com')) {

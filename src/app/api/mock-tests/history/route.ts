@@ -2,13 +2,23 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { Timestamp } from 'firebase-admin/firestore';
+import { verifyAuth } from '@/lib/auth-admin';
 
 export async function GET(request: Request) {
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
     if (!userId) {
         return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+
+    if (userId !== requesterUid) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     try {
@@ -36,7 +46,7 @@ export async function GET(request: Request) {
                 totalAttempted: attemptData.totalAttempted,
                 correctCount: attemptData.correctCount,
                 incorrectCount: attemptData.incorrectCount,
-                submittedAt: submittedAt.toDate().toISOString(),
+                submittedAt: submittedAt?.toDate ? submittedAt.toDate().toISOString() : new Date().toISOString(),
             };
         }));
 

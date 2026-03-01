@@ -1,7 +1,7 @@
 // src/app/api/admin/generate-nimcet-full/route.ts
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
-import { FieldPath } from 'firebase-admin/firestore';
+import { verifyAuth } from '@/lib/auth-admin';
 
 // --- CONFIGURATION ---
 const TEST_CONFIG = {
@@ -26,7 +26,12 @@ function shuffleArray(array: any[]) {
   return array;
 }
 
-export async function GET() {
+export async function POST() {
+  const requesterUid = await verifyAuth();
+  if (!requesterUid) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const questionsRef = db.collection('questions');
     let allQuestionIds: string[] = [];
@@ -79,10 +84,7 @@ export async function GET() {
       exam: TEST_CONFIG.exam,
       testType: TEST_CONFIG.testType,
       durationInMinutes: TEST_CONFIG.totalDuration,
-      totalMarks: 1000, // Calculated manually: (50*12) + (40*6) + (10*4) + (20*4) = 600 + 240 + 40 + 80 = 960? Wait, NIMCET is 1000. 
-      // NIMCET Marks: Math(50*12=600) + LR(40*6=240) + Computer(10*8=80?) + English(20*4=80). 
-      // Note: Check your Computer marks. You said +4, but usually standard NIMCET computer is higher weighted? 
-      // I will use YOUR provided scheme: +4 for computer. 
+      totalMarks: 960, // (50*12) + (40*6) + (10*4) + (20*4) = 600 + 240 + 40 + 80 = 960
       question_ids: allQuestionIds,
       sections: sectionsMetadata, // <--- New Field for Sectional Logic
       createdAt: new Date(),
@@ -101,6 +103,6 @@ export async function GET() {
 
   } catch (error: any) {
     console.error("Error generating test:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to generate test.' }, { status: 500 });
   }
 }

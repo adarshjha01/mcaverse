@@ -2,12 +2,29 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { verifyAuth } from '@/lib/auth-admin';
 
 export async function POST(request: Request) {
-    const { storyId, userId } = await request.json();
+    const requesterUid = await verifyAuth();
+    if (!requesterUid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    let body;
+    try {
+        body = await request.json();
+    } catch {
+        return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+
+    const { storyId, userId } = body;
 
     if (!userId || !storyId) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    if (userId !== requesterUid) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const storyRef = db.collection('success-stories').doc(storyId);

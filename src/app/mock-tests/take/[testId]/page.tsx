@@ -2,7 +2,9 @@
 import { db } from "@/lib/firebaseAdmin";
 import { notFound } from "next/navigation";
 import { TestInterface } from "@/components/mock-tests/TestInterface";
-import { FieldPath } from 'firebase-admin/firestore';
+
+// THE MAGIC: Import your local database! Cost = $0.00
+import allQuestionsData from '@/db/allQuestions_fixed.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +19,7 @@ type Question = {
 
 type MockTestSection = {
   name: string;
-  duration: number; // in minutes
+  duration: number; 
   questionCount: number;
 };
 
@@ -26,19 +28,12 @@ type MockTest = {
   title: string;
   durationInMinutes: number;
   question_ids: string[];
-  sections?: MockTestSection[]; // <--- Added this field
+  sections?: MockTestSection[];
 };
-
-function chunkArray<T>(array: T[], size: number): T[][] {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunks.push(array.slice(i, i + size));
-  }
-  return chunks;
-}
 
 async function getTestDetails(testId: string): Promise<{ test: MockTest; questions: Question[] }> {
   try {
+    // 1. FETCH TEST METADATA FROM FIREBASE (Costs exactly 1 Read)
     const testDocRef = db.collection('mockTests').doc(testId);
     const testDocSnap = await testDocRef.get();
 
@@ -49,47 +44,40 @@ async function getTestDetails(testId: string): Promise<{ test: MockTest; questio
 
     const testData = testDocSnap.data()!;
     
-    // 1. SANITIZE TEST DATA
     const serializableTest: MockTest = {
       id: testDocSnap.id,
       title: testData.title || "Untitled Test",
       durationInMinutes: testData.durationInMinutes || 15,
       question_ids: testData.question_ids || [],
-      sections: testData.sections || [], // <--- Pass sections to UI
+      sections: testData.sections || [], 
     };
 
     if (serializableTest.question_ids.length === 0) {
       return { test: serializableTest, questions: [] };
     }
 
-    // 2. FETCH QUESTIONS IN BATCHES
-    const questionsRef = db.collection('questions');
-    const questionBatches = chunkArray(serializableTest.question_ids, 10);
-    let allFetchedQuestions: Question[] = [];
+    // 2. FETCH QUESTIONS FROM LOCAL JSON (Costs 0 Reads, 100x Faster!)
+    const localDatabase = allQuestionsData as any[];
 
-    for (const batch of questionBatches) {
-      const querySnap = await questionsRef.where(FieldPath.documentId(), 'in', batch).get();
-      
-      const batchQuestions = querySnap.docs.map(doc => {
-        const data = doc.data();
-        // 3. MANUAL SANITIZATION (Prevents timestamp crash)
-        return {
-          id: doc.id,
-          question_text: data.question_text || "",
-          options: data.options || [],
-          correct_answers: data.correct_answers || [],
-          explanation: data.explanation || "",
-          subject: data.subject || "General", // Ensure subject is passed
-        } as Question;
-      });
-      
-      allFetchedQuestions = [...allFetchedQuestions, ...batchQuestions];
-    }
-
-    // 4. SORT QUESTIONS
+    // 3. MAP THE IDS TO LOCAL DATA
     const orderedQuestions = serializableTest.question_ids
-      .map(id => allFetchedQuestions.find(q => q.id === id))
-      .filter((q): q is Question => Boolean(q));
+      .map(id => {
+        // Find the question locally (Checking both ID structures)
+        const q = localDatabase.find(localQ => localQ.question_id === id || localQ.id === id);
+        
+        if (q) {
+          return {
+            id: q.question_id || q.id,
+            question_text: q.question_text || "",
+            options: q.options || [],
+            correct_answers: q.correct_answers || [],
+            explanation: q.explanation || "",
+            subject: q.subject || "General",
+          } as Question;
+        }
+        return null;
+      })
+      .filter((q): q is Question => Boolean(q)); 
 
     return { test: serializableTest, questions: orderedQuestions };
 

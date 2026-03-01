@@ -49,13 +49,14 @@ export const AuthForm = () => {
                 return; // Stay on this view to show message
             }
         } catch (err) {
-            if (err instanceof Error) {
+            if (err instanceof FirebaseError) {
+                 if (err.code === 'auth/email-already-in-use') setError('Email already registered.');
+                 else if (err.code === 'auth/invalid-credential') setError('Invalid email or password.');
+                 else setError(err.message);
+            } else if (err instanceof Error) {
                  setError(err.message);
             } else {
-                 const firebaseError = err as FirebaseError;
-                 if (firebaseError.code === 'auth/email-already-in-use') setError('Email already registered.');
-                 else if (firebaseError.code === 'auth/invalid-credential') setError('Invalid email or password.');
-                 else setError('An error occurred. Please try again.');
+                 setError('An error occurred. Please try again.');
             }
         } finally {
             setLoading(false);
@@ -113,9 +114,9 @@ export const AuthForm = () => {
                 {view !== 'forgot' && (
                     <>
                         <div className="my-6 flex items-center">
-                            <div className="flex-grow border-t border-slate-300"></div>
+                            <div className="grow border-t border-slate-300"></div>
                             <span className="mx-4 text-xs text-slate-500">OR</span>
-                            <div className="flex-grow border-t border-slate-300"></div>
+                            <div className="grow border-t border-slate-300"></div>
                         </div>
                         <button onClick={() => signInWithGoogle().catch(e => setError(e.message))} className="w-full flex justify-center gap-3 bg-white border border-slate-300 py-3 rounded hover:bg-slate-50">
                             <IconGoogle />

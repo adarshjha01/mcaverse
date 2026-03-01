@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
-@source "../";
-@source "../../components";
+@source "../components";
+@source "../lib";
+@source "../app";
 
 /* 1. Correct class-based Dark Mode selector for Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -142,6 +143,46 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+/* KaTeX rendering fixes */
+.latex-content {
+  display: inline;
+  line-height: 1.8;
+}
+
+.latex-content .katex-display {
+  margin: 0.75em 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0.25em 0;
+}
+
+.latex-content .katex {
+  font-size: 1.05em;
+}
+
+.latex-content .katex-html {
+  overflow-y: visible;
+}
+
+/* Ensure KaTeX elements aren't affected by dark mode overrides */
+.katex,
+.katex * {
+  color: inherit !important;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
 
 /* 4. The Global Auto-Inversion Fix */

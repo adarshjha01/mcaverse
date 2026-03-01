@@ -9,7 +9,20 @@ import {
     IconFileText 
 } from "@/components/ui/Icons";
 
-export const ShareJourneyForm = () => {
+type Story = {
+    id: string;
+    name: string;
+    batch: string;
+    title: string;
+    content: string;
+    imageUrl: string | null;
+    likeCount: number;
+    likes: string[];
+    rating: number;
+    userId: string;
+};
+
+export const ShareJourneyForm = ({ onStoryAdded }: { onStoryAdded?: (story: Story) => void }) => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -19,17 +32,22 @@ export const ShareJourneyForm = () => {
         title: "", // e.g., "NIT Trichy '26" or "AIR 142"
         quote: "",
         rating: 5,
+        batch: "",
     });
+
+    const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
+    const maxChars = 500;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
+            const token = await user?.getIdToken();
             // Assuming you have this standard API route set up
             const res = await fetch("/api/success-stories", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
                 body: JSON.stringify({
                     ...formData,
                     userId: user?.uid || "anonymous",
@@ -38,7 +56,23 @@ export const ShareJourneyForm = () => {
             });
 
             if (res.ok) {
+                const data = await res.json();
                 setSuccess(true);
+                // Optimistically add the story to the list if it was auto-approved (rating >= 4)
+                if (data.isApproved && onStoryAdded) {
+                    onStoryAdded({
+                        id: data.id,
+                        name: formData.name,
+                        batch: formData.batch,
+                        title: formData.title,
+                        content: formData.quote,
+                        imageUrl: user?.photoURL || null,
+                        likeCount: 0,
+                        likes: [],
+                        rating: formData.rating,
+                        userId: user?.uid || "anonymous",
+                    });
+                }
             } else {
                 alert("Something went wrong. Please try again.");
             }
@@ -86,7 +120,10 @@ export const ShareJourneyForm = () => {
                             You&apos;re a Legend!
                             </h3>
                             <p className="text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
-                                Thank you for sharing your journey. Your story is currently under review and will be featured soon.
+                                {formData.rating >= 4 
+                                    ? "Thank you for sharing your journey! Your story has been published and will be featured on our Success Stories page and testimonials."
+                                    : "Thank you for your feedback! Your response has been recorded and is under review."
+                                }
                             </p>
                             <button 
                                 onClick={() => setSuccess(false)}
@@ -109,6 +146,7 @@ export const ShareJourneyForm = () => {
                                 <label className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">
                                     Rate your experience
                                 </label>
+
                                 <div className="flex gap-2">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <button
@@ -123,6 +161,9 @@ export const ShareJourneyForm = () => {
                                         </button>
                                     ))}
                                 </div>
+                                <p className="text-sm font-semibold mt-1 text-slate-500 dark:text-slate-400">
+                                    {ratingLabels[formData.rating]}
+                                </p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -161,11 +202,30 @@ export const ShareJourneyForm = () => {
                                         />
                                     </div>
                                 </div>
+
+                                {/* Graduation Year */}
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Graduation Year</label>
+                                    <input
+                                        type="number"
+                                        min="2000"
+                                        max="2040"
+                                        value={formData.batch}
+                                        onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+                                        className="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100"
+                                        placeholder="e.g. 2026"
+                                    />
+                                </div>
                             </div>
 
                             {/* Story Textarea */}
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Your Journey</label>
+                                <div className="flex items-center justify-between">
+                                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Your Journey</label>
+                                    <span className={`text-xs font-medium ${formData.quote.length > maxChars ? 'text-red-500' : formData.quote.length > maxChars * 0.8 ? 'text-amber-500' : 'text-slate-400 dark:text-slate-500'}`}>
+                                        {formData.quote.length}/{maxChars}
+                                    </span>
+                                </div>
                                 <div className="relative group">
                                     <div className="absolute top-3 left-0 pl-4 pointer-events-none">
                                         <IconFileText className="w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
@@ -173,6 +233,7 @@ export const ShareJourneyForm = () => {
                                     <textarea
                                         required
                                         rows={4}
+                                        maxLength={maxChars}
                                         value={formData.quote}
                                         onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
                                         className="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-slate-800 dark:text-slate-100 resize-none"

@@ -11,7 +11,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { discussionId, replyId } = await request.json();
+    let body;
+    try {
+        body = await request.json();
+    } catch {
+        return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+
+    const { discussionId, replyId } = body;
     if (!discussionId || !replyId) {
         return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
@@ -26,9 +33,11 @@ export async function POST(request: Request) {
         
         await replyRef.delete();
         
-        // Decrement reply count
+        // Atomically decrement reply count using a batch
         const discussionRef = db.collection('discussions').doc(discussionId);
-        await discussionRef.update({ replyCount: FieldValue.increment(-1) });
+        const batch = db.batch();
+        batch.update(discussionRef, { replyCount: FieldValue.increment(-1) });
+        await batch.commit();
 
         return NextResponse.json({ success: true });
     } catch (error) {

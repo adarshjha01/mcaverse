@@ -63,12 +63,12 @@ export default async function DiscussionDetailPage({ params }: PageProps) {
   const { post, replies } = await getDiscussionDetails(id);
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen">
       <main className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto">
           <Link
             href="/community"
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-800 mb-6 inline-block transition-colors"
+            className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-6 inline-block transition-colors"
           >
             &larr; Back to all discussions
           </Link>

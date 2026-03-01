@@ -1,6 +1,7 @@
 // src/app/community/page.tsx
 import { DiscussionList } from "@/components/community/DiscussionList";
 import { ConnectWithUs } from "@/components/community/ConnectWithUs";
+import { CommunityStats } from "@/components/community/CommunityStats";
 import { IconUsers } from "@/components/ui/Icons";
 import { db } from "@/lib/firebaseAdmin";
 import { Timestamp } from "firebase-admin/firestore";
@@ -46,13 +47,14 @@ async function getDiscussions(): Promise<Discussion[]> {
 
 export default async function CommunityPage() {
   const discussions = await getDiscussions();
+  const totalReplies = discussions.reduce((sum, d) => sum + d.replyCount, 0);
 
   return (
       <main className="pt-16">
-        <section className="py-16 text-center bg-white border-b border-slate-200">
-          <IconUsers className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
-          <h1 className="text-4xl font-bold mb-2">Community Hub</h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+        <section className="py-12 sm:py-16 text-center px-4 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+          <IconUsers className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-indigo-500 mb-4" />
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-slate-900 dark:text-white">Community Hub</h1>
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Connect with fellow students, ask questions, and grow together.
           </p>
         </section>
@@ -62,7 +64,8 @@ export default async function CommunityPage() {
                 <div className="lg:col-span-2">
                     <DiscussionList initialDiscussions={discussions} />
                 </div>
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-1 space-y-6">
+                    <CommunityStats discussionCount={discussions.length} totalReplies={totalReplies} />
                     <ConnectWithUs />
                 </div>
             </div>

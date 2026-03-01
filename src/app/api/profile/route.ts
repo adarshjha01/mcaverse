@@ -5,14 +5,26 @@ import { getAuth } from 'firebase-admin/auth';
 import { z } from 'zod';
 import { verifyAuth } from '@/lib/auth-admin'; // Import the helper
 
+// Transform empty strings to undefined so Firestore doesn't store blank values
+const emptyToUndefined = z.string().transform(v => v.trim() === '' ? undefined : v.trim());
+
 const ProfileSchema = z.object({
-  name: z.string().min(2, "Name is required."),
-  college: z.string().optional(),
-  course: z.string().optional(),
-  location: z.string().optional(),
-  bio: z.string().optional(),
-  linkedin: z.string().url().optional().or(z.literal('')),
-  github: z.string().url().optional().or(z.literal('')),
+  name: z.string().min(2, "Name is required.").transform(v => v.trim()),
+  college: emptyToUndefined.optional(),
+  course: emptyToUndefined.optional(),
+  location: emptyToUndefined.optional(),
+  bio: z.string().max(300).transform(v => v.trim() === '' ? undefined : v.trim()).optional(),
+  phone: z.string().regex(/^\+?[\d\s\-()]{0,20}$/, "Invalid phone format.").transform(v => v.trim() === '' ? undefined : v.trim()).optional(),
+  linkedin: z.string().url().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  github: z.string().url().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  targetExam: emptyToUndefined.optional(),
+  examYear: emptyToUndefined.optional(),
+  preparationStatus: emptyToUndefined.optional(),
+  semester: emptyToUndefined.optional(),
+  enrollmentYear: emptyToUndefined.optional(),
+  graduationYear: emptyToUndefined.optional(),
+  skills: emptyToUndefined.optional(),
+  interests: emptyToUndefined.optional(),
   imageUrl: z.string().url().optional(),
 });
 
@@ -26,7 +38,10 @@ export async function GET(request: Request) {
     try {
         const docSnap = await db.collection('users').doc(userId).get();
         if (docSnap.exists) {
-            return NextResponse.json(docSnap.data());
+            const data = { ...docSnap.data() };
+            // Strip sensitive fields from public responses
+            delete data.phone;
+            return NextResponse.json(data);
         }
         return NextResponse.json({});
     } catch (error) {
@@ -59,6 +74,12 @@ export async function POST(request: Request) {
 
     const { name, imageUrl, ...profileData } = validatedFields.data;
 
+    // Strip undefined values — Firestore throws on writing undefined
+    const cleanData: Record<string, any> = {};
+    for (const [key, value] of Object.entries(profileData)) {
+        if (value !== undefined) cleanData[key] = value;
+    }
+
     try {
         // Update Auth Profile (Display Name / Photo)
         await getAuth().updateUser(userId, {
@@ -70,7 +91,7 @@ export async function POST(request: Request) {
         await db.collection('users').doc(userId).set({
             name,
             ...(imageUrl && { photoURL: imageUrl }),
-            ...profileData
+            ...cleanData
         }, { merge: true });
 
         return NextResponse.json({ success: true, message: "Profile updated successfully!" });

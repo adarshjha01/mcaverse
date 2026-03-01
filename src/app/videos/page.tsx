@@ -9,9 +9,9 @@ export default async function VideosPage() {
   return (
     <main className="pt-16">
       <section className="py-16 text-center bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <IconVideo className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
-        <h1 className="text-4xl font-bold mb-2 text-slate-900 dark:text-slate-100">Video Tutorials</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+        <IconVideo className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-indigo-500 mb-4" />
+        <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-slate-900 dark:text-slate-100">Video Tutorials</h1>
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
           Master every concept with our structured video courses. Track your progress and conquer your syllabus.
         </p>
       </section>

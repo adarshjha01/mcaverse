@@ -52,9 +52,9 @@ export const NewPostForm = () => {
 
   if (!user) {
     return (
-      <div className="text-center p-10 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-slate-200 shadow-lg">
-        <h2 className="text-3xl font-bold mb-3 text-slate-800">Create a New Discussion</h2>
-        <p className="font-medium mb-6 text-slate-600">You must be logged in to start a discussion.</p>
+      <div className="text-center p-10 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg">
+        <h2 className="text-3xl font-bold mb-3 text-slate-800 dark:text-white">Create a New Discussion</h2>
+        <p className="font-medium mb-6 text-slate-600 dark:text-slate-400">You must be logged in to start a discussion.</p>
         <Link
           href="/login"
           className="inline-block bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-indigo-700 transition-colors"
@@ -68,12 +68,12 @@ export const NewPostForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-10 rounded-2xl shadow-xl border border-slate-200 space-y-8 max-w-2xl mx-auto"
+      className="bg-white dark:bg-slate-900 p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 space-y-8 max-w-2xl mx-auto"
     >
-      <h2 className="text-2xl font-bold text-slate-800">Start a New Discussion</h2>
+      <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Start a New Discussion</h2>
       
       <div>
-        <label htmlFor="title" className="block text-sm font-semibold text-slate-700 mb-2">
+        <label htmlFor="title" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
           Title
         </label>
         <input
@@ -82,12 +82,12 @@ export const NewPostForm = () => {
           name="title"
           required
           placeholder="Enter a clear and catchy title"
-          className="w-full rounded-lg border border-slate-300 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none text-slate-800 placeholder-slate-400"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
         />
       </div>
 
       <div>
-        <label htmlFor="content" className="block text-sm font-semibold text-slate-700 mb-2">
+        <label htmlFor="content" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
           Content
         </label>
         <textarea
@@ -96,14 +96,14 @@ export const NewPostForm = () => {
           rows={8}
           required
           placeholder="Write your thoughts, questions, or ideas here..."
-          className="w-full rounded-lg border border-slate-300 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none text-slate-800 placeholder-slate-400"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:outline-none text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
         ></textarea>
       </div>
 
       <div className="flex justify-end items-center gap-4">
         <Link
           href="/community"
-          className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+          className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
         >
           Cancel
         </Link>

@@ -131,9 +131,9 @@ export default async function ResultsPage({ params }: { params: Promise<{ testId
 
   if (!result) {
       return (
-          <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-800">
+          <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors">
               <h1 className="text-2xl font-bold mb-2">Results Not Found</h1>
-              <p>Unable to load the requested test results.</p>
+              <p className="text-slate-500 dark:text-slate-400">Unable to load the requested test results.</p>
           </div>
       );
   }
@@ -141,10 +141,8 @@ export default async function ResultsPage({ params }: { params: Promise<{ testId
   const { attempt, questions } = result;
 
   return (
-    <div className="w-full min-h-screen bg-slate-50 dark:bg-slate-950">
-        <div className="container mx-auto px-4 py-8">
-            <TestResults attempt={attempt as any} questions={questions} />
-        </div>
+    <div className="w-full min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
+        <TestResults attempt={attempt as any} questions={questions} testId={testId} />
     </div>
   );
 }

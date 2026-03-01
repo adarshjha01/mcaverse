@@ -11,10 +11,21 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { discussionId, userId, voteType } = await request.json();
+    let body;
+    try {
+        body = await request.json();
+    } catch {
+        return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+
+    const { discussionId, userId, voteType } = body;
     
     if (!userId || !discussionId || !voteType) {
         return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    }
+
+    if (voteType !== 'up' && voteType !== 'down') {
+        return NextResponse.json({ error: 'Invalid voteType. Must be "up" or "down".' }, { status: 400 });
     }
 
     // 2. Enforce Ownership (You can only vote as yourself)

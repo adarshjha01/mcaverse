@@ -1,15 +1,14 @@
-// src/db/mergeAndUpload.mjs
+// src/db/upload.mjs
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { readFileSync, existsSync } from 'fs';
 
 // --- CONFIGURATION ---
 const SERVICE_ACCOUNT_PATH = './serviceAccountKey.json';
-const QUESTIONS_FILE = './src/db/questions.json';       
-const LATEX_FILE = './src/db/questions.latex.json';     
+const QUESTIONS_FILE = './src/db/formatted_allQuestions.json';       
 const COLLECTION_NAME = 'questions';
 
-// --- LATEX RULES (Fallback only) ---
+// --- LATEX RULES ---
 const REPLACEMENTS = [
     { regex: /\b(alpha)\b/gi, replace: "$\\alpha$" },
     { regex: /\b(beta)\b/gi, replace: "$\\beta$" },
@@ -29,7 +28,7 @@ const REPLACEMENTS = [
 ];
 
 function formatText(text) {
-    if (!text) return text;
+    if (!text || typeof text !== 'string') return text;
     let formatted = text;
     REPLACEMENTS.forEach(rule => {
         formatted = formatted.replace(rule.regex, rule.replace);
@@ -69,64 +68,32 @@ async function deleteQueryBatch(db, query, resolve) {
   process.nextTick(() => deleteQueryBatch(db, query, resolve));
 }
 
-// --- MAIN MERGE & UPLOAD ---
-async function mergeAndUpload() {
-    console.log("⚠️  Starting MERGE & UPLOAD Protocol...");
+// --- MAIN FORMAT & UPLOAD ---
+async function formatAndUpload() {
+    console.log("⚠️  Starting FORMAT & UPLOAD Protocol...");
 
     try {
-        // 1. READ FILES
-        let questions = [];
-        let latexQuestions = [];
-
-        if (existsSync(QUESTIONS_FILE)) {
-            questions = JSON.parse(readFileSync(QUESTIONS_FILE, 'utf8'));
-            console.log(`📖 Loaded ${questions.length} questions from questions.json`);
-        } else {
+        // 1. READ FILE
+        if (!existsSync(QUESTIONS_FILE)) {
             console.error("❌ Error: questions.json not found!");
             process.exit(1);
         }
-
-        if (existsSync(LATEX_FILE)) {
-            latexQuestions = JSON.parse(readFileSync(LATEX_FILE, 'utf8'));
-            console.log(`📖 Loaded ${latexQuestions.length} questions from questions.latex.json`);
-        } else {
-            console.log("⚠️  questions.latex.json not found. Will auto-format everything.");
-        }
-
-        // 2. MERGE LOGIC
-        console.log("🔄 Merging content with formatting...");
         
-        const latexMap = new Map();
-        latexQuestions.forEach(q => {
-            const key = q.question_id || q.question_text; 
-            latexMap.set(String(key), q);
-        });
+        const questions = JSON.parse(readFileSync(QUESTIONS_FILE, 'utf8'));
+        console.log(`📖 Loaded ${questions.length} questions from questions.json`);
 
+        // 2. FORMAT LOGIC
+        console.log("🔄 Formatting content...");
         const finalData = questions.map(q => {
-            const key = String(q.question_id || q.question_text);
-            const latexQ = latexMap.get(key);
-
-            // A. Question Text: CHECK FOR '_latex' SUFFIX
-            if (latexQ && latexQ.question_text_latex) {
-                q.question_text = latexQ.question_text_latex;
-            } else {
+            if (q.question_text) {
                 q.question_text = formatText(q.question_text);
             }
-
-            // B. Options: CHECK FOR '_latex' SUFFIX
-            if (latexQ && latexQ.options_latex) {
-                q.options = latexQ.options_latex;
-            } else {
+            if (q.options && Array.isArray(q.options)) {
                 q.options = q.options.map(opt => formatText(opt));
             }
-
-            // C. Explanation: CHECK FOR '_latex' SUFFIX
-            if (latexQ && latexQ.explanation_latex) {
-                q.explanation = latexQ.explanation_latex;
-            } else if (q.explanation) {
+            if (q.explanation) {
                 q.explanation = formatText(q.explanation);
             }
-
             return q;
         });
 
@@ -135,8 +102,8 @@ async function mergeAndUpload() {
         await deleteCollection(db, COLLECTION_NAME, 500);
         console.log("✅ Collection cleared.");
 
-        // 4. UPLOAD MERGED DATA
-        console.log("\n2️⃣  Uploading merged data...");
+        // 4. UPLOAD FORMATTED DATA
+        console.log("\n2️⃣  Uploading formatted data...");
         let batch = db.batch();
         let count = 0;
         let total = 0;
@@ -146,13 +113,14 @@ async function mergeAndUpload() {
                 ? db.collection(COLLECTION_NAME).doc(String(q.question_id))
                 : db.collection(COLLECTION_NAME).doc();
 
-            // Sanitize data
+            // Sanitize data for Firestore
             const cleanQ = JSON.parse(JSON.stringify(q)); 
             
             batch.set(docRef, cleanQ);
             count++;
             total++;
 
+            // Firestore limits batches to 500 writes. 400 is a safe threshold.
             if (count >= 400) {
                 await batch.commit();
                 console.log(`🚀 Uploaded ${total} questions...`);
@@ -161,8 +129,10 @@ async function mergeAndUpload() {
             }
         }
 
+        // Commit any remaining documents in the final batch
         if (count > 0) {
             await batch.commit();
+            console.log(`🚀 Uploaded ${total} questions...`);
         }
 
         console.log(`\n🎉 SUCCESS! Database updated with ${total} questions.`);
@@ -172,4 +142,4 @@ async function mergeAndUpload() {
     }
 }
 
-mergeAndUpload();
+formatAndUpload();
