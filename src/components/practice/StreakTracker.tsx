@@ -17,6 +17,10 @@ export const StreakTracker = () => {
                     const res = await fetch(`/api/user/streak?userId=${user.uid}`, {
                         headers: { 'Authorization': `Bearer ${token}` },
                     });
+                    if (!res.ok) {
+                        console.error(`Failed to fetch streak: ${res.status}`);
+                        return;
+                    }
                     const data = await res.json();
                     setStreak(data.currentStreak || 0);
                 } catch (err) {

@@ -64,11 +64,13 @@ export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to create test');
+        const errText = await response.text();
+        let errMsg = 'Failed to create test';
+        try { errMsg = JSON.parse(errText)?.error || errMsg; } catch {}
+        throw new Error(errMsg);
       }
+      const result = await response.json();
 
       router.push(`/mock-tests/take/${result.testId}`);
     } catch (error: any) {

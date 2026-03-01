@@ -1,12 +1,16 @@
 // src/app/api/leaderboard/route.ts
+//
+// Leaderboard now ranks users by their STREAK (consecutive days),
+// not by totalPoints. Shows "X day streak" on the board.
+//
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 
 export async function GET() {
     try {
-        // Query the 'users' collection, order by totalPoints, and limit to top 10
+        // Query the 'users' collection, order by streakCount (highest first), top 10
         const snapshot = await db.collection('users')
-            .orderBy('totalPoints', 'desc')
+            .orderBy('streakCount', 'desc')
             .limit(10)
             .get();
         
@@ -14,15 +18,27 @@ export async function GET() {
             return NextResponse.json([]);
         }
 
-        const leaderboard = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-                id: doc.id,
-                userName: data.name || data.displayName || 'Anonymous', // Use name, displayName, or fallback
-                points: data.totalPoints || 0,
-                photoURL: data.photoURL || null, // Include user image for the UI
-            };
-        });
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+        const leaderboard = snapshot.docs
+            .map(doc => {
+                const data = doc.data();
+                const lastStreakDate = data.lastStreakDate;
+                // Only show streak if user was active today or yesterday (streak is still alive)
+                const isActive = lastStreakDate === todayStr || lastStreakDate === yesterdayStr;
+                return {
+                    id: doc.id,
+                    userName: data.name || data.displayName || 'Anonymous',
+                    streak: isActive ? (data.streakCount || 0) : 0,
+                    photoURL: data.photoURL || null,
+                };
+            })
+            .filter(u => u.streak > 0) // Only show users with active streaks
+            .sort((a, b) => b.streak - a.streak);
 
         return NextResponse.json(leaderboard);
     } catch (error) {

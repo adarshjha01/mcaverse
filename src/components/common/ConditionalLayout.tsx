@@ -24,7 +24,7 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
 
     if (user && isTestPage) {
         return (
-            <main className="h-screen w-screen overflow-hidden bg-slate-100 dark:bg-slate-950">
+            <main className="h-screen w-screen overflow-hidden bg-slate-100" data-force-light>
                 {children}
             </main>
         );
@@ -52,7 +52,7 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
                         isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64' 
                     }`} 
                 >
-                    <main className="flex-grow p-4 sm:p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
+                    <main className="grow p-4 sm:p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
                         {children}
                     </main>
                     <Footer />
@@ -65,7 +65,7 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
         // THE FIX: Lock the unauthenticated layout too, just in case
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
             <HorizontalNavbar />
-            <main className="flex-grow w-full">
+            <main className="grow w-full">
                 {children}
             </main>
             <Footer />

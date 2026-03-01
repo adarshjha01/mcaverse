@@ -114,9 +114,9 @@ export const AuthForm = () => {
                 {view !== 'forgot' && (
                     <>
                         <div className="my-6 flex items-center">
-                            <div className="flex-grow border-t border-slate-300"></div>
+                            <div className="grow border-t border-slate-300"></div>
                             <span className="mx-4 text-xs text-slate-500">OR</span>
-                            <div className="flex-grow border-t border-slate-300"></div>
+                            <div className="grow border-t border-slate-300"></div>
                         </div>
                         <button onClick={() => signInWithGoogle().catch(e => setError(e.message))} className="w-full flex justify-center gap-3 bg-white border border-slate-300 py-3 rounded hover:bg-slate-50">
                             <IconGoogle />

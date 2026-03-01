@@ -13,9 +13,13 @@ type SubjectsWithTopics = {
 
 async function getSubjectsWithTopics(): Promise<SubjectsWithTopics> {
   try {
-    const questionsSnapshot = await db.collection('questions').get();
+    // Only fetch the 2 fields we need — NOT the entire document (question_text, options, explanation, etc.)
+    // This prevents memory exhaustion and timeouts on large collections.
+    const questionsSnapshot = await db.collection('questions')
+      .select('subject', 'topic', 'deprecated')
+      .get();
     
-    console.log(`[TopicWisePage] Fetched ${questionsSnapshot.size} questions from DB.`);
+    console.log(`[TopicWisePage] Fetched ${questionsSnapshot.size} question metadata docs.`);
 
     const subjectsMap: SubjectsWithTopics = {};
 

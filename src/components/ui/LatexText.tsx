@@ -1,6 +1,5 @@
 "use client";
 
-import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 
 export const LatexText = ({ text }: { text: string }) => {
@@ -27,7 +26,6 @@ export const LatexText = ({ text }: { text: string }) => {
       }
       
       if (braceCount === 0) {
-        // Replace the \matrix{} wrapper with \begin{matrix} and \end{matrix}
         result = 
           result.substring(0, startIndex) + 
           '\\begin{matrix}' + 
@@ -35,7 +33,7 @@ export const LatexText = ({ text }: { text: string }) => {
           '\\end{matrix}' + 
           result.substring(i);
       } else {
-        break; // Failsafe to prevent infinite loops on malformed math
+        break;
       }
     }
     return result;
@@ -44,7 +42,7 @@ export const LatexText = ({ text }: { text: string }) => {
   processedText = fixMatrix(processedText);
 
   return (
-    <span className="latex-container overflow-x-auto overflow-y-hidden inline-block max-w-full align-middle leading-loose">
+    <span className="latex-content">
       <Latex 
         strict={false}
         macros={{

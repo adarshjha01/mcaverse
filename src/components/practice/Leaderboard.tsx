@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { IconFlame } from '@/components/ui/Icons';
 
 type Leader = {
     id: string;
     userName: string;
-    points: number;
+    streak: number;
     photoURL?: string | null;
 };
 
@@ -64,11 +65,11 @@ const SkeletonRow = () => (
         <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700" />
         <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700" />
         <div className="flex-1 h-4 bg-slate-200 dark:bg-slate-700 rounded" />
-        <div className="w-12 h-4 bg-slate-200 dark:bg-slate-700 rounded" />
+        <div className="w-16 h-4 bg-slate-200 dark:bg-slate-700 rounded" />
     </div>
 );
 
-export const Leaderboard = () => {
+export const Leaderboard = ({ refreshKey = 0 }: { refreshKey?: number }) => {
     const { user } = useAuth();
     const [leaders, setLeaders] = useState<Leader[]>([]);
     const [loading, setLoading] = useState(true);
@@ -88,13 +89,13 @@ export const Leaderboard = () => {
             })
             .catch(() => setError(true))
             .finally(() => setLoading(false));
-    }, []);
+    }, [refreshKey]);
 
     return (
         <div className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
             <div className="flex items-center gap-2 mb-5">
                 <IconTrophy className="w-5 h-5 text-yellow-500" />
-                <h3 className="text-lg font-bold text-slate-800 dark:text-white">Leaderboard</h3>
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">Streak Leaderboard</h3>
             </div>
 
             {loading && (
@@ -110,9 +111,15 @@ export const Leaderboard = () => {
             )}
 
             {!loading && !error && leaders.length === 0 && (
-                <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-6 italic">
-                    No entries yet. Be the first to climb!
-                </p>
+                <div className="text-center py-8">
+                    <IconFlame className="w-10 h-10 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                        No active streaks yet.
+                    </p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                        Be the first to start a streak!
+                    </p>
+                </div>
             )}
 
             {!loading && !error && leaders.length > 0 && (
@@ -142,12 +149,13 @@ export const Leaderboard = () => {
                                         </span>
                                     )}
                                 </span>
-                                <span className={`text-sm font-bold tabular-nums flex-shrink-0 ${
+                                <span className={`flex items-center gap-1 text-sm font-bold tabular-nums flex-shrink-0 ${
                                     index < 3
-                                        ? 'text-indigo-600 dark:text-indigo-400'
+                                        ? 'text-orange-500 dark:text-orange-400'
                                         : 'text-slate-600 dark:text-slate-400'
                                 }`}>
-                                    {leader.points} <span className="text-xs font-normal">pts</span>
+                                    <IconFlame className="w-3.5 h-3.5" />
+                                    {leader.streak} <span className="text-xs font-normal">day{leader.streak !== 1 ? 's' : ''}</span>
                                 </span>
                             </li>
                         );

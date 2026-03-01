@@ -16,7 +16,8 @@ import {
     IconMic, 
     IconUsers, 
     IconMenu2, 
-    IconX 
+    IconX,
+    IconMail 
 } from '@/components/ui/Icons';
 
 // Primary links: shown on desktop navbar AND mobile menu
@@ -24,6 +25,7 @@ const primaryLinks = [
     { href: "/videos", label: "Video Lectures", icon: <IconVideo className="w-5 h-5"/> },
     { href: "/mock-tests", label: "Practice", icon: <IconFileText className="w-5 h-5"/> },
     { href: "/community", label: "Community", icon: <IconUsers className="w-5 h-5"/> },
+    { href: "/contact", label: "Contact Us", icon: <IconMail className="w-5 h-5"/> },
 ];
 
 // Secondary links: shown ONLY in mobile menu

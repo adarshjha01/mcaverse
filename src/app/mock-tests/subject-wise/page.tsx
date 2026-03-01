@@ -7,7 +7,8 @@ import Link from 'next/link';
 // This function fetches all unique subject names from your questions
 async function getUniqueSubjects(): Promise<string[]> {
   try {
-    const questionsSnapshot = await db.collection('questions').get();
+    // Only fetch the 'subject' field — NOT full documents with question_text, options, etc.
+    const questionsSnapshot = await db.collection('questions').select('subject').get();
     const subjects = new Set<string>();
     questionsSnapshot.forEach(doc => {
       const subject = doc.data().subject;

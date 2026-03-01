@@ -1,4 +1,11 @@
 // src/app/api/dpp/submit/route.ts
+//
+// STREAK LOGIC:
+//   - Wrong answer → does NOT break streak. User can retry until correct.
+//   - Correct answer → adds to streak (continues from yesterday or starts fresh).
+//   - Missing a day entirely → streak resets to 0.
+//   - Attempts are tracked per day. Once correct, answer is locked.
+//
 import { db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 import { Timestamp } from "firebase-admin/firestore";
@@ -18,7 +25,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
         }
 
-        // Notice: We now receive the index, not a boolean!
         const { userId, questionId, selectedOptionIndex } = body;
 
         if (!userId || !questionId || selectedOptionIndex === undefined) {
@@ -29,56 +35,73 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        // 1. Fetch the question securely from the database
+        const now = new Date();
+        const todayStr = now.toISOString().split("T")[0];
+        const userRef = db.collection("users").doc(userId);
+        const solveRef = userRef.collection('dailySolves').doc(todayStr);
+
+        // Check if already solved correctly today — if so, reject duplicate submissions
+        const existingSolve = await solveRef.get();
+        if (existingSolve.exists && existingSolve.data()?.isCorrect === true) {
+            return NextResponse.json({
+                success: true,
+                isCorrect: true,
+                alreadySolved: true,
+                newStreak: (await userRef.get()).data()?.streakCount || 0,
+                message: "Already solved correctly today!"
+            });
+        }
+
+        // Fetch the question securely from the database
         const qRef = db.collection('questions').doc(questionId);
         const qSnap = await qRef.get();
         if (!qSnap.exists) {
             return NextResponse.json({ error: "Question not found" }, { status: 404 });
         }
 
-        // 2. Evaluate the answer with bounds checking
+        // Evaluate the answer
         const qData = qSnap.data()!;
         if (!Array.isArray(qData.options) || typeof selectedOptionIndex !== 'number' || selectedOptionIndex < 0 || selectedOptionIndex >= qData.options.length) {
             return NextResponse.json({ error: "Invalid option index" }, { status: 400 });
         }
 
-        const selectedText = qData.options[selectedOptionIndex];
-        const isCorrect = Array.isArray(qData.correct_answers) && qData.correct_answers.includes(selectedText);
+        // correct_answers stores integer indices (e.g. [0], [3]), not text strings
+        const isCorrect = Array.isArray(qData.correct_answers) && qData.correct_answers.includes(selectedOptionIndex);
 
-        const now = new Date();
-        const todayStr = now.toISOString().split("T")[0]; 
-        const yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayStr = yesterday.toISOString().split("T")[0];
+        // Track attempt count
+        const currentAttempts = existingSolve.exists ? (existingSolve.data()?.attempts || 0) : 0;
 
-        const userRef = db.collection("users").doc(userId);
-
-        // 3. THE FIX: Record that the user attempted today's question!
-        await userRef.collection('dailySolves').doc(todayStr).set({
+        // Record the attempt — only overwrite isCorrect if this attempt is correct
+        await solveRef.set({
             questionId,
-            isCorrect,
+            isCorrect: isCorrect || (existingSolve.data()?.isCorrect || false),
+            attempts: currentAttempts + 1,
             submittedAt: Timestamp.now()
         });
 
         let newStreak = 0;
 
-        // 4. Update the streak atomically using a transaction
         if (isCorrect) {
+            // Update streak atomically via transaction
+            const yesterday = new Date(now);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split("T")[0];
+
             newStreak = await db.runTransaction(async (transaction) => {
                 const userDoc = await transaction.get(userRef);
                 const data = userDoc.data() || {};
-                const lastActiveDate = data.lastStreakDate; 
+                const lastActiveDate = data.lastStreakDate;
                 const currentStreak = data.streakCount || 0;
-                
+
                 let streak = 0;
                 if (lastActiveDate === todayStr) {
-                    streak = currentStreak; // Already solved today
+                    streak = currentStreak; // Already counted today
                 } else if (lastActiveDate === yesterdayStr) {
                     streak = currentStreak + 1; // Streak continues!
                 } else {
-                    streak = 1; // Streak reset/started
+                    streak = 1; // Streak reset or first time
                 }
-                
+
                 transaction.set(userRef, {
                     streakCount: streak,
                     lastStreakDate: todayStr,
@@ -88,12 +111,17 @@ export async function POST(req: Request) {
                 return streak;
             });
         } else {
-            // Keep existing streak if they get it wrong
+            // Wrong answer — DON'T break streak, just return current streak
             const userDoc = await userRef.get();
             newStreak = userDoc.data()?.streakCount || 0;
         }
 
-        return NextResponse.json({ success: true, isCorrect, newStreak });
+        return NextResponse.json({
+            success: true,
+            isCorrect,
+            newStreak,
+            attempts: currentAttempts + 1,
+        });
 
     } catch (error) {
         console.error("DPP Submit Error:", error);

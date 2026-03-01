@@ -33,6 +33,10 @@ export const RecentTestResults = () => {
                     const res = await fetch(`/api/mock-tests/recent-attempts?userId=${user.uid}`, {
                         headers: { 'Authorization': `Bearer ${token}` },
                     });
+                    if (!res.ok) {
+                        console.error(`Failed to fetch recent results: ${res.status}`);
+                        return;
+                    }
                     const data = await res.json();
                     setResults(data);
                 } catch (err) {
