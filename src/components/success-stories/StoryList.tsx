@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IconHeart, IconTrophy } from '@/components/ui/Icons';
 
 type Story = {
@@ -23,6 +23,9 @@ type Story = {
 export const StoryList = ({ stories }: { stories: Story[] }) => {
     const { user } = useAuth();
     const [optimisticStories, setOptimisticStories] = useState(stories);
+    const [editingStory, setEditingStory] = useState<Story | null>(null);
+    const [editForm, setEditForm] = useState({ name: '', title: '', content: '', batch: '', rating: 5 });
+    const [editLoading, setEditLoading] = useState(false);
 
     useEffect(() => {
         setOptimisticStories(stories);
@@ -74,6 +77,67 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
         } catch (error) {
             console.error("Failed to delete story:", error);
             alert("Failed to delete story. Please try again.");
+        }
+    };
+
+    const openEditModal = (story: Story) => {
+        setEditingStory(story);
+        setEditForm({
+            name: story.name,
+            title: story.title,
+            content: story.content,
+            batch: story.batch,
+            rating: story.rating,
+        });
+    };
+
+    const handleEditSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingStory || !user) return;
+        setEditLoading(true);
+
+        try {
+            const token = await user.getIdToken();
+            const res = await fetch(`/api/success-stories/${editingStory.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(editForm),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error || 'Failed to update');
+            }
+
+            const data = await res.json();
+
+            // Update the story in optimistic state
+            setOptimisticStories(current =>
+                current.map(s => {
+                    if (s.id === editingStory.id) {
+                        return {
+                            ...s,
+                            name: editForm.name,
+                            title: editForm.title,
+                            content: editForm.content,
+                            batch: editForm.batch,
+                            rating: editForm.rating,
+                        };
+                    }
+                    return s;
+                }).filter(s => {
+                    // If rating dropped below 4, it may no longer be approved — remove from list
+                    if (s.id === editingStory.id && !data.isApproved) return false;
+                    return true;
+                })
+            );
+
+            setEditingStory(null);
+        } catch (error: any) {
+            console.error("Failed to edit story:", error);
+            alert(error.message || "Failed to update story. Please try again.");
+        } finally {
+            setEditLoading(false);
         }
     };
 
@@ -192,6 +256,19 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                                             </Link>
                                             
                                             <div className="flex items-center gap-1">
+                                                {/* Edit button */}
+                                                {user && user.uid === story.userId && (
+                                                    <button 
+                                                        onClick={() => openEditModal(story)}
+                                                        className="p-2 text-slate-300 dark:text-slate-600 hover:text-indigo-500 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                                                        title="Edit Story"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                )}
+
                                                 {/* Delete button */}
                                                 {user && user.uid === story.userId && (
                                                     <button 
@@ -240,6 +317,144 @@ export const StoryList = ({ stories }: { stories: Story[] }) => {
                     </div>
                 )}
             </motion.div>
+
+            {/* --- EDIT MODAL --- */}
+            <AnimatePresence>
+                {editingStory && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+                        onClick={() => setEditingStory(null)}
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-lg border border-slate-200 dark:border-slate-800 p-6 relative max-h-[90vh] overflow-y-auto"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Close button */}
+                            <button
+                                onClick={() => setEditingStory(null)}
+                                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Edit Your Story</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Update your experience and inspire others.</p>
+
+                            <form onSubmit={handleEditSubmit} className="space-y-5">
+                                {/* Star Rating */}
+                                <div className="flex flex-col items-center py-1">
+                                    <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                                        Rating
+                                    </label>
+                                    <div className="flex gap-1.5">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <button
+                                                key={star}
+                                                type="button"
+                                                onClick={() => setEditForm({ ...editForm, rating: star })}
+                                                className={`transition-all hover:scale-110 active:scale-95 ${editForm.rating >= star ? "text-amber-400" : "text-slate-200 dark:text-slate-700"}`}
+                                            >
+                                                <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                                </svg>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {/* Name */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Full Name</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={editForm.name}
+                                            onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100"
+                                        />
+                                    </div>
+
+                                    {/* Title / Rank */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Placement / Rank</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={editForm.title}
+                                            onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100"
+                                        />
+                                    </div>
+
+                                    {/* Batch */}
+                                    <div className="space-y-1.5 sm:col-span-2">
+                                        <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Graduation Year</label>
+                                        <input
+                                            type="number"
+                                            min="2000"
+                                            max="2040"
+                                            value={editForm.batch}
+                                            onChange={(e) => setEditForm({ ...editForm, batch: e.target.value })}
+                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100"
+                                            placeholder="e.g. 2026"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Story content */}
+                                <div className="space-y-1.5">
+                                    <div className="flex items-center justify-between">
+                                        <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Your Story</label>
+                                        <span className={`text-[10px] font-medium tabular-nums ${editForm.content.length > 500 ? 'text-red-500' : editForm.content.length > 400 ? 'text-amber-500' : 'text-slate-400'}`}>
+                                            {editForm.content.length}/500
+                                        </span>
+                                    </div>
+                                    <textarea
+                                        required
+                                        rows={5}
+                                        maxLength={500}
+                                        value={editForm.content}
+                                        onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all outline-none text-sm text-slate-800 dark:text-slate-100 resize-none"
+                                    />
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex gap-3 pt-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditingStory(null)}
+                                        className="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={editLoading}
+                                        className="flex-1 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                                    >
+                                        {editLoading ? (
+                                            <span className="flex items-center justify-center gap-2">
+                                                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+                                                Saving...
+                                            </span>
+                                        ) : "Save Changes"}
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

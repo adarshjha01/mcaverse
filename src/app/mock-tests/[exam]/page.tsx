@@ -132,48 +132,74 @@ export default async function ExamHubPage({ params }: PageProps) {
                 </p>
             </div>
 
-            {/* --- SELECTION CARDS --- */}
+            {/* --- SELECTION CARDS (Coming Soon) --- */}
             <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
                 
-                {/* Full Length Mocks */}
-                <Link href={`/mock-tests/${exam}/full-length`} className="group">
-                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                        <div className={`absolute top-0 right-0 w-32 h-32 ${config.bgAccent} rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500`} />
+                {/* Full Length Mocks — Coming Soon */}
+                <div className="group cursor-default">
+                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-full flex flex-col relative overflow-hidden opacity-80">
+                        {/* Coming Soon Badge */}
+                        <div className="absolute top-4 right-4 z-10">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                                Coming Soon
+                            </span>
+                        </div>
+
+                        <div className={`absolute top-0 right-0 w-32 h-32 ${config.bgAccent} rounded-full -mr-10 -mt-10 opacity-50`} />
                         
-                        <div className={`w-12 h-12 sm:w-14 sm:h-14 ${config.bgAccent} rounded-xl flex items-center justify-center ${config.textAccent} mb-5 border ${config.borderAccent} group-hover:scale-110 transition-transform`}>
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 ${config.bgAccent} rounded-xl flex items-center justify-center ${config.textAccent} mb-5 border ${config.borderAccent}`}>
                             <IconTarget className="w-6 h-6 sm:w-7 sm:h-7" />
                         </div>
                         
-                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Full Mock Tests</h2>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow leading-relaxed">
+                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Full Mock Tests</h2>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-grow leading-relaxed">
                             Simulate the actual exam environment. Strict timer, negative marking, and real-time rank analysis.
                         </p>
                         
-                        <div className={`flex items-center font-bold text-sm ${config.textAccent}`}>
-                            Start Simulation <IconArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/40">
+                            <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-amber-600 dark:text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                            </div>
+                            <p className="text-xs text-amber-700 dark:text-amber-400 font-medium leading-snug">
+                                We&apos;re building mock tests for you. Stay tuned!
+                            </p>
                         </div>
                     </div>
-                </Link>
+                </div>
 
-                {/* PYQs */}
-                <Link href={`/mock-tests/${exam}/pyq`} className="group">
-                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 dark:bg-orange-900/20 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500" />
+                {/* PYQs — Coming Soon */}
+                <div className="group cursor-default">
+                    <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-full flex flex-col relative overflow-hidden opacity-80">
+                        {/* Coming Soon Badge */}
+                        <div className="absolute top-4 right-4 z-10">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                                Coming Soon
+                            </span>
+                        </div>
+
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 dark:bg-orange-900/20 rounded-full -mr-10 -mt-10 opacity-50" />
                         
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400 mb-5 border border-orange-200 dark:border-orange-800 group-hover:scale-110 transition-transform">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400 mb-5 border border-orange-200 dark:border-orange-800">
                             <IconLibrary className="w-6 h-6 sm:w-7 sm:h-7" />
                         </div>
                         
-                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">Previous Year Papers</h2>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 flex-grow leading-relaxed">
+                        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Previous Year Papers</h2>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-grow leading-relaxed">
                             Practice with authentic papers from 2018 to 2025. Understand the pattern and difficulty trends.
                         </p>
                         
-                        <div className="flex items-center font-bold text-sm text-orange-600 dark:text-orange-400">
-                            Solve Past Papers <IconArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/40">
+                            <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-amber-600 dark:text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                            </div>
+                            <p className="text-xs text-amber-700 dark:text-amber-400 font-medium leading-snug">
+                                We&apos;re building PYQ tests for you. Stay tuned!
+                            </p>
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
 
             {/* --- EXTRA PRACTICE --- */}

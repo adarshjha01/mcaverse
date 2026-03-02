@@ -48,11 +48,11 @@ export const ConditionalLayout = ({ children }: { children: React.ReactNode }) =
                 
                 {/* Content: no margin on mobile (horizontal nav), sidebar margin on md+ */}
                 <div 
-                    className={`flex-1 flex flex-col transition-all duration-300 ease-in-out w-full ${
+                    className={`flex-1 flex flex-col transition-all duration-300 ease-in-out min-w-0 ${
                         isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64' 
                     }`} 
                 >
-                    <main className="grow p-4 sm:p-6 pt-20 md:pt-6 w-full overflow-x-hidden"> 
+                    <main className="grow p-4 sm:p-6 pt-20 md:pt-6 min-w-0 overflow-x-hidden"> 
                         {children}
                     </main>
                     <Footer />

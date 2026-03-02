@@ -41,20 +41,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       // 1. Global Safety Check: If user exists but violates rules, don't set them in state
       if (currentUser) {
-        const isGmail = currentUser.email?.endsWith('@gmail.com');
         const isVerified = currentUser.emailVerified;
 
-        // Force logout if domain is invalid (Catch-all for session persistence)
-        if (!isGmail) {
-             await signOut(auth);
-             setUser(null);
-             setLoading(false);
-             return;
-        }
-
-        // Anti-Flicker: If unverified, we treat them as logged out in the UI
-        // We do NOT force signOut() here immediately, because the signUp function 
-        // needs the session active briefly to send the verification email.
+        // For Google sign-in, email is always verified by Google
+        // For email/password, require email verification before granting access
         if (!isVerified) {
              setUser(null); 
              setLoading(false);
@@ -77,10 +67,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   const signUp = async (email: string, password: string) => {
-    if (!email.endsWith('@gmail.com')) {
-        throw new Error("Only @gmail.com addresses are allowed.");
-    }
-    
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     
     // Send verification email
@@ -96,8 +82,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const credential = await signInWithEmailAndPassword(auth, email, password);
     
     if (!credential.user.emailVerified) {
+        // Resend verification email for convenience
+        await sendEmailVerification(credential.user);
         await signOut(auth);
-        throw new Error("Email not verified. Please check your inbox.");
+        throw new Error("EMAIL_NOT_VERIFIED");
     }
 
     return credential;
@@ -110,12 +98,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    
-    if (result.user.email && !result.user.email.endsWith('@gmail.com')) {
-        await signOut(auth);
-        throw new Error("Only genuine @gmail.com accounts are allowed.");
-    }
-    
     return result;
   };
 

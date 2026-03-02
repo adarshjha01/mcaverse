@@ -33,9 +33,6 @@ export const AuthForm = () => {
             if (view === 'login') {
                 await logIn(email, password);
             } else if (view === 'signup') {
-                if (!email.endsWith('@gmail.com')) {
-                    throw new Error("Please use a genuine @gmail.com address.");
-                }
                 if (password.length < 6) {
                     throw new Error("Password must be at least 6 characters.");
                 }
@@ -54,7 +51,11 @@ export const AuthForm = () => {
                  else if (err.code === 'auth/invalid-credential') setError('Invalid email or password.');
                  else setError(err.message);
             } else if (err instanceof Error) {
-                 setError(err.message);
+                 if (err.message === 'EMAIL_NOT_VERIFIED') {
+                     setMessage('Email not verified. A new verification link has been sent to your inbox.');
+                 } else {
+                     setError(err.message);
+                 }
             } else {
                  setError('An error occurred. Please try again.');
             }
@@ -85,7 +86,7 @@ export const AuthForm = () => {
                     
                     <div>
                         <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Email</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="username@gmail.com" className="w-full px-4 py-2 rounded border border-slate-300 dark:bg-slate-700 dark:border-slate-600"/>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" className="w-full px-4 py-2 rounded border border-slate-300 dark:bg-slate-700 dark:border-slate-600"/>
                     </div>
                     
                     {view !== 'forgot' && (

@@ -65,29 +65,55 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
     const handleSubmit = async () => {
         if (selectedOption === null || !question) return;
 
-        if (!user) {
-            alert("Please login to save your streak!");
-            return;
-        }
-
         setIsSubmitting(true);
         setFeedback(null);
 
         try {
-            const token = await user.getIdToken();
+            const headers: HeadersInit = { 'Content-Type': 'application/json' };
+            const payload: Record<string, unknown> = {
+                questionId: question.id,
+                selectedOptionIndex: selectedOption,
+            };
+
+            if (user) {
+                const token = await user.getIdToken();
+                headers.Authorization = `Bearer ${token}`;
+                payload.userId = user.uid;
+            }
+
             const res = await fetch('/api/dpp/submit', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({
-                    userId: user.uid,
-                    questionId: question.id,
-                    selectedOptionIndex: selectedOption
-                })
+                headers,
+                body: JSON.stringify(payload),
             });
             if (!res.ok) {
                 throw new Error(`Submit failed: ${res.status}`);
             }
             const data = await res.json();
+
+            // Guest mode — answer checked server-side but nothing saved
+            if (data.guest) {
+                if (data.isCorrect) {
+                    setHasSolved(true);
+                    setWasCorrect(true);
+                    confetti({
+                        particleCount: 150,
+                        spread: 80,
+                        origin: { y: 0.6 },
+                        colors: ['#6366f1', '#f59e0b', '#10b981', '#ef4444'],
+                    });
+                    setFeedback({ type: 'success', message: 'Correct! Login to save your streak 🔥' });
+                } else {
+                    setWrongOptions(prev => new Set(prev).add(selectedOption));
+                    setShakeOption(selectedOption);
+                    setTimeout(() => setShakeOption(null), 600);
+                    setSelectedOption(null);
+                    setFeedback({ type: 'retry', message: 'Not quite! Try again.' });
+                }
+                return;
+            }
+
+            // Authenticated mode — full streak tracking
             setStreak(data.newStreak);
             setAttempts(data.attempts || attempts + 1);
 
@@ -153,22 +179,38 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
                     <IconCheck className="w-10 h-10 text-white" />
                 </div>
                 <h2 className="text-3xl font-extrabold mb-2">Quest Complete!</h2>
-                <p className="text-emerald-100 text-lg mb-6">
-                    Solved in {attempts} attempt{attempts !== 1 ? 's' : ''}. You&apos;re on fire!
-                </p>
 
-                {/* Streak badge */}
-                <div className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
-                    <IconFlame className="w-7 h-7 text-orange-300 drop-shadow" />
-                    <div className="text-left">
-                        <p className="text-2xl font-extrabold leading-tight">{streak}</p>
-                        <p className="text-xs text-emerald-100 uppercase tracking-wider font-medium">Day Streak</p>
-                    </div>
-                </div>
-
-                <p className="mt-8 text-sm text-emerald-200/80">
-                    Come back tomorrow to keep your streak alive!
-                </p>
+                {user ? (
+                    <>
+                        <p className="text-emerald-100 text-lg mb-6">
+                            Solved in {attempts} attempt{attempts !== 1 ? 's' : ''}. You&apos;re on fire!
+                        </p>
+                        {/* Streak badge */}
+                        <div className="inline-flex items-center gap-3 bg-white/15 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+                            <IconFlame className="w-7 h-7 text-orange-300 drop-shadow" />
+                            <div className="text-left">
+                                <p className="text-2xl font-extrabold leading-tight">{streak}</p>
+                                <p className="text-xs text-emerald-100 uppercase tracking-wider font-medium">Day Streak</p>
+                            </div>
+                        </div>
+                        <p className="mt-8 text-sm text-emerald-200/80">
+                            Come back tomorrow to keep your streak alive!
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <p className="text-emerald-100 text-lg mb-6">
+                            Great job! Login to save your streak and appear on the leaderboard.
+                        </p>
+                        <Link
+                            href="/login"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-bold rounded-xl border border-white/20 transition-all hover:-translate-y-0.5"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></svg>
+                            Login to Save Streak
+                        </Link>
+                    </>
+                )}
             </div>
         </div>
     );
@@ -286,35 +328,20 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
                         </div>
                     )}
 
-                    {/* Submit / Login */}
-                    {user ? (
-                        <button
-                            onClick={handleSubmit}
-                            disabled={selectedOption === null || isSubmitting}
-                            className="w-full relative overflow-hidden group bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-all"
-                        >
-                            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                            {isSubmitting ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
-                                    Verifying...
-                                </span>
-                            ) : wrongOptions.size > 0 ? 'Try Again' : 'Submit Answer'}
-                        </button>
-                    ) : (
-                        <div className="space-y-3">
-                            <Link
-                                href="/login"
-                                className="w-full block text-center relative overflow-hidden group bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-                            >
-                                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                                Login to Submit
-                            </Link>
-                            <p className="text-center text-xs text-slate-500 dark:text-slate-400">
-                                Sign in to save your streak and appear on the leaderboard
-                            </p>
-                        </div>
-                    )}
+                    {/* Submit */}
+                    <button
+                        onClick={handleSubmit}
+                        disabled={selectedOption === null || isSubmitting}
+                        className="w-full relative overflow-hidden group bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-500 dark:to-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 transition-all"
+                    >
+                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                        {isSubmitting ? (
+                            <span className="flex items-center justify-center gap-2">
+                                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+                                Verifying...
+                            </span>
+                        ) : wrongOptions.size > 0 ? 'Try Again' : 'Submit Answer'}
+                    </button>
                 </div>
             ) : (
                 <div className="p-12 text-center text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/50">

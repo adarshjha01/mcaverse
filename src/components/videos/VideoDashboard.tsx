@@ -11,7 +11,7 @@ import React, {
 import { IconChevronDown, IconPlayCircle } from "@/components/ui/Icons";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Subject, Topic, Lecture } from "@/app/actions";
-import { VideoPlayer, NowPlayingItem } from "./VideoPlayer";
+import { VideoPlayer, NowPlayingItem, PanelTab } from "./VideoPlayer";
 import { ProgressOverview, SubjectStat } from "./ProgressOverview";
 import { SearchFilters, FilterMode } from "./SearchFilters";
 
@@ -100,6 +100,7 @@ export const VideoDashboard = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [filterMode, setFilterMode] = useState<FilterMode>("all");
   const [nowPlaying, setNowPlaying] = useState<NowPlayingItem | null>(null);
+  const [activePanel, setActivePanel] = useState<PanelTab>("none");
 
   // ── Fetch user progress ──
   useEffect(() => {
@@ -210,6 +211,22 @@ export const VideoDashboard = ({
     const videoId = extractVideoId(lecture.youtubeLink);
     if (videoId) {
       setNowPlaying({ id: lecture.id, title: lecture.title, videoId });
+      setTimeout(
+        () =>
+          playerRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          }),
+        100
+      );
+    }
+  }, []);
+
+  const handleOpenPanel = useCallback((lecture: Lecture, panel: PanelTab) => {
+    const videoId = extractVideoId(lecture.youtubeLink);
+    if (videoId) {
+      setNowPlaying({ id: lecture.id, title: lecture.title, videoId });
+      setActivePanel(panel);
       setTimeout(
         () =>
           playerRef.current?.scrollIntoView({
@@ -333,8 +350,10 @@ export const VideoDashboard = ({
       {/* Video Player */}
       <VideoPlayer
         nowPlaying={nowPlaying}
-        onClose={() => setNowPlaying(null)}
+        onClose={() => { setNowPlaying(null); setActivePanel("none"); }}
         playerRef={playerRef}
+        activePanel={activePanel}
+        onPanelChange={setActivePanel}
       />
 
       {/* Progress (logged-in only) */}
@@ -495,11 +514,17 @@ export const VideoDashboard = ({
                                           <th className="py-1.5 px-2 text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
                                             Title
                                           </th>
-                                          <th className="py-1.5 px-2 w-16 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
+                                          <th className="py-1.5 px-2 w-12 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
                                             Play
                                           </th>
-                                          <th className="py-1.5 px-2 w-16 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
+                                          <th className="py-1.5 px-2 w-12 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
                                             Save
+                                          </th>
+                                          <th className="py-1.5 px-2 w-12 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
+                                            Chat
+                                          </th>
+                                          <th className="py-1.5 px-2 w-12 text-center text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">
+                                            Notes
                                           </th>
                                         </tr>
                                       </thead>
@@ -598,6 +623,42 @@ export const VideoDashboard = ({
                                                   />
                                                 </button>
                                               </td>
+                                              <td className="py-2 px-2">
+                                                <button
+                                                  onClick={() =>
+                                                    handleOpenPanel(
+                                                      lecture,
+                                                      "discussion"
+                                                    )
+                                                  }
+                                                  className={`flex justify-center w-full transition-colors ${
+                                                    isPlaying && activePanel === "discussion"
+                                                      ? "text-indigo-600 dark:text-indigo-400"
+                                                      : "text-slate-400 hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
+                                                  }`}
+                                                  title="Discussion"
+                                                >
+                                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                                                </button>
+                                              </td>
+                                              <td className="py-2 px-2">
+                                                <button
+                                                  onClick={() =>
+                                                    handleOpenPanel(
+                                                      lecture,
+                                                      "notes"
+                                                    )
+                                                  }
+                                                  className={`flex justify-center w-full transition-colors ${
+                                                    isPlaying && activePanel === "notes"
+                                                      ? "text-amber-600 dark:text-amber-400"
+                                                      : "text-slate-400 hover:text-amber-500 dark:text-slate-500 dark:hover:text-amber-400"
+                                                  }`}
+                                                  title="Notes"
+                                                >
+                                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                                                </button>
+                                              </td>
                                             </tr>
                                           );
                                         })}
@@ -689,6 +750,38 @@ export const VideoDashboard = ({
                                                       filled={isRevision}
                                                     />
                                                     Revise
+                                                  </button>
+                                                  <button
+                                                    onClick={() =>
+                                                      handleOpenPanel(
+                                                        lecture,
+                                                        "discussion"
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-1 text-[11px] font-semibold transition-colors ${
+                                                      isPlaying && activePanel === "discussion"
+                                                        ? "text-indigo-600 dark:text-indigo-400"
+                                                        : "text-slate-400 dark:text-slate-500"
+                                                    }`}
+                                                  >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                                                    Chat
+                                                  </button>
+                                                  <button
+                                                    onClick={() =>
+                                                      handleOpenPanel(
+                                                        lecture,
+                                                        "notes"
+                                                      )
+                                                    }
+                                                    className={`flex items-center gap-1 text-[11px] font-semibold transition-colors ${
+                                                      isPlaying && activePanel === "notes"
+                                                        ? "text-amber-600 dark:text-amber-400"
+                                                        : "text-slate-400 dark:text-slate-500"
+                                                    }`}
+                                                  >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                                                    Notes
                                                   </button>
                                                 </div>
                                               </div>
