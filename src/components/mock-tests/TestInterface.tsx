@@ -104,6 +104,13 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
 
+  // --- AUTH GATE: Redirect logged-out users to login ---
+  useEffect(() => {
+    if (!user) {
+      router.replace('/login');
+    }
+  }, [user, router]);
+
   // --- FORCE LIGHT MODE DURING TEST ---
   useEffect(() => {
     const previousTheme = resolvedTheme || 'system';
@@ -114,6 +121,18 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     // Only run on mount/unmount — ignore resolvedTheme changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Show nothing while redirecting
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500 mx-auto mb-4" />
+          <p className="text-sm text-slate-500 font-medium">Redirecting to login...</p>
+        </div>
+      </div>
+    );
+  }
 
   // --- DERIVE SECTIONS IF MISSING ---
   const sections = useMemo(() => {

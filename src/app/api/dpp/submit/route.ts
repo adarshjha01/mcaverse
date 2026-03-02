@@ -8,16 +8,11 @@
 //
 import { db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
-import { Timestamp } from "firebase-admin/firestore";
+import { Timestamp, FieldValue } from "firebase-admin/firestore";
 import { verifyAuth } from '@/lib/auth-admin';
 
 export async function POST(req: Request) {
     try {
-        const requesterUid = await verifyAuth();
-        if (!requesterUid) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
         let body;
         try {
             body = await req.json();
@@ -27,7 +22,28 @@ export async function POST(req: Request) {
 
         const { userId, questionId, selectedOptionIndex } = body;
 
-        if (!userId || !questionId || selectedOptionIndex === undefined) {
+        if (!questionId || selectedOptionIndex === undefined) {
+            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        }
+
+        // --- GUEST MODE: No auth token → just check correctness, don't save ---
+        const requesterUid = await verifyAuth();
+        if (!requesterUid) {
+            const qRef = db.collection('questions').doc(questionId);
+            const qSnap = await qRef.get();
+            if (!qSnap.exists) {
+                return NextResponse.json({ error: "Question not found" }, { status: 404 });
+            }
+            const qData = qSnap.data()!;
+            if (!Array.isArray(qData.options) || typeof selectedOptionIndex !== 'number' || selectedOptionIndex < 0 || selectedOptionIndex >= qData.options.length) {
+                return NextResponse.json({ error: "Invalid option index" }, { status: 400 });
+            }
+            const isCorrect = Array.isArray(qData.correct_answers) && qData.correct_answers.includes(selectedOptionIndex);
+            return NextResponse.json({ success: true, isCorrect, guest: true, newStreak: 0, attempts: 0 });
+        }
+
+        // --- AUTHENTICATED MODE: Full submit with streak tracking ---
+        if (!userId) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
@@ -78,6 +94,13 @@ export async function POST(req: Request) {
             attempts: currentAttempts + 1,
             submittedAt: Timestamp.now()
         });
+
+        // Log contribution for the calendar (once per DPP attempt)
+        const contributionRef = db.collection('users').doc(userId).collection('contributions').doc(todayStr);
+        await contributionRef.set({
+            count: FieldValue.increment(1),
+            lastUpdated: FieldValue.serverTimestamp()
+        }, { merge: true });
 
         let newStreak = 0;
 

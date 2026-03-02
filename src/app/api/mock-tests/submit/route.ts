@@ -111,6 +111,15 @@ export async function POST(request: Request) {
       submittedAt: FieldValue.serverTimestamp(),
     });
 
+    // Log contribution for the calendar
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const contributionRef = db.collection('users').doc(userId).collection('contributions').doc(todayStr);
+    await contributionRef.set({
+      count: FieldValue.increment(1),
+      lastUpdated: FieldValue.serverTimestamp()
+    }, { merge: true });
+
     return NextResponse.json({ success: true, attemptId: attemptRef.id });
 
   } catch (error) {
