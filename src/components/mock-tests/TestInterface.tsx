@@ -99,6 +99,20 @@ function ConfirmModal({ message, onConfirm, onCancel }: { message: string; onCon
   );
 }
 
+// --- LOCAL STORAGE KEY ---
+const ONGOING_TEST_KEY = 'mcaverse_ongoing_test';
+
+export type OngoingTestState = {
+  testId: string;
+  testTitle: string;
+  answers: { [key: string]: number };
+  statusMap: { [key: string]: QuestionStatus };
+  timeLeft: number;
+  currentSectionIndex: number;
+  currentQuestionIndex: number;
+  savedAt: number;
+};
+
 export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const { user } = useAuth();
   const router = useRouter();
@@ -140,17 +154,42 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     return [{ name: "General Section", duration: test.durationInMinutes, questionCount: questions.length }];
   }, [test, questions.length]);
 
+  // --- RESTORE SAVED STATE ---
+  const restoredState = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const raw = localStorage.getItem(ONGOING_TEST_KEY);
+      if (!raw) return null;
+      const saved: OngoingTestState = JSON.parse(raw);
+      if (saved.testId !== test.id) return null;
+      // Calculate remaining time accounting for elapsed time since save
+      const elapsedSinceSave = Math.floor((Date.now() - saved.savedAt) / 1000);
+      const adjustedTimeLeft = saved.timeLeft - elapsedSinceSave;
+      if (adjustedTimeLeft <= 0) {
+        localStorage.removeItem(ONGOING_TEST_KEY);
+        return null;
+      }
+      return { ...saved, timeLeft: adjustedTimeLeft };
+    } catch {
+      return null;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // --- STATE ---
-  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: string]: number }>({});
-  const [statusMap, setStatusMap] = useState<{ [key: string]: QuestionStatus }>({});
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(restoredState?.currentSectionIndex ?? 0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(restoredState?.currentQuestionIndex ?? 0);
+  const [answers, setAnswers] = useState<{ [key: string]: number }>(restoredState?.answers ?? {});
+  const [statusMap, setStatusMap] = useState<{ [key: string]: QuestionStatus }>(restoredState?.statusMap ?? {});
   
-  const [timeLeft, setTimeLeft] = useState(sections[0].duration * 60);
+  const [timeLeft, setTimeLeft] = useState(restoredState?.timeLeft ?? sections[0].duration * 60);
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Track whether test was submitted to avoid saving on unmount
+  const submittedRef = useRef(false);
 
   // Custom confirm modal state (replaces window.confirm which breaks fullscreen)
   const [confirmModal, setConfirmModal] = useState<{ message: string; resolve: (val: boolean) => void } | null>(null);
@@ -160,6 +199,40 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;
   const wasFullscreenRef = useRef(false);
+
+  // Refs for save-on-unmount (always point to latest state)
+  const answersRef = useRef(answers);
+  answersRef.current = answers;
+  const statusMapRef = useRef(statusMap);
+  statusMapRef.current = statusMap;
+  const currentSectionIndexRef = useRef(currentSectionIndex);
+  currentSectionIndexRef.current = currentSectionIndex;
+  const currentQuestionIndexRef = useRef(currentQuestionIndex);
+  currentQuestionIndexRef.current = currentQuestionIndex;
+
+  // --- SAVE STATE TO LOCALSTORAGE ON UNMOUNT (if not submitted) ---
+  useEffect(() => {
+    // Clear saved state on mount (it has been restored into component state)
+    if (restoredState) {
+      try { localStorage.removeItem(ONGOING_TEST_KEY); } catch {}
+    }
+    return () => {
+      if (submittedRef.current) return;
+      if (timeLeftRef.current <= 0) return;
+      const state: OngoingTestState = {
+        testId: test.id,
+        testTitle: test.title,
+        answers: answersRef.current,
+        statusMap: statusMapRef.current,
+        timeLeft: timeLeftRef.current,
+        currentSectionIndex: currentSectionIndexRef.current,
+        currentQuestionIndex: currentQuestionIndexRef.current,
+        savedAt: Date.now(),
+      };
+      try { localStorage.setItem(ONGOING_TEST_KEY, JSON.stringify(state)); } catch {}
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Custom confirm that works inside fullscreen
   const showConfirm = useCallback((message: string): Promise<boolean> => {
@@ -195,13 +268,14 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     }
   }, [currentSectionIndex, sectionIndices, currentQuestionIndex]);
 
-  // --- INITIALIZATION ---
+  // --- INITIALIZATION (skip if restoring saved state) ---
   useEffect(() => {
+    if (restoredState) return;
     const initialStatus: { [key: string]: QuestionStatus } = {};
     questions.forEach(q => { initialStatus[q.id] = 'not_visited'; });
     if (questions.length > 0) initialStatus[questions[0].id] = 'not_answered';
     setStatusMap(initialStatus);
-  }, [questions]);
+  }, [questions, restoredState]);
 
   // --- TIMER LOGIC ---
   useEffect(() => {
@@ -300,8 +374,6 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
     
     try {
       // 1. Exit fullscreen FIRST, before any API call or navigation
-      //    This ensures the browser is in normal mode for the redirect.
-      const wasInFullscreen = !!document.fullscreenElement || wasFullscreenRef.current;
       await safeExitFullscreen();
 
       // 2. Submit to API
@@ -315,21 +387,21 @@ export const TestInterface = ({ test, questions }: TestInterfaceProps) => {
       if (!response.ok) throw new Error('Failed');
       const result = await response.json();
 
-      // 3. Extra safety delay if we were in fullscreen
-      if (wasInFullscreen) {
-        await new Promise(resolve => setTimeout(resolve, 300));
-      }
+      // 3. Mark as submitted and clear saved state ONLY after successful API call
+      submittedRef.current = true;
+      try { localStorage.removeItem(ONGOING_TEST_KEY); } catch {}
 
-      // 4. Navigate using window.location for maximum reliability after fullscreen exit
-      //    router.push can fail silently during browser repaint after fullscreen transition
+      // 4. Navigate to results — use client-side router.push to avoid full page
+      //    reload that breaks Codespace Simple Browser / preview mode
       const targetUrl = `/mock-tests/take/${test.id}/results/${result.attemptId}`;
-      window.location.href = targetUrl;
+      router.push(targetUrl);
       
     } catch (e) { 
         alert("Error submitting. Please check connection."); 
+        submittedRef.current = false;
         setIsSubmitting(false); 
     }
-  }, [user, test.id, answers, isSubmitting, showConfirm]);
+  }, [user, test.id, answers, isSubmitting, showConfirm, router]);
 
   // Keep a ref to handleSectionSubmit for the timer
   const handleSectionSubmitRef = useRef(handleSectionSubmit);
