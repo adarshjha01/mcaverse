@@ -3,6 +3,7 @@ import { RecentTestResults } from "@/components/mock-tests/RecentTestResults";
 import { SubjectPerformance } from "@/components/mock-tests/SubjectPerformance";
 import { IconClipboardCheck } from "@/components/ui/Icons";
 import { PracticeSections } from "@/components/mock-tests/PracticeSections";
+import { OngoingTestCard } from "@/components/mock-tests/OngoingTestCard";
 import Link from "next/link";
 
 export default function MockTestsPage() {
@@ -68,6 +69,10 @@ export default function MockTestsPage() {
       </section>
 
       <div id="practice">
+        {/* Ongoing test card */}
+        <div className="container mx-auto px-4 pt-8">
+          <OngoingTestCard />
+        </div>
         <PracticeSections />
       </div>
 

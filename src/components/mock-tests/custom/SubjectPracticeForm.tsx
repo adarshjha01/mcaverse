@@ -10,7 +10,8 @@ import {
   IconClock,
   IconListNumbers,
   IconX
-} from "@/components/ui/Icons"; 
+} from "@/components/ui/Icons";
+import { OngoingTestCard } from '@/components/mock-tests/OngoingTestCard'; 
 
 const SUBJECTS = [
   "Mathematics",
@@ -83,6 +84,9 @@ export const SubjectPracticeForm = ({ subjects }: SubjectPracticeFormProps) => {
 
   return (
     <div className="space-y-8 relative">
+
+      {/* Ongoing test card */}
+      <OngoingTestCard />
       
       {/* Auth gate banner */}
       {!user && (

@@ -12,7 +12,8 @@ import {
   IconClock,
   IconListNumbers,
   IconX
-} from "@/components/ui/Icons"; 
+} from "@/components/ui/Icons";
+import { OngoingTestCard } from '@/components/mock-tests/OngoingTestCard'; 
 
 // Need to add IconListNumbers to Icons.tsx later if you want the icon
 
@@ -87,6 +88,9 @@ export const TopicPracticeForm = ({ data }: TopicPracticeFormProps) => {
 
   return (
     <div className="space-y-8 relative">
+
+      {/* Ongoing test card */}
+      <OngoingTestCard />
       
       {/* Auth gate banner */}
       {!user && (
