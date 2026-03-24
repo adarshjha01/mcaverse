@@ -1,0 +1,106 @@
+[
+  {
+    "_comment": "TEXT-ONLY question — no images needed",
+    "question_id": "LR001",
+    "exam_id": "nimcet",
+    "subject": "Logical Reasoning",
+    "topic": "Coding-Decoding",
+    "difficulty": "Easy",
+    "year": 2023,
+    "question_text": "If in a certain code, MACHINE is written as LBBGHOF, then how will LETTERS be coded in the same code?",
+    "options": [
+      "KFSUDSQ",
+      "KDUSDQR",
+      "KDSSTDQ",
+      "MFUUFST"
+    ],
+    "correct_answers": [0],
+    "explanation": "Each letter is replaced by its preceding letter in the alphabet. M→L, A→B (reversed pattern), etc. Following the same pattern: L→K, E→F, T→S, T→U, E→D, R→S, S→Q. Answer is KFSUDSQ.",
+    "tags": ["coding-decoding", "easy", "nimcet"]
+  },
+  {
+    "_comment": "Question WITH an image (e.g. a figure/diagram). Put image file in question-images/ folder.",
+    "question_id": "LR002",
+    "exam_id": "cuet",
+    "subject": "Logical Reasoning",
+    "topic": "Series Completion",
+    "difficulty": "Medium",
+    "year": 2022,
+    "question_text": "Which figure comes next in the following series?",
+    "question_images": ["lr002_series.png"],
+    "options": [
+      "Option A",
+      "Option B",
+      "Option C",
+      "Option D"
+    ],
+    "option_images": {
+      "0": "lr002_optionA.png",
+      "1": "lr002_optionB.png",
+      "2": "lr002_optionC.png",
+      "3": "lr002_optionD.png"
+    },
+    "correct_answers": [2],
+    "explanation": "The pattern shows a shape rotating 45° clockwise in each step. Following this pattern, Option C is the correct continuation.",
+    "explanation_images": ["lr002_explanation.png"],
+    "tags": ["series_completion", "medium", "cuet", "non_verbal"]
+  },
+  {
+    "_comment": "Question with image only in the question, text-only options",
+    "question_id": "LR003",
+    "exam_id": "mah_mca_cet",
+    "subject": "Logical Reasoning",
+    "topic": "Mirror and Water Image",
+    "difficulty": "Easy",
+    "year": 2024,
+    "question_text": "What is the mirror image of the following figure?",
+    "question_images": ["lr003_figure.png"],
+    "options": [
+      "Option A",
+      "Option B",
+      "Option C",
+      "Option D"
+    ],
+    "correct_answers": [1],
+    "explanation": "In a mirror image, left and right are swapped. The correct mirror image is Option B.",
+    "tags": ["mirror_image", "easy", "mah_mca_cet"]
+  },
+  {
+    "_comment": "Pure text logical reasoning — Syllogisms",
+    "question_id": "LR004",
+    "exam_id": "practice",
+    "subject": "Logical Reasoning",
+    "topic": "Syllogisms",
+    "difficulty": "Medium",
+    "year": null,
+    "question_text": "Statements:\n1. All dogs are animals.\n2. All animals are living beings.\n\nConclusions:\nI. All dogs are living beings.\nII. All living beings are dogs.\n\nWhich conclusions follow?",
+    "options": [
+      "Only Conclusion I follows",
+      "Only Conclusion II follows",
+      "Both conclusions follow",
+      "Neither conclusion follows"
+    ],
+    "correct_answers": [0],
+    "explanation": "From the two statements, we can chain: Dogs → Animals → Living beings. So 'All dogs are living beings' (Conclusion I) follows. But we cannot reverse this — not all living beings are dogs. So only Conclusion I follows.",
+    "tags": ["syllogisms", "medium", "verbal_reasoning"]
+  },
+  {
+    "_comment": "Blood Relations",
+    "question_id": "LR005",
+    "exam_id": "nimcet",
+    "subject": "Logical Reasoning",
+    "topic": "Blood Relations",
+    "difficulty": "Medium",
+    "year": 2021,
+    "question_text": "Pointing to a photograph, Arun said, 'She is the daughter of my grandfather's only son.' How is the girl in the photograph related to Arun?",
+    "options": [
+      "Sister",
+      "Mother",
+      "Cousin",
+      "Daughter"
+    ],
+    "correct_answers": [0],
+    "explanation": "Grandfather's only son = Arun's father. Daughter of Arun's father = Arun's sister. The girl is Arun's sister.",
+    "tags": ["blood_relations", "medium", "nimcet"]
+  }
+]
