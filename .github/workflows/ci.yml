@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx next lint
+        run: npx eslint src/
 
       - name: Build Next.js App
         env:
