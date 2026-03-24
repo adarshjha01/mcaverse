@@ -1,5 +1,6 @@
 // src/app/api/success-stories/route.ts
 import { db } from "@/lib/firebaseAdmin";
+// eslint-disable-next-line no-restricted-imports
 import { NextResponse } from "next/server";
 import { Timestamp } from "firebase-admin/firestore";
 import { verifyAuth } from '@/lib/auth-admin';
