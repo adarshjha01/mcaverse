@@ -33,8 +33,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      # The fix: Hardcoded Next.js lint command targeting the src directory
       - name: Run ESLint
-        run: npm run lint
+        run: npx next lint --dir src
 
       - name: Build Next.js App
         env:
