@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { TestInterface } from "@/components/mock-tests/TestInterface";
 
 // THE MAGIC: Import your local database! Cost = $0.00
-import allQuestionsData from '@/db/allQuestions_fixed.json';
+import allQuestionsData from '@/db/allQuestions_clean.json';
 
 export const dynamic = 'force-dynamic';
 

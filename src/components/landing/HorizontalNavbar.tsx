@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/Icons';
 
 const primaryLinks = [
-    { href: "/videos", label: "Video Lectures", icon: <IconVideo className="w-5 h-5"/> },
+    // { href: "/videos", label: "Video Lectures", icon: <IconVideo className="w-5 h-5"/> },
     { href: "/mock-tests", label: "Mock Tests", icon: <IconFileText className="w-5 h-5"/> },
     { href: "/dpp", label: "DPP", icon: <IconFlame className="w-5 h-5"/> },
     { href: "/community", label: "Community", icon: <IconUsers className="w-5 h-5"/> },

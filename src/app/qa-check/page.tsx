@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import allQuestionsData from "@/db/allQuestions_fixed.json";
+import allQuestionsData from "@/db/allQuestions_clean.json";
 import { LatexText } from "@/components/ui/LatexText";
 
 const QUESTIONS_PER_PAGE = 50;
