@@ -1,8 +1,8 @@
 // src/app/api/dpp/daily-question/route.ts
 //
 // SIMPLE ID-BASED LOGIC — Minimal Firestore reads:
-//   - Questions are stored with IDs: M01, M02, M03, …
-//   - Each day maps to the next ID (Day 1 → M01, Day 2 → M02, …).
+//   - Questions are stored with IDs: C01, C02, C03, …, C171.
+//   - Each day maps to the next ID (Day 1 → C01, Day 2 → C02, …).
 //   - Only 1 Firestore read for the question (direct doc fetch by ID).
 //   - +2 reads for logged-in users (user doc + dailySolves doc).
 //
@@ -11,11 +11,12 @@ import { db } from '@/lib/firebaseAdmin';
 
 export const dynamic = 'force-dynamic';
 
-// Anchor date: Day 1 of DPP. M01 is served on this date.
-// Adjust this to the date your first question (M01) goes live.
+// Anchor date: Day 1 of DPP. C01 is served on this date.
+// Adjust this to the date your first question (C01) goes live.
 const DPP_START_DATE = '2025-06-01';
 
-const TOTAL_QUESTIONS = 500;
+const TOTAL_QUESTIONS = 171;
+const QUESTION_ID_PREFIX = 'C';
 
 function getTodayQuestionId(): { questionId: string; dayNumber: number } {
     const start = new Date(DPP_START_DATE + 'T00:00:00Z');
@@ -25,11 +26,11 @@ function getTodayQuestionId(): { questionId: string; dayNumber: number } {
     const todayDay = Math.floor(now.getTime() / (1000 * 60 * 60 * 24));
     const rawDay = Math.max(1, todayDay - startDay + 1); // 1-indexed
 
-    // Wrap around using mod so it cycles M01→M500→M01…
+    // Wrap around using mod so it cycles C01→C171→C01…
     const dayNumber = ((rawDay - 1) % TOTAL_QUESTIONS) + 1;
 
-    // Format: M01, M02, … M500
-    const questionId = `M${String(dayNumber).padStart(2, '0')}`;
+    // Format: C01, C02, ... C171
+    const questionId = `${QUESTION_ID_PREFIX}${String(dayNumber).padStart(2, '0')}`;
     return { questionId, dayNumber };
 }
 
