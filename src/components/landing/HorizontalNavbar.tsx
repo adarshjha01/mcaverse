@@ -23,7 +23,7 @@ import {
 
 const primaryLinks = [
     { href: "/videos", label: "Video Lectures", icon: <IconVideo className="w-5 h-5"/> },
-    { href: "/mock-tests", label: "Practice", icon: <IconFileText className="w-5 h-5"/> },
+    { href: "/mock-tests", label: "Mock Tests", icon: <IconFileText className="w-5 h-5"/> },
     { href: "/dpp", label: "DPP", icon: <IconFlame className="w-5 h-5"/> },
     { href: "/community", label: "Community", icon: <IconUsers className="w-5 h-5"/> },
     { href: "/contact", label: "Contact", icon: <IconMail className="w-5 h-5"/> },
