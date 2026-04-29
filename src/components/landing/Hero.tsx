@@ -53,7 +53,7 @@ export const Hero = () => {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
                 >
-                    Join 5,000+ students actively tracking their accuracy, attempting elite mock tests, and securing top NIT placements.
+                    Crack NIMCET. Get into your dream NIT.
                 </motion.p>
 
                 <motion.div 
@@ -78,15 +78,7 @@ export const Hero = () => {
                     className="flex items-center justify-center gap-6 sm:gap-8 text-xs sm:text-sm text-slate-500 dark:text-slate-500 mb-8 sm:mb-12"
                 >
                     <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-slate-900 dark:text-white">5K+</span> Students
-                    </div>
-                    <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-slate-900 dark:text-white">500+</span> Questions
-                    </div>
-                    <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
-                    <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-slate-900 dark:text-white">100%</span> Free
+                        <span className="font-bold text-slate-900 dark:text-white">Built by NIT Kurukshetra Alumnus. </span>
                     </div>
                 </motion.div>
             </div>

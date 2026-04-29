@@ -32,6 +32,7 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
     const [loading, setLoading] = useState(true);
     const [shakeOption, setShakeOption] = useState<number | null>(null);
     const [reportBugOpen, setReportBugOpen] = useState(false);
+    const [shareState, setShareState] = useState<'idle' | 'copied' | 'error'>('idle');
 
     const fetchDaily = useCallback(async () => {
         const userIdParam = user ? `?userId=${user.uid}` : '';
@@ -147,9 +148,61 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
         }
     };
 
+    const questionAnchorId = question ? `daily-question-${question.id.replace(/[^a-zA-Z0-9_-]/g, '-')}` : 'daily-question';
+
+    const handleShare = useCallback(async () => {
+        if (!question || typeof window === 'undefined') return;
+
+        const shareUrl = `${window.location.origin}${window.location.pathname}${window.location.search}#${questionAnchorId}`;
+        const shareText = `Daily Quest ${question.id} on MCAverse`;
+
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'MCAverse Daily Quest',
+                    text: shareText,
+                    url: shareUrl,
+                });
+                setShareState('idle');
+                return;
+            }
+
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(shareUrl);
+                setShareState('copied');
+                window.setTimeout(() => setShareState('idle'), 2200);
+                return;
+            }
+
+            const tempInput = document.createElement('textarea');
+            tempInput.value = shareUrl;
+            tempInput.setAttribute('readonly', '');
+            tempInput.style.position = 'absolute';
+            tempInput.style.left = '-9999px';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            const copied = document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            if (copied) {
+                setShareState('copied');
+                window.setTimeout(() => setShareState('idle'), 2200);
+                return;
+            }
+
+            setShareState('error');
+            window.setTimeout(() => setShareState('idle'), 2200);
+        } catch (err) {
+            // User cancels native share flow intentionally; no error state needed.
+            if ((err as DOMException).name === 'AbortError') return;
+            setShareState('error');
+            window.setTimeout(() => setShareState('idle'), 2200);
+        }
+    }, [question, questionAnchorId]);
+
     // Loading skeleton
     if (loading) return (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm mt-2 sm:mt-0">
             <div className="animate-pulse space-y-4">
                 <div className="flex items-center justify-between mb-2">
                     <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-32" />
@@ -169,7 +222,7 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
 
     // Solved state — shown only when user got the correct answer
     if (hasSolved && wasCorrect) return (
-        <div className="relative overflow-hidden rounded-2xl shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl shadow-lg mt-2 sm:mt-0">
             {/* Gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent)]" />
@@ -217,7 +270,7 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
 
     // Main question UI
     return (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-colors">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-colors mt-2 sm:mt-0">
             {/* Report Bug Modal */}
             {question && user && (
                 <ReportBugModal
@@ -270,9 +323,29 @@ export const DailyPractice = ({ onStreakUpdate }: { onStreakUpdate?: () => void 
                         )}
                     </div>
 
-                    {/* Question text */}
-                    <div className="text-slate-800 dark:text-slate-200 font-medium text-lg mb-8 leading-relaxed">
-                        <LatexText text={question.question_text} />
+                    {/* Question text + Share */}
+                    <div className="mb-8 flex items-start justify-between gap-3 flex-wrap sm:flex-nowrap">
+                        <div
+                            id={questionAnchorId}
+                            className="text-slate-800 dark:text-slate-200 font-medium text-lg leading-relaxed flex-1 min-w-0"
+                        >
+                            <LatexText text={question.question_text} />
+                        </div>
+                        <button
+                            onClick={handleShare}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-slate-100 dark:hover:bg-slate-700/80 hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 transition-all duration-200 text-xs font-semibold flex-shrink-0"
+                            title="Share this question"
+                            aria-label="Share this question"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                <circle cx="18" cy="5" r="3" />
+                                <circle cx="6" cy="12" r="3" />
+                                <circle cx="18" cy="19" r="3" />
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                            </svg>
+                            {shareState === 'copied' ? 'Copied' : 'Share'}
+                        </button>
                     </div>
 
                     {/* Options */}

@@ -34,7 +34,7 @@ export const RoadToNIT = () => {
   return (
     <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <h3 className="text-center text-[10px] sm:text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-3 sm:mb-6">
-            The Bridge to Your Dream Placement
+            The Bridge to Your Dream College.
         </h3>
 
         {/* 3. The Main Container — responsive height */}

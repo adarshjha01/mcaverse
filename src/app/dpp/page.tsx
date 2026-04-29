@@ -31,9 +31,8 @@ export default function DailyPracticePage() {
             </section>
 
             {/* Practice Section */}
-            <div className="container mx-auto px-4 py-8 sm:py-12 -mt-6 sm:-mt-12">
-                <div className="max-w-5xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div className="relative z-10 max-w-6xl mx-auto px-6 py-8 sm:py-12 mt-8">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                         {/* Main question area */}
                         <div className="lg:col-span-3">
                             <DailyPractice onStreakUpdate={handleStreakUpdate} />
@@ -70,7 +69,6 @@ export default function DailyPracticePage() {
                             {/* Streak Leaderboard */}
                             <Leaderboard refreshKey={leaderboardKey} />
                         </div>
-                    </div>
                 </div>
             </div>
         </main>
