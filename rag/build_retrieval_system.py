@@ -90,7 +90,7 @@ def build_metadata(question: dict) -> dict:
         "question_id": question.get("question_id", question.get("id", "")),
         "subject": question.get("subject", "Unknown"),
         "topic": question.get("topic", "Unknown"),
-        "year": int(question.get("year", 0)),
+        "year": int(question.get("year", 0)) if question.get("year") else 0,
         "difficulty": question.get("difficulty", "Unknown"),
         "exam_id": question.get("exam_id", "nimcet"),
     }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const RAG_SERVER_URL = process.env.RAG_SERVER_URL || "http://localhost:8000";
+const ALLOWED_HOSTS = ["localhost", "127.0.0.1"];
 
 interface QueryRequestBody {
   question: string;
@@ -11,6 +12,15 @@ interface QueryRequestBody {
 
 export async function POST(request: NextRequest) {
   try {
+    // Validate RAG server URL to prevent SSRF
+    const url = new URL(RAG_SERVER_URL);
+    if (!ALLOWED_HOSTS.includes(url.hostname)) {
+      return NextResponse.json(
+        { error: "Invalid RAG server configuration" },
+        { status: 500 }
+      );
+    }
+
     const body: QueryRequestBody = await request.json();
 
     if (!body.question || body.question.trim().length === 0) {
